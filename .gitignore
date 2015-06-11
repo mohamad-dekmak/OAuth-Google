@@ -1,3 +1,12 @@
+# Class Files #
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# NetBeans and Build Files #
 nbproject/private/
 build/
 dist/
