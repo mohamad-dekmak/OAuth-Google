@@ -2,6 +2,7 @@ package test;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,15 @@ public class TestServlet1 extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		out.println("This is the Test Servlet");
+
+		Enumeration headerNames = request.getHeaderNames();
+		while (headerNames.hasMoreElements()) {
+			String headerName = (String) headerNames.nextElement();
+			out.print("<br/>Header Name: <em>" + headerName);
+			String headerValue = request.getHeader(headerName);
+			out.print("</em>, Header Value: <em>" + headerValue);
+			out.println("</em>");
+		}
 	}
 
 }
