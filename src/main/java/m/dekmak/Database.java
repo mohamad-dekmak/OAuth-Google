@@ -55,7 +55,7 @@ public class Database {
         } catch (Exception e) {
             return "Exception message" + e.getMessage();
         }
-        return "Updates saved successfully. Now you can login with your google account instead of your local username account.";
+        return "Updates saved successfully. <br /> Now you can login with your google account instead of your local username account.";
     }
 
     public String[] getUserCredentials(String user_email, String user_google_id) {
