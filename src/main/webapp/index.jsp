@@ -53,6 +53,7 @@
                     + "<a href=\"https://localhost:8443/OAuth2v1/logout.jsp\" style=\"float: right;\">Sign Out</a> </h3>");
         %>
         <div class="oauthDemo">
+            <a href="users/list.jsp" style="float: left;">Manage Users</a>
             <%!
                 String userInfo, userEmail, userId;
             %>
