@@ -79,7 +79,7 @@
                                 </li>
                                 <li><a href="users-list.jsp">Users List</a></li>
                                 <li class="divider"></li>
-                                <li><a href="https://localhost:8443/OAuth2v1/logout.jsp">Sign out</a></li>
+                                <li><a href="https://localhost:8443/SMB215-OAuth-Google/logout.jsp">Sign out</a></li>
                             </ul>
                         </li>
                     </ul>

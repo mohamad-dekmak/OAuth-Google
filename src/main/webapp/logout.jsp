@@ -15,7 +15,7 @@
     </div>
     <div class="panel-body">
         You have successfully logged out.
-        Click <a href="https://localhost:8443/OAuth2v1"><b>here</b></a> for another login.
+        Click <a href="https://localhost:8443/SMB215-OAuth-Google"><b>here</b></a> for another login.
     </div>
 </div>
 <%@include file="footer.jsp" %>

@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.danter.auth.google</groupId>
-    <artifactId>OAuth2v1</artifactId>
+    <artifactId>SMB215-OAuth-Google</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Demo Webapp for Google OAuth2</name>
+    <name>SMB215-OAuth-Google</name>
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
@@ -42,7 +42,7 @@
         </repository>
     </repositories>
     <build>
-        <finalName>OAuth2v1</finalName>
+        <finalName>SMB215-OAuth-Google</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

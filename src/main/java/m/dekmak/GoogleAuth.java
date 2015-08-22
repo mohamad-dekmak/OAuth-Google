@@ -40,8 +40,8 @@ public final class GoogleAuth {
     /**
      * Callback URI that google will redirect to after successful authentication
      */
-//	private static final String CALLBACK_URI = "http://localhost:8081/OAuth2v1/index.jsp";
-    private static final String CALLBACK_URI = "https://localhost:8443/OAuth2v1/index.jsp";
+//  private static final String CALLBACK_URI = "http://localhost:8443/SMB215-OAuth-Google/index.jsp";
+    private static final String CALLBACK_URI = "https://localhost:8443/SMB215-OAuth-Google/index.jsp";
 
     // start google authentication constants
     private static final Iterable<String> SCOPE = Arrays.asList("https://www.googleapis.com/auth/userinfo.profile;https://www.googleapis.com/auth/userinfo.email".split(";"));

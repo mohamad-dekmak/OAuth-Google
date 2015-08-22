@@ -57,7 +57,7 @@ $(function(){
             <h4>Assumptions</h4>
             <ul>
                 <li>familiarity with OOP, java, maven, and jee</li>
-                <li>java application server listening on localhost:8081</li>
+                <li>java application server listening on localhost:8443</li>
             </ul>
             <h4>Prerequisites</h4>
             <ul>
@@ -65,14 +65,14 @@ $(function(){
                     Set it up here <a href='https://code.google.com/apis/console/'>https://code.google.com/apis/console/</a>
                 </li>
                 <li>Set up allowed Redirect URIs at Google API &rarr; API
-                    Access. Input: http://localhost:8081/OAuth2v1/index.jsp</li>
+                    Access. Input: https://localhost:8443/SMB215-OAuth-Google/index.jsp</li>
             </ul>
             <h4>Usage</h4>
             <ol>
                 <li>Add Client ID, and Client Secret parameters to <b>GoogleAuth.java</b></li>
                 <li>Compile the project (<b>$ mvn clean install</b>)</li>
                 <li>Deploy war to application server</li>
-                <li>Browse to: <a href="http://localhost:8081/OAuth2v1/">http://localhost:8081/OAuth2v1/</a></li>
+                <li>Browse to: <a href="https://localhost:8443/SMB215-OAuth-Google/">https://localhost:8443/SMB215-OAuth-Google/</a></li>
                 <li>Click <b>&quot;Authenticate with google for next login&quot;</b> on top of this page</li>
             </ol>
         </div> 
