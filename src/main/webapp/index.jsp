@@ -1,5 +1,11 @@
 <%@include file="header.jsp" %>
 
+<script type="text/javascript">
+$(function(){
+    // to remove the conflict in the Google GET Params between the "login action in login form" and "authenticate action in home page" 
+   clearGoogleParamsFromURL();
+});
+</script>
 <div class="page-container">
     <%!
         String userInfo, userEmail, userId;
@@ -66,5 +72,4 @@
         </div> 
     </div>
 </div>
-
 <%@include file="footer.jsp" %>
