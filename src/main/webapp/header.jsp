@@ -1,3 +1,9 @@
+<%-- 
+    Document   : header
+    Created on : Aug 20, 2015, 06:16:14 PM
+    Author     : mdekmak
+--%>
+
 <%@page import="m.dekmak.GoogleAuth"%>
 <%@page import="m.dekmak.Database"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

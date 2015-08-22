@@ -1,3 +1,9 @@
+<%-- 
+    Document   : index
+    Created on : Jun 26, 2015, 03:37:52 PM
+    Author     : mdekmak
+--%>
+
 <%@include file="header.jsp" %>
 
 <script type="text/javascript">

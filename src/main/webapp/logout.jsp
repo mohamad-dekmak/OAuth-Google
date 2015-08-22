@@ -1,3 +1,9 @@
+<%-- 
+    Document   : logout
+    Created on : Aug 18, 2015, 12:08:27 PM
+    Author     : mdekmak
+--%>
+
 <%@include file="header.jsp" %>
 <%
     session = request.getSession();
