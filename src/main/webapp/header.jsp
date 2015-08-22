@@ -8,8 +8,6 @@
 <%@page import="m.dekmak.Database"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -72,7 +70,7 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="drop3">
-                                <li><a href="#">Change Password</a></li>
+                                <li><a href="user-profile-change-pwd.jsp">Change Password</a></li>
                                 <li> <%
                                     out.println("<a href='" + helper.buildLoginUrl() + "'>Authenticate with Google for next login</a>");
                                     %>

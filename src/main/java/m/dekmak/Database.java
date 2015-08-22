@@ -101,4 +101,49 @@ public class Database {
         }
         return users;
     }
+
+    public String updateProfilePassword(String profileName, String oldPaswword, String newPassword) {
+        String msg = "";
+        try {
+            Class.forName(jdbcDriverStr);
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select user_name, password from tomcat_users where user_name = ?");
+            preparedStatement.setString(1, profileName);
+            ResultSet rs = preparedStatement.executeQuery();
+            String userName = "";
+            String pass = "";
+            while (rs.next()) {
+                userName = rs.getString("user_name");
+                pass = rs.getString("password");
+            }
+//            return pass;
+            if (userName == "" || pass == "") {
+                msg = "user does not matched in local database";
+            } else {
+                MD5Digest md5 = new MD5Digest();
+                // check if old password is correct
+                String hashPwd = md5.generate(oldPaswword);
+//                return pass;
+                if (pass.equals(hashPwd)) {
+                    // update user password in DB
+                    hashPwd = md5.generate(newPassword);
+                    statement = connection.createStatement();
+                    preparedStatement = connection.prepareStatement("update tomcat_users set tomcat_users.password = ? where tomcat_users.user_name = ?");
+                    preparedStatement.setString(1, hashPwd);
+                    preparedStatement.setString(2, profileName);
+                    if(preparedStatement.executeUpdate() == 0){
+                        msg = "failed to change user password (db problem)";
+                    }else{
+                        msg = "user password changed successfully";
+                    }
+                } else {
+                    msg = "old password does not matched in local database";
+                }
+            }
+        } catch (Exception e) {
+            msg = "Exception message" + e.getMessage();
+        }
+        return msg;
+    }
 }

@@ -30,10 +30,11 @@ CREATE TABLE tomcat_users_roles (
 --
 
 INSERT INTO `tomcat_users` (`user_name`, `password`) VALUES
-('admin', 'admin'),
-('tomcat', '123'),
-('user1', '123'),
-('user2', '1234');
+('admin', '21232f297a57a5a743894a0e4a801fc3'), -- admin
+('tomcat', '202cb962ac59075b964b07152d234b70'), -- 123 
+('user1', '202cb962ac59075b964b07152d234b70'), -- 123
+('user2', '202cb962ac59075b964b07152d234b70'); -- 123
+('curly', '5ebe2294ecd0e0f08eab7690d2a6ee69'); -- secret
 
 --
 -- Dumping data for table `tomcat_roles`
@@ -55,5 +56,8 @@ INSERT INTO `tomcat_users_roles` (`user_name`, `role_name`) VALUES
 ('admin', 'manager'),
 ('tomcat', 'manager-gui'),
 ('admin', 'manager-script'),
+('curly', 'manager-gui'),
+('curly', 'manager-script'),
+('curly', 'user'),
 ('user1', 'user'),
 ('user2', 'user');

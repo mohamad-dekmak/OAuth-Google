@@ -11,7 +11,7 @@
 
 <div class="page-container">
     <div class="panel panel-default">
-        <div class="panel-heading">Tomcat Users List</div>
+        <div class="panel-heading">Users List</div>
         <table class="table">
             <thead>
             <th style="width: 400px;">Username "Local Account"</th>
