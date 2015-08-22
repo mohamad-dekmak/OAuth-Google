@@ -1,15 +1,9 @@
-<%-- 
-    Document   : list
-    Created on : Aug 20, 2015, 9:58:11 AM
-    Author     : mdekmak
---%>
-
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="m.dekmak.Database"%>
 <%@include file="header.jsp" %>
-<div class="page-container">
 
+<div class="page-container">
     <div class="panel panel-default">
         <div class="panel-heading">Tomcat Users List</div>
         <table class="table">
@@ -17,17 +11,13 @@
             <th style="width: 400px;">Username "Local Account"</th>
             <th style="width: 400px;">User Group "Role"</th>
             <th style="width: 400px;">Email "Google Account"</th>
-            <th style="width: 400px;">Has Google Authentication</th>
+            <th style="width: 400px;">Has Google Auth</th>
             </thead>
             <tbody>
-                <%
-                    List<String> users = new ArrayList<String>();
-
+                <%                    List<String> users = new ArrayList<String>();
                     Database db = new Database();
                     users = db.getUsersList();
-                %>
-
-                <%  for (int i = 0; i < users.size(); i++) {
+                    for (int i = 0; i < users.size(); i++) {
                         String cell = (String) users.get(i);
                         String[] params = cell.split(",");
                 %>
@@ -47,11 +37,11 @@
                     %>
                 </tr>
                 <%
-                        }%>
+                    }%>
 
             </tbody>
-
         </table>
     </div>
 </div>
+                    
 <%@include file="footer.jsp" %>

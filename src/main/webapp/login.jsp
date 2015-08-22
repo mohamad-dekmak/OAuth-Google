@@ -7,139 +7,124 @@
 <%@page import="m.dekmak.GoogleAuth"%>
 <%@page import="m.dekmak.Database"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Login Form</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <style>
-            body {
-                font-family: Sans-Serif;
-                margin: 1em;
-            }
-
-            .oauthDemo a, table tr td {
-                display: block;
-                border-style: solid;
-                border-color: #bbb #888 #666 #aaa;
-                border-width: 1px 2px 2px 1px;
-                background: #ccc;
-                color: #333;
-                line-height: 2;
-                text-align: center;
-                text-decoration: none;
-                font-weight: 900;
-                width: 25em;
-            }
-
-            .oauthDemo pre {
-                background: #ccc;
-            }
-
-            .oauthDemo a:active {
-                border-color: #666 #aaa #bbb #888;
-                border-width: 2px 1px 1px 2px;
-                color: #000;
-            }
-
-            .readme {
-                padding: .5em;
-                background-color: #F9AD81;
-                color: #333;
-            }
-            div.centre
-            {
-                width: 407px;
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        </style>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SMB215 - Google Auth API</title>
+        <link type="text/css" rel="stylesheet" href="resources/css/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
+        <link type="text/css" rel="stylesheet" href="resources/css/main.css">
+        <script src="resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+        <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
     </head>
     <body>
-        <div class="centre">
-            <form method="POST" action="j_security_check" id="loginForm">
-                <table>
-                    <tr>
-                        <td colspan="2">Login to the SMB215 application:</td>
-                    </tr>
-                    <tr>
-                        <td>Username:  <input type="text" name="j_username" id="username" /></td>
-                    </tr>
-                    <tr>
-                        <td>Password:  <input type="password" name="j_password" id="password" /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="submit" value="Login" /></td>
-                    </tr>
-                </table>
-            </form>
-            <br />
-            OR
-            <br />
-            <br />
-            <div class="oauthDemo">
-                <%!
-                    String userInfo, userEmail, userId;
-                %>
-                <%
-                    /*
-                     * The GoogleAuth handles all the heavy lifting, and contains all "secrets"
-                     * required for constructing a google login url.
-                     */
-                    final GoogleAuth helper = new GoogleAuth();
+        <%
+            /*
+             * The GoogleAuth handles all the heavy lifting, and contains all "secrets"
+             * required for constructing a google login url.
+             */
+            final GoogleAuth helper = new GoogleAuth();
+        %>
+        <div class="container master-container">
+            <div class="container">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 alert alert-info fade in text-center" data-alert="alert">
+                    <h4>
+                        <strong>
+                            Login to access SMB215 Web Application
+                        </strong>
+                    </h4>
+                    <p>Here you'll see the usage of Simple Form or Login with your Google account</p>
+                </div><div class="col-md-2"></div>
 
-                    out.println("<a href='" + helper.buildLoginUrl()
-                            + "'>Login with Google Account</a>");
-
-                    if (request.getParameter("code") != null && request.getParameter("state") != null) {
-
-                        /*
-                         * Executes after google redirects to the callback url.
-                         * Please note that the state request parameter is for convenience to differentiate
-                         * between authentication methods (ex. facebook oauth, google oauth, twitter, in-house).
-                         * 
-                         * GoogleAuth()#getUserInfoJson(String) method returns a String containing
-                         * the json representation of the authenticated user's information. 
-                         * At this point you should parse and persist the info.
-                         */
-                        userInfo = helper.getUserInfoJson(request.getParameter("code"));
-                        userEmail = helper.getParameterFromUserInfo(userInfo, "email");
-                        userId = helper.getParameterFromUserInfo(userInfo, "id");
-                        Database db = new Database();
-                        String[] ret = db.getUserCredentials(userEmail, userId);
-                        String username = "";
-                        String pass = "";
-                        int index = 0;
-                        for (String key : ret) {
-                            if (ret.length > 1) {
-                                index++;
-                                if (index == 1) {
-                                    username = key;
-                                } else if (index == 2) {
-                                    pass = key;
-                                }
-                            } else { // exception msg
-                                out.println(key);
-                            }
-                        }
-                        if (username != "" && pass != "") {
-                            // to avoid the conflict between the request from login form and the request from inside the application
-                            session.setAttribute("isRedirectedFormLoginForm", "1");
-                %>
-                <script language="javascript">
-                    var userName = "<%= username%>";
-                    var password = "<%= pass%>";
-                    document.getElementById("username").value = userName;
-                    document.getElementById("password").value = password;
-                    document.getElementById("loginForm").submit();
-                </script>
-                <%
-                        }
-                    }
-                %>
             </div>
-        </div>
-    </body>
-</html>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Login Form</div>
+                        <div class="panel-body">
+                            <form accept-charset="UTF-8" method="POST" action="j_security_check" novalidate="novalidate" id="loginForm">
+                                <div class="form-group email required user_basic_email">
+                                    <label class="email required control-label" for="user_basic_email">
+                                        <abbr title="required">*</abbr> Username
+                                    </label>
+                                    <input class="string email required form-control" name="j_username" id="username" placeholder="Enter username" type="text">
+                                </div>
+                                <div class="form-group password required user_basic_password">
+                                    <label class="password required control-label" for="user_basic_password">
+                                        <abbr title="required">*</abbr> Password
+                                    </label>
+                                    <input class="password required form-control" name="j_password" id="password" placeholder="Password" type="password">
+                                </div>
+                                <input class="btn btn-default" name="commit" type="submit" value="Login">
+                                &nbsp;&nbsp; OR,
+                                <a href="<% out.println(helper.buildLoginUrl()); %>" class="btn btn-link">Login with Google Account</a>
+                                <div class="clearfix">&nbsp;<div>
+                                        <%!
+                                            String userInfo, userEmail, userId;
+                                        %>
+                                        <%
+                                            if (request.getParameter("code") != null && request.getParameter("state") != null) {
+
+                                                /*
+                                                 * Executes after google redirects to the callback url.
+                                                 * Please note that the state request parameter is for convenience to differentiate
+                                                 * between authentication methods (ex. facebook oauth, google oauth, twitter, in-house).
+                                                 * 
+                                                 * GoogleAuth()#getUserInfoJson(String) method returns a String containing
+                                                 * the json representation of the authenticated user's information. 
+                                                 * At this point you should parse and persist the info.
+                                                 */
+                                                userInfo = helper.getUserInfoJson(request.getParameter("code"));
+                                                userEmail = helper.getParameterFromUserInfo(userInfo, "email");
+                                                userId = helper.getParameterFromUserInfo(userInfo, "id");
+                                                Database db = new Database();
+                                                String[] ret = db.getUserCredentials(userEmail, userId);
+                                                String username = "";
+                                                String pass = "";
+                                                int index = 0;
+                                                for (String key : ret) {
+                                                    if (ret.length > 1) {
+                                                        index++;
+                                                        if (index == 1) {
+                                                            username = key;
+                                                        } else if (index == 2) {
+                                                            pass = key;
+                                                        }
+                                                    } else { // exception msg
+                                                        out.println("<p class='help-block text-red'>" + key + "</p>");
+                                                    }
+                                                }
+                                                if (username != "" && pass != "") {
+                                                    // to avoid the conflict between the request from login form and the request from inside the application
+                                                    session.setAttribute("isRedirectedFormLoginForm", "1");
+                                        %>
+                                        <script language="javascript">
+                                            var userName = "<%= username%>";
+                                            var password = "<%= pass%>";
+                                            document.getElementById("username").value = userName;
+                                            document.getElementById("password").value = password;
+                                            document.getElementById("loginForm").submit();
+                                        </script>
+                                        <%
+                                        } else {
+                                        %>
+                                        <p class="help-block text-red">You are trying to login with Google account not exits in our local database.</p>
+                                        <p class="help-block text-red">Please contact the Administrator of SMB215 for more information.</p>
+                                        <%
+                                                }
+                                            }
+                                        %>
+                                        </form>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </div>
+                </body>
+                </html>
+

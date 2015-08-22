@@ -1,4 +1,5 @@
 <%@include file="header.jsp" %>
+
 <div class="page-container">
     <%!
         String userInfo, userEmail, userId;
@@ -41,12 +42,12 @@
     <div class="panel-heading">Read Me First</div>
     <div class="panel-body">
         <div class="readme">
-            <h3>Assumptions</h3>
+            <h4>Assumptions</h4>
             <ul>
                 <li>familiarity with OOP, java, maven, and jee</li>
                 <li>java application server listening on localhost:8081</li>
             </ul>
-            <h3>Prerequisites</h3>
+            <h4>Prerequisites</h4>
             <ul>
                 <li>Google API access credentials (Client ID, Client Secret).
                     Set it up here <a href='https://code.google.com/apis/console/'>https://code.google.com/apis/console/</a>
@@ -54,7 +55,7 @@
                 <li>Set up allowed Redirect URIs at Google API &rarr; API
                     Access. Input: http://localhost:8081/OAuth2v1/index.jsp</li>
             </ul>
-            <h3>Usage</h3>
+            <h4>Usage</h4>
             <ol>
                 <li>Add Client ID, and Client Secret parameters to <b>GoogleAuth.java</b></li>
                 <li>Compile the project (<b>$ mvn clean install</b>)</li>
