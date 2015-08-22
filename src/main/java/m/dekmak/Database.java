@@ -86,7 +86,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select tomcat_users.user_name, tomcat_users_roles.role_name, tomcat_users.email, tomcat_users.isGoogleAuth from tomcat_users left join tomcat_users_roles on tomcat_users_roles.user_name = tomcat_users.user_name");
+            preparedStatement = connection.prepareStatement("select tomcat_users.user_name, GROUP_CONCAT(tomcat_users_roles.role_name SEPARATOR '; ') AS role_name, tomcat_users.email, tomcat_users.isGoogleAuth from tomcat_users left join tomcat_users_roles on tomcat_users_roles.user_name = tomcat_users.user_name group by tomcat_users.user_name");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 List<String> row = new ArrayList<String>();
