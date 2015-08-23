@@ -46,7 +46,7 @@
                         <button type="button" class="btn btn-default" aria-label="Left Align" title="Edit">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </button>
-                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Change Password">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#changePwdModal" data-whatever="@mdo" title="Change Password" onclick="changeUserPasswordDialog('<%= userName%>');">
                             <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
                         </button>
                         <%
@@ -84,5 +84,57 @@
         </table>
     </div>
 </div>
+
+<input type="hidden" id="tempInput" value="" />
+
+<div id="changePwdModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="changePwdModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="changePwdModal">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="usernameField" value="" />
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">New Password:</label>
+                        <input type="password" class="form-control" id="newPwd">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Confirm New Password:</label>
+                        <input type="password" class="form-control" id="confirmNewPwd">
+                    </div>
+                    <p class="help-block text-red" id="validationMsg"></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modalCloseBtn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="changePwdBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#changePwdBtn").click(function () {
+            var username = $("#usernameField").val();
+            var newPwd = $("#newPwd").val();
+            var confirmNewPwd = $("#confirmNewPwd").val();
+            var msg = "";
+            if (!newPwd) {
+                msg = "New password is required.";
+            } else if (!confirmNewPwd) {
+                msg = "Confirm password is required.";
+            } else if (newPwd != confirmNewPwd) {
+                msg = "New password does not match the confirm password. Please try again.";
+            } else { // check if old password is correct, then update user password in DB
+                changeUserPwd(username, newPwd);
+            }
+            document.getElementById("validationMsg").innerHTML = msg;
+        });
+    });
+</script>
 
 <%@include file="footer.jsp" %>

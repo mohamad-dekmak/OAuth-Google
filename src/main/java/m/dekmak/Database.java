@@ -166,4 +166,26 @@ public class Database {
         }
         return msg;
     }
+
+    public String updateUserPassword(String user_name, String password) {
+        String msg = "";
+        try {
+            MD5Digest md5 = new MD5Digest();
+            String hashPwd = md5.generate(password);
+            Class.forName(jdbcDriverStr);
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("update tomcat_users set tomcat_users.password = ? where tomcat_users.user_name = ?");
+            preparedStatement.setString(1, hashPwd);
+            preparedStatement.setString(2, user_name);
+            if (preparedStatement.executeUpdate() == 0) {
+                msg = "Failed to change user password (db problem)";
+            } else {
+                msg = "success";
+            }
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
 }

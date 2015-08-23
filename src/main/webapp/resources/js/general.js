@@ -57,7 +57,7 @@ function banUnbanUser(username, isBanned) {
     }
     if (confirmed == 1) {
         $.ajax({
-            url: "userBanUnban.jsp",
+            url: "user-actions.jsp",
             dataType: 'JSON',
             type: 'POST',
             data: {userAction: userAction, username: username, banUser: banUser},
@@ -67,8 +67,38 @@ function banUnbanUser(username, isBanned) {
             },
             error: function (xhr, status) {
                 alert("Sorry, there was a problem!");
-            },
+            }
         });
     }
 
+}
+
+function changeUserPasswordDialog(username) {
+    $("#newPwd").val("");
+    $("#confirmNewPwd").val("");
+    $("#usernameField").val(username);
+    $('#changePwdModal').on('show.bs.modal', function (event) {
+        var modal = $(this);
+        modal.find('.modal-title').text("Change password for \"" + username + "\"");
+    });
+}
+function changeUserPwd(username, newPwd) {
+    $.ajax({
+        url: "user-actions.jsp",
+        dataType: 'JSON',
+        type: 'POST',
+        data: {userAction: "changePassword", username: username, newPassword: newPwd},
+        success: function (response) {
+            alert(response.data);
+            $(".modalCloseBtn").click();
+        },
+        error: function (xhr, status) {
+            alert("Sorry, there was a problem!");
+        }
+    });
+
+}
+
+function setTempUserName(username){
+    document.getElementById('tempInput').value = username;
 }

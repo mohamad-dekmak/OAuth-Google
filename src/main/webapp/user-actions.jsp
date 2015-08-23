@@ -26,6 +26,15 @@
             } else {
                 strResponse = responseMsg;
             }
+        } else if (request.getParameter("userAction").equals("changePassword")) {
+            String username = request.getParameter("username");
+            String newPassword = request.getParameter("newPassword");
+            String responseMsg = db.updateUserPassword(username, newPassword);
+            if (responseMsg.equals("success")) {
+                strResponse = "Password changed successfully for user \"" + username + "\"";
+            } else {
+                strResponse = responseMsg;
+            }
         }
     } else {
         strResponse = "user action not defined";
