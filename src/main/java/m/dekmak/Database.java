@@ -118,7 +118,7 @@ public class Database {
                 pass = rs.getString("password");
             }
             if (userName == "" || pass == "") {
-                msg = "user does not matched in local database";
+                msg = "User does not matched in local database";
             } else {
                 MD5Digest md5 = new MD5Digest();
                 // check if old password is correct
@@ -131,16 +131,16 @@ public class Database {
                     preparedStatement.setString(1, hashPwd);
                     preparedStatement.setString(2, profileName);
                     if(preparedStatement.executeUpdate() == 0){
-                        msg = "failed to change user password (db problem)";
+                        msg = "Failed to change user password (db problem)";
                     }else{
-                        msg = "user password changed successfully";
+                        msg = "success";
                     }
                 } else {
-                    msg = "old password does not matched in local database";
+                    msg = "Old password does not matched in local database";
                 }
             }
         } catch (Exception e) {
-            msg = "Exception message" + e.getMessage();
+            msg = "Exception message: " + e.getMessage();
         }
         return msg;
     }

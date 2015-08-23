@@ -35,15 +35,20 @@
                         </div>
                         <input class="btn btn-default" type="button" value="Submit" name="btnSubmit" onclick="profileChangePwd();">
                         <div class="clearfix">&nbsp;</div>
-                        <p class="help-block text-red" id="helpMsg">
-                            <%    Database db = new Database();
-                                if (request.getParameter("oldPassword") != null) {
-                                    String oldPassword = request.getParameter("oldPassword");
-                                    String newPassword = request.getParameter("newPassword");
-                                    out.println(db.updateProfilePassword(userProfileName, oldPassword, newPassword));
+                        <div id="helpMsgContainer">
+                        <%    Database db = new Database();
+                            if (request.getParameter("oldPassword") != null) {
+                                String oldPassword = request.getParameter("oldPassword");
+                                String newPassword = request.getParameter("newPassword");
+                                String responseMsg = db.updateProfilePassword(userProfileName, oldPassword, newPassword);
+                                if (responseMsg.equals("success")) {
+                                    out.println("<p class='help-block text-green' id='helpMsg'>User password changed successfully</p>");
+                                } else {
+                                    out.println("<p class='help-block text-red' id='helpMsg'>" + responseMsg +"</p>");
                                 }
-                            %>
-                        </p>
+                            }
+                        %>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -68,7 +73,7 @@
         } else { // check if old password is correct, then update user password in DB
             document.getElementById("changePwdForm").submit();
         }
-        document.getElementById("helpMsg").innerHTML = msg;
+        document.getElementById("helpMsgContainer").innerHTML = "<p class='help-block text-red' id='helpMsg'>" + msg + "</p>";
     }
 </script>
 <%@include file="footer.jsp" %>
