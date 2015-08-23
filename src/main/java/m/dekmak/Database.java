@@ -117,14 +117,12 @@ public class Database {
                 userName = rs.getString("user_name");
                 pass = rs.getString("password");
             }
-//            return pass;
             if (userName == "" || pass == "") {
                 msg = "user does not matched in local database";
             } else {
                 MD5Digest md5 = new MD5Digest();
                 // check if old password is correct
                 String hashPwd = md5.generate(oldPaswword);
-//                return pass;
                 if (pass.equals(hashPwd)) {
                     // update user password in DB
                     hashPwd = md5.generate(newPassword);
