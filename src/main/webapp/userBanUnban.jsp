@@ -9,21 +9,23 @@
 <%
     Database db = new Database();
     String strResponse = "";
-    if (request.getParameter("userAction").equals("banUser")) {
-        String username = request.getParameter("username");
-        String responseMsg = db.updateUserBannedStatus(request.getParameter("username"), request.getParameter("banUser"));
-        if (responseMsg.equals("success")) {
-            strResponse = "User \"" + username + "\" banned successfully";
-        } else {
-            strResponse = responseMsg;
-        }
-    } else if (request.getParameter("userAction").equals("unbanUser")) {
-        String username = request.getParameter("username");
-        String responseMsg = db.updateUserBannedStatus(request.getParameter("username"), request.getParameter("banUser"));
-        if (responseMsg.equals("success")) {
-            strResponse = "User \"" + username + "\" unbanned successfully";
-        } else {
-            strResponse = responseMsg;
+    if (request.getParameter("userAction") != null) {
+        if (request.getParameter("userAction").equals("banUser")) {
+            String username = request.getParameter("username");
+            String responseMsg = db.updateUserBannedStatus(request.getParameter("username"), request.getParameter("banUser"));
+            if (responseMsg.equals("success")) {
+                strResponse = "User \"" + username + "\" banned successfully";
+            } else {
+                strResponse = responseMsg;
+            }
+        } else if (request.getParameter("userAction").equals("unbanUser")) {
+            String username = request.getParameter("username");
+            String responseMsg = db.updateUserBannedStatus(request.getParameter("username"), request.getParameter("banUser"));
+            if (responseMsg.equals("success")) {
+                strResponse = "User \"" + username + "\" unbanned successfully";
+            } else {
+                strResponse = responseMsg;
+            }
         }
     } else {
         strResponse = "user action not defined";
