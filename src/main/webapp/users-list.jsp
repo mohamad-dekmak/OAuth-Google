@@ -18,6 +18,7 @@
             <th style="width: 400px;">User Group "Role"</th>
             <th style="width: 400px;">Email "Google Account"</th>
             <th style="width: 400px;">Has Google Auth</th>
+            <th style="width: 400px;">Actions</th>
             </thead>
             <tbody>
                 <%                    List<String> users = new ArrayList<String>();
@@ -37,9 +38,25 @@
                             if (text.endsWith("]")) {
                                 text = text.substring(0, text.length() - 1);
                             }
+                            if (j == 4) { // "*action*"
+                    %>
+                    <td style="width: 400px;">
+                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Edit">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Change Password">
+                            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Ban">
+                            <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                    <%                    } else {
                     %>
                     <td style="width: 400px;"><%= text%></td>
-                    <% }
+                    <%
+                            }
+                        }
                     %>
                 </tr>
                 <%
@@ -49,5 +66,5 @@
         </table>
     </div>
 </div>
-                    
+
 <%@include file="footer.jsp" %>
