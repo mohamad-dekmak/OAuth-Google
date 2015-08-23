@@ -37,3 +37,38 @@ function clearGoogleParamsFromURL() {
     }
 
 }
+
+function banUnbanUser(username, isBanned) {
+    var userAction = "";
+    var banUser = "";
+    var confirmed = "";
+    if (isBanned == 'no') { // ban user
+        if (confirm("Are you sure do you want to ban \"" + username + "\" user?")) {
+            confirmed = 1;
+            userAction = "banUser";
+            banUser = "yes";
+        }
+    } else { // unban user
+        if (confirm("Are you sure do you want to unban \"" + username + "\" user?")) {
+            confirmed = 1;
+            userAction = "unbanUser";
+            banUser = "no";
+        }
+    }
+    if (confirmed == 1) {
+        $.ajax({
+            url: "userBanUnban.jsp",
+            dataType: 'JSON',
+            type: 'POST',
+            data: {userAction: userAction, username: username, banUser: banUser},
+            success: function (response) {
+                alert(response.data);
+                location.reload();
+            },
+            error: function (xhr, status) {
+                alert("Sorry, there was a problem!");
+            },
+        });
+    }
+
+}

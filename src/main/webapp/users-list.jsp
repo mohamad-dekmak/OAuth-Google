@@ -32,6 +32,7 @@
                 <tr>
                     <%
                         for (int j = 0; j < params.length; j++) {
+                            String userName = params[0].substring(1);
                             String text = params[j];
                             if (text.startsWith("[")) {
                                 text = text.substring(1);
@@ -49,16 +50,18 @@
                             <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
                         </button>
                         <%
-                            String isBanned = params[j-1].substring(0, 3);
-                            if (isBanned.equals(" no")) {
+                            String isBanned = params[j - 1].substring(1, 3); // banned come from db as " no"
+                            if (isBanned.equals("no")) {
+                                isBanned = "no";
                         %>
-                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Ban">
+                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Ban" onclick="banUnbanUser('<%= userName%>', '<%= isBanned%>');">
                             <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
                         </button>
                         <%
                         } else {
+                            isBanned = "yes";
                         %>
-                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Un-Ban">
+                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Un-Ban" onclick="banUnbanUser('<%= userName%>', '<%= isBanned%>');">
                             <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
                         </button>
                         <%
