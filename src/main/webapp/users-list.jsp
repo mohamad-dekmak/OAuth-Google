@@ -33,6 +33,7 @@
                     <%
                         for (int j = 0; j < params.length; j++) {
                             String userName = params[0].substring(1);
+                            String userRoles = params[1];
                             String text = params[j];
                             if (text.startsWith("[")) {
                                 text = text.substring(1);
@@ -43,7 +44,7 @@
                             if (j == 5) { // "*action*"
                     %>
                     <td style="width: 400px;">
-                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Edit">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" data-whatever="@mdo" title="Edit User" onclick="editUserDialog('<%= userName%>', '<%= userRoles%>');">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </button>
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#changePwdModal" data-whatever="@mdo" title="Change Password" onclick="changeUserPasswordDialog('<%= userName%>');">
@@ -116,6 +117,41 @@
     </div>
 </div>
 
+<div id="editUserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editUserModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editUserModal">Edit user</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="oldUsername" value="" />
+                    <div class="form-group">
+                        <label class="control-label">Username:</label>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Use Groups:</label>
+                        <select class="selectpicker" multiple id="roles">
+                            <option>admin</option>
+                            <option>manager</option>
+                            <option>manager-gui</option>
+                            <option>manager-script</option>
+                            <option>user</option>
+                        </select>
+                    </div>
+                    <p class="help-block text-red" id="validationEditMsg"></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modalEditUserCloseBtn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editUserBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(function () {
         $("#changePwdBtn").click(function () {
@@ -134,6 +170,20 @@
             }
             document.getElementById("validationMsg").innerHTML = msg;
         });
+        $("#editUserBtn").click(function () {
+            var username = $("#username", "#editUserModal").val();
+            var roles = $("#roles", '#editUserModal').val();
+            var msg = "";
+            if (!username) {
+                msg = "Username is required.";
+            } else if (!roles) {
+                msg = "User Groups is required.";
+            }else {
+                submitEditForm(username, roles);
+            }
+            document.getElementById("validationEditMsg").innerHTML = msg;
+        });
+        $('.selectpicker').selectpicker();
     });
 </script>
 

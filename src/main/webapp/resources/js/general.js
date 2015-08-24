@@ -96,9 +96,44 @@ function changeUserPwd(username, newPwd) {
             alert("Sorry, there was a problem!");
         }
     });
-
+ 
 }
-
-function setTempUserName(username){
-    document.getElementById('tempInput').value = username;
+function editUserDialog(username, roles) {
+    roles = roles.substr(1);
+    var rolesAr = roles.split('; ');
+    var tempAr = [];
+    for(i in rolesAr){
+        tempAr.push(rolesAr[i]); 
+    }
+    $('.selectpicker').selectpicker('val', tempAr);
+    $('.selectpicker').selectpicker('render');
+    $("#username", '#editUserModal').val(username);
+    $("#oldUsername", '#editUserModal').val(username);
+    $('#editUserModal').on('show.bs.modal', function (event) {
+        var modal = $(this);
+        modal.find('.modal-title').text("Edit user \"" + username + "\"");
+    });
+}
+function submitEditForm(username, roles) {
+    var oldUsername = $("#oldUsername", '#editUserModal').val();
+    var rolesObj = {};
+    for (i in roles){
+        rolesObj[roles[i]] = roles[i];
+    }
+    var rolesObj = JSON.stringify(rolesObj);
+    $.ajax({
+        url: "user-actions.jsp",
+        dataType: 'JSON',
+        type: 'POST',
+        data: {userAction: "editUser", oldUsername: oldUsername, newUsername: username, newRoles: rolesObj},
+        success: function (response) {
+            alert(response.data);
+            $(".modalEditUserCloseBtn").click();
+            location.reload();
+        },
+        error: function (xhr, status) {
+            alert("Sorry, there was a problem!");
+        }
+    });
+ 
 }

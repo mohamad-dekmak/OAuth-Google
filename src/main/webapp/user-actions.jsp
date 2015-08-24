@@ -3,6 +3,7 @@
     Created on : Aug 23, 2015, 3:13:53 PM
     Author     : mdekmak
 --%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html; charset=UTF-8"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="m.dekmak.Database"%>
@@ -32,6 +33,17 @@
             String responseMsg = db.updateUserPassword(username, newPassword);
             if (responseMsg.equals("success")) {
                 strResponse = "Password changed successfully for user \"" + username + "\"";
+            } else {
+                strResponse = responseMsg;
+            }
+        } else if (request.getParameter("userAction").equals("editUser")) {
+            String oldUsername = request.getParameter("oldUsername");
+            String newUsername = request.getParameter("newUsername");
+            JSONObject newRoles = new JSONObject();
+            newRoles = new JSONObject(request.getParameter("newRoles"));
+            String responseMsg = db.editUser(oldUsername, newUsername, newRoles);
+            if (responseMsg.equals("success")) {
+                strResponse = "Updates changed successfully for user \"" + newUsername + "\"";
             } else {
                 strResponse = responseMsg;
             }

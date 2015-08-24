@@ -12,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import org.json.JSONObject;
 
 /**
  *
@@ -182,6 +184,80 @@ public class Database {
                 msg = "Failed to change user password (db problem)";
             } else {
                 msg = "success";
+            }
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
+
+    public String editUser(String oldUsername, String newUsername, JSONObject newRoles) {
+        String msg = "";
+        try {
+            int completeScript = 1;
+            int updateUsername = 0;
+            Class.forName(jdbcDriverStr);
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+
+            // check if username has changed and the new value is already taken and exists in db. else, update username in db  
+            if (!oldUsername.equals(newUsername)) {
+                preparedStatement = connection.prepareStatement("select user_name from tomcat_users where user_name = ?");
+                preparedStatement.setString(1, newUsername);
+                ResultSet rs = preparedStatement.executeQuery();
+                String dbUserName = "";
+                while (rs.next()) {
+                    dbUserName = rs.getString("user_name");
+                }
+                if (dbUserName != "") { // new username already exists in DB
+                    msg = "The new username already taken. Please choose another";
+                    completeScript = 0;
+                } else {
+                    updateUsername = 1;
+                }
+            }
+            if (completeScript == 1) {
+                // remove old roles
+                statement = connection.createStatement();
+                preparedStatement = connection.prepareStatement("delete from tomcat_users_roles where tomcat_users_roles.user_name = ?");
+                preparedStatement.setString(1, oldUsername);
+                if (preparedStatement.executeUpdate() == 0) {
+                    msg = "Failed to change roles (db problem)";
+                    completeScript = 0;
+                } else {
+                    msg = "success";
+                    completeScript = 1;
+                }
+                if (completeScript == 1) {
+                    if (updateUsername == 1) {
+                        // update username in DB
+                        statement = connection.createStatement();
+                        preparedStatement = connection.prepareStatement("update tomcat_users set tomcat_users.user_name = ? where tomcat_users.user_name = ?");
+                        preparedStatement.setString(1, newUsername);
+                        preparedStatement.setString(2, oldUsername);
+                        if (preparedStatement.executeUpdate() == 0) {
+                            msg = "Failed to change username (db problem)";
+                            completeScript = 0;
+                        } else {
+                            msg = "success";
+                            completeScript = 1;
+                        }
+                    }
+                    if (completeScript == 1) {
+                        // insert new roles
+                        Iterator<?> roles = newRoles.keys();
+                        while (roles.hasNext()) {
+                            String role = (String) roles.next();
+                            statement = connection.createStatement();
+                            preparedStatement = connection.prepareStatement("INSERT INTO tomcat_users_roles"
+                                    + "(user_name, role_name) VALUES"
+                                    + "(?,?)");
+                            preparedStatement.setString(1, newUsername);
+                            preparedStatement.setString(2, role);
+                            preparedStatement.executeUpdate();
+                        }
+                    }
+                }
             }
         } catch (Exception e) {
             msg = "Exception message: " + e.getMessage();
