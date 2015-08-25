@@ -7,10 +7,10 @@
 <%@include file="header.jsp" %>
 
 <script type="text/javascript">
-$(function(){
-    // to remove the conflict in the Google GET Params between the "login action in login form" and "authenticate action in home page" 
-   clearGoogleParamsFromURL();
-});
+    $(function () {
+        // to remove the conflict in the Google GET Params between the "login action in login form" and "authenticate action in home page" 
+        clearGoogleParamsFromURL();
+    });
 </script>
 <div class="page-container">
     <%!
@@ -49,6 +49,60 @@ $(function(){
             session.setAttribute("isRedirectedFormLoginForm", null);
         }
     %>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Dashboard</div>
+            <div class="panel-body">
+                <div class="col-md-4 no-padding">
+                    <a href="#">
+                        <img class="img-rounded" src="resources/images/dashboard.png" width="128" height="128" />
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <div class="clearfix">&nbsp;</div>
+                    <p class="text">Visualize your main data for a better monitoring and fast access to the information.</p>
+                    <a href="#" class="btn btn-link no-padding">360° Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Contact</div>
+            <div class="panel-body">
+                <div class="col-md-4 no-padding">
+                    <a href="#">
+                        <img class="img-rounded" src="resources/images/contact.png" width="128" height="128" />
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <div class="clearfix">&nbsp;</div>
+                    <p class="text">Manage your contacts and related information.</p>
+                    <a href="#" class="btn btn-link no-padding">Add</a>&nbsp;&nbsp; - &nbsp;&nbsp;
+                    <a href="#" class="btn btn-link no-padding">Search</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Administration & Setup</div>
+            <div class="panel-body">
+                <div class="col-md-4 no-padding">
+                    <a href="admin-setup.jsp">
+                        <img class="img-rounded" src="resources/images/settings.png" width="128" height="128" />
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <div class="clearfix">&nbsp;</div>
+                    <p class="text">Setup your instance by managing your group list, adding users and much more.</p>
+                    <a href="admin-setup.jsp" class="btn btn-link no-padding">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="panel panel-info">
     <div class="panel-heading">Read Me First</div>

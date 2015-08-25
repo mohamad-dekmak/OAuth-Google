@@ -53,14 +53,39 @@
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
                             <a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                Manage Users
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a id="drop2" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Contact
                                 <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="drop1">
-                                <li><a href="users-list.jsp">Users List</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="drop2">
+                                <li><a href="#">Contact</a></li>
                                 <li class="divider"></li>
-                                <li><a href="user-add.jsp">Add User</a></li>
+                                <li><a href="#">Add Contact</a></li>
                             </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a id="drop3" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Calendar
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a id="drop4" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Stock
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Accounting
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a id="drop6" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Reports
+                            </a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
