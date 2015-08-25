@@ -16,7 +16,7 @@
     <%!
         String userInfo, userEmail, userId;
     %>
-    <%
+    <%        final GoogleAuth helper = new GoogleAuth();
         /*
          * The GoogleAuth handles all the heavy lifting, and contains all "secrets"
          * required for constructing a google login url.
@@ -50,14 +50,14 @@
         }
     %>
 </div>
-<div class="row">
+<div class="col-md-12">
     <div class="col-md-4">
         <div class="panel panel-primary">
             <div class="panel-heading">Dashboard</div>
             <div class="panel-body">
                 <div class="col-md-4 no-padding">
                     <a href="#">
-                        <img class="img-rounded" src="resources/images/dashboard.png" width="128" height="128" />
+                        <img class="img-rounded" src="resources/images/dashboard.png" width="115" height="115" />
                     </a>
                 </div>
                 <div class="col-md-8">
@@ -74,7 +74,7 @@
             <div class="panel-body">
                 <div class="col-md-4 no-padding">
                     <a href="#">
-                        <img class="img-rounded" src="resources/images/contact.png" width="128" height="128" />
+                        <img class="img-rounded" src="resources/images/contact.png" width="115" height="115" />
                     </a>
                 </div>
                 <div class="col-md-8">
@@ -92,44 +92,71 @@
             <div class="panel-body">
                 <div class="col-md-4 no-padding">
                     <a href="admin-setup.jsp">
-                        <img class="img-rounded" src="resources/images/settings.png" width="128" height="128" />
+                        <img class="img-rounded" src="resources/images/settings.png" width="115" height="115" />
                     </a>
                 </div>
                 <div class="col-md-8">
                     <div class="clearfix">&nbsp;</div>
-                    <p class="text">Setup your instance by managing your group list, adding users and much more.</p>
+                    <p class="text">Setup your instance by managing your group list, adding users & more.</p>
                     <a href="admin-setup.jsp" class="btn btn-link no-padding">Edit</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="panel panel-info">
-    <div class="panel-heading">Read Me First</div>
-    <div class="panel-body">
-        <div class="readme">
-            <h4>Assumptions</h4>
-            <ul>
-                <li>familiarity with OOP, java, maven, and jee</li>
-                <li>java application server listening on localhost:8443</li>
-            </ul>
-            <h4>Prerequisites</h4>
-            <ul>
-                <li>Google API access credentials (Client ID, Client Secret).
-                    Set it up here <a href='https://code.google.com/apis/console/'>https://code.google.com/apis/console/</a>
-                </li>
-                <li>Set up allowed Redirect URIs at Google API &rarr; API
-                    Access. Input: https://localhost:8443/SMB215-OAuth-Google/index.jsp</li>
-            </ul>
-            <h4>Usage</h4>
-            <ol>
-                <li>Add Client ID, and Client Secret parameters to <b>GoogleAuth.java</b></li>
-                <li>Compile the project (<b>$ mvn clean install</b>)</li>
-                <li>Deploy war to application server</li>
-                <li>Browse to: <a href="https://localhost:8443/SMB215-OAuth-Google/">https://localhost:8443/SMB215-OAuth-Google/</a></li>
-                <li>Click <b>&quot;Authenticate with google for next login&quot;</b> on top of this page</li>
-            </ol>
-        </div> 
+<div class="col-md-12">
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Calendar</div>
+            <div class="panel-body">
+                <div class="col-md-4 no-padding">
+                    <a href="#">
+                        <img class="img-rounded" src="resources/images/calendar.png" width="115" height="115" />
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <div class="clearfix">&nbsp;</div>
+                    <p class="text">Share your Calendar with your colleagues for a better Visibility & Collaboration. Schedule Events & more.</p>
+                    <a href="#" class="btn btn-link no-padding">Open Calendar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Task Management</div>
+            <div class="panel-body">
+                <div class="col-md-4 no-padding">
+                    <a href="#">
+                        <img class="img-rounded" src="resources/images/task.png" width="115" height="115" />
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <div class="clearfix">&nbsp;</div>
+                    <p class="text">Build your team's to-do lists. Track Notes History. Manage your Priorities, Due Dates, Resources & more.</p>
+                    <a href="#" class="btn btn-link no-padding">Add</a>&nbsp;&nbsp; - &nbsp;&nbsp;
+                    <a href="#" class="btn btn-link no-padding">Search</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Accounting Management</div>
+            <div class="panel-body">
+                <div class="col-md-4 no-padding">
+                    <a href="#">
+                        <img class="img-rounded" src="resources/images/accounting.png" width="115" height="115" />
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <div class="clearfix">&nbsp;</div>
+                    <p class="text">Track and Categorize your Expenses & Income. Generate your Invoices and record Payments & more.</p>
+                    <a href="#" class="btn btn-link no-padding">Edit</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 <%@include file="footer.jsp" %>

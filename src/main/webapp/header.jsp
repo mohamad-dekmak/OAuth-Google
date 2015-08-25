@@ -23,7 +23,6 @@
     </head>
     <body>
         <%
-            final GoogleAuth helper = new GoogleAuth();
             String userProfileName = request.getUserPrincipal().getName();
         %>
         <div class="container">
@@ -52,38 +51,49 @@
                 <div class="collapse navbar-collapse bs-example-js-navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <a id="dropDashboard" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                 Dashboard
                             </a>
                         </li>
                         <li class="dropdown">
-                            <a id="drop2" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <a id="dropContact" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                 Contact
                                 <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="drop2">
+                            <ul class="dropdown-menu" aria-labelledby="dropContact">
                                 <li><a href="#">Contact</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#">Add Contact</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a id="drop3" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <a id="dropTask" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Task
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropTask">
+                                <li><a href="#">My Tasks</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">All Tasks</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a id="dropCal" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                 Calendar
                             </a>
                         </li>
                         <li class="dropdown">
-                            <a id="drop4" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <a id="dropStock" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                 Stock
                             </a>
                         </li>
                         <li class="dropdown">
-                            <a id="drop5" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <a id="dropAcc" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                 Accounting
                             </a>
                         </li>
                         <li class="dropdown">
-                            <a id="drop6" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <a id="dropReports" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                 Reports
                             </a>
                         </li>
@@ -98,10 +108,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="drop3">
                                 <li><a href="user-profile-change-pwd.jsp">Change Password</a></li>
-                                <li> <%
-                                    out.println("<a href='" + helper.buildLoginUrl() + "'>Authenticate with Google for next login</a>");
-                                    %>
-                                </li>
+                                <li><a href="oauth.jsp">Authenticate with Google for next login</a></li>
                                 <li><a href="admin-setup.jsp">Administration & Setup</a></li>
                                 <li class="divider"></li>
                                 <li><a href="https://github.com/pascalfares/smb215-15" target="_blank">Help</a></li>
