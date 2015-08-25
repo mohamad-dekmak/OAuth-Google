@@ -1,3 +1,8 @@
+$(function () {
+    $("#aboutLink").click(function () {
+        alert("SMB215 OAuth Google.v1.0\nLicensed to: Client X\n\nCredits:\n\u2022 Bootstrap 3.3.5\n\u2022 jQuery 1.11.3\n\u2022 Bootstrap-select 1.7.2");
+    });
+});
 function getCurrentURLWithoutGetParams()
 {
     //get full url
@@ -96,14 +101,14 @@ function changeUserPwd(username, newPwd) {
             alert("Sorry, there was a problem!");
         }
     });
- 
+
 }
 function editUserDialog(username, roles) {
     roles = roles.substr(1);
     var rolesAr = roles.split('; ');
     var tempAr = [];
-    for(i in rolesAr){
-        tempAr.push(rolesAr[i]); 
+    for (i in rolesAr) {
+        tempAr.push(rolesAr[i]);
     }
     $('.selectpicker').selectpicker('val', tempAr);
     $('.selectpicker').selectpicker('render');
@@ -117,7 +122,7 @@ function editUserDialog(username, roles) {
 function submitEditForm(username, roles) {
     var oldUsername = $("#oldUsername", '#editUserModal').val();
     var rolesObj = {};
-    for (i in roles){
+    for (i in roles) {
         rolesObj[roles[i]] = roles[i];
     }
     var rolesObj = JSON.stringify(rolesObj);
@@ -135,5 +140,5 @@ function submitEditForm(username, roles) {
             alert("Sorry, there was a problem!");
         }
     });
- 
+
 }
