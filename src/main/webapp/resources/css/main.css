@@ -53,3 +53,12 @@ body {
 .text-green{
     color: green;
 }
+.no-margin{
+    margin: 0px;
+}
+.no-padding{
+    padding: 0px;
+}
+.admin-links{
+    font-size: 17px;
+}

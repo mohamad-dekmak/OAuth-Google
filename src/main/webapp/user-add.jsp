@@ -4,7 +4,7 @@
     Author     : mdekmak
 --%>
 
-<<%@include file="header.jsp" %>
+<%@include file="header.jsp" %>
 
 <div class="container master-container">
     <div class="row">

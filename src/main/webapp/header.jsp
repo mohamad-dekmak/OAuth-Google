@@ -77,7 +77,7 @@
                                     out.println("<a href='" + helper.buildLoginUrl() + "'>Authenticate with Google for next login</a>");
                                     %>
                                 </li>
-                                <li><a href="users-list.jsp">Users List</a></li>
+                                <li><a href="admin-setup.jsp">Administration & Setup</a></li>
                                 <li class="divider"></li>
                                 <li><a href="https://github.com/pascalfares/smb215-15" target="_blank">Help</a></li>
                                 <li><a href="#" id="aboutLink">About</a></li>
