@@ -264,4 +264,54 @@ public class Database {
         }
         return msg;
     }
+
+    public String addUser(String user_name, JSONObject user_groups, String password) {
+        String msg = "";
+        int completeScript = 1;
+        try {
+            MD5Digest md5 = new MD5Digest();
+            String hashPwd = md5.generate(password);
+            Class.forName(jdbcDriverStr);
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select user_name from tomcat_users where user_name = ?");
+            preparedStatement.setString(1, user_name);
+            ResultSet rs = preparedStatement.executeQuery();
+            String dbUserName = "";
+            while (rs.next()) {
+                dbUserName = rs.getString("user_name");
+            }
+            if (dbUserName != "") { // username already exists in DB
+                msg = "Username already taken. Please choose another";
+                completeScript = 0;
+            } else {
+                preparedStatement = connection.prepareStatement("INSERT INTO tomcat_users"
+                        + "(user_name, password) VALUES"
+                        + "(?,?)");
+                preparedStatement.setString(1, user_name);
+                preparedStatement.setString(2, hashPwd);
+                if (preparedStatement.executeUpdate() == 0) {
+                    msg = "Failed to add user (db problem)";
+                } else {
+                    msg = "success";
+                    // link roles
+                    Iterator<?> roles = user_groups.keys();
+                    while (roles.hasNext()) {
+                        String role = (String) roles.next();
+                        statement = connection.createStatement();
+                        preparedStatement = connection.prepareStatement("INSERT INTO tomcat_users_roles"
+                                + "(user_name, role_name) VALUES"
+                                + "(?,?)");
+                        preparedStatement.setString(1, user_name);
+                        preparedStatement.setString(2, role);
+                        preparedStatement.executeUpdate();
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
 }

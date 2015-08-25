@@ -59,7 +59,7 @@
                             <ul class="dropdown-menu" aria-labelledby="drop1">
                                 <li><a href="users-list.jsp">Users List</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">Add User</a></li>
+                                <li><a href="user-add.jsp">Add User</a></li>
                             </ul>
                         </li>
                     </ul>

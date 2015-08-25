@@ -47,6 +47,13 @@
             } else {
                 strResponse = responseMsg;
             }
+        } else if (request.getParameter("userAction").equals("addUser")) {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            JSONObject roles = new JSONObject();
+            roles = new JSONObject(request.getParameter("roles"));
+            String responseMsg = db.addUser(username, roles, password);
+            strResponse = responseMsg;
         }
     } else {
         strResponse = "user action not defined";
