@@ -6,11 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@page import="m.dekmak.ConfigProperties"%>
+<%
+    ConfigProperties confProp = new ConfigProperties();
+    String appName = confProp.getPropValue("appName");
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>SMB215 - Google Auth API</title>
+        <title><%= appName %></title>
         <link type="text/css" rel="stylesheet" href="resources/css/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
         <link type="text/css" rel="stylesheet" href="resources/css/main.css">
@@ -24,7 +30,7 @@
                 <div class="col-md-8 alert alert-info fade in text-center" data-alert="alert">
                     <h4>
                         <strong>
-                            Login to access SMB215 Web Application
+                            Login to access <%= appName %> Web Application
                         </strong>
                     </h4>
                     <p>Here you'll see the usage of Simple Form or Login with your Google account</p>

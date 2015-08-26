@@ -11,7 +11,7 @@
 %>
 <div class="panel panel-warning">
     <div class="panel-heading">
-        <h3 class="panel-title">Sign Out from SMB215</h3>
+        <h3 class="panel-title">Sign Out from <%= appName %></h3>
     </div>
     <div class="panel-body">
         You have successfully logged out.

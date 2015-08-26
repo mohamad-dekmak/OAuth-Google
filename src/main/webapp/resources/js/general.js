@@ -1,8 +1,6 @@
-$(function () {
-    $("#aboutLink").click(function () {
-        alert("SMB215 OAuth Google.v1.0\nLicensed to: Client X\n\nCredits:\n\u2022 Bootstrap 3.3.5\n\u2022 jQuery 1.11.3\n\u2022 Bootstrap-select 1.7.2");
-    });
-});
+function aboutApp(appName, appVersion){
+    alert(appName + "." + appVersion + "\nLicensed to: Client X\n\nCredits:\n\u2022 Bootstrap 3.3.5\n\u2022 jQuery 1.11.3\n\u2022 Bootstrap-select 1.7.2");
+}
 function getCurrentURLWithoutGetParams()
 {
     //get full url

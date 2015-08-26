@@ -16,7 +16,8 @@
     <%!
         String userInfo, userEmail, userId;
     %>
-    <%        final GoogleAuth helper = new GoogleAuth();
+    <%        
+              final GoogleAuth helper = new GoogleAuth();
         /*
          * The GoogleAuth handles all the heavy lifting, and contains all "secrets"
          * required for constructing a google login url.
