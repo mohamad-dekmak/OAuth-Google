@@ -18,7 +18,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><%= appName %></title>
+        <title><%= appName%></title>
         <link type="text/css" rel="stylesheet" href="resources/css/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
         <link type="text/css" rel="stylesheet" href="resources/css/bootstrap-select.min.css">
@@ -37,10 +37,10 @@
             <div class="col-md-8 alert alert-info fade in text-center" data-alert="alert">
                 <h4>
                     <strong>
-                        Welcome "<%= userProfileName %>" to <%= appName %>
+                        Welcome "<%= userProfileName%>" to <%= appName%>
                     </strong>
                 </h4>
-                <p>Here you'll see the features and full pages of <%= appName %></p>
+                <p>Here you'll see the features and full pages of <%= appName%></p>
             </div><div class="col-md-2"></div>
 
         </div>
@@ -53,7 +53,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.jsp"><%= appName %></a>
+                    <a class="navbar-brand" href="index.jsp"><%= appName%></a>
                 </div>
                 <div class="collapse navbar-collapse bs-example-js-navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -115,11 +115,19 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="drop3">
                                 <li><a href="user-profile-change-pwd.jsp">Change Password</a></li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#" class="header-change-pwd">Change Language</a>
+                                </li>
+                                <li><a href="#">English</a></li>
+                                <li><a href="#">Arabic</a></li>
+                                <li><a href="#">Français</a></li>
+                                <li class="divider"></li>
                                 <li><a href="social-networks.jsp">Social Networks</a></li>
                                 <li><a href="admin-setup.jsp">Administration & Setup</a></li>
                                 <li class="divider"></li>
                                 <li><a href="https://github.com/pascalfares/smb215-15" target="_blank">Help</a></li>
-                                <li><a href="#" onclick="aboutApp('<%= appName %>', '<%= appVersion %>');">About</a></li>
+                                <li><a href="#" onclick="aboutApp('<%= appName%>', '<%= appVersion%>');">About</a></li>
                                 <li><a href="https://github.com/pascalfares/smb215-15/issues" target="_blank">Report a bug</a></li>
                                 <li class="divider"></li>
                                 <li><a href="https://localhost:8443/SMB215-OAuth-Google/logout.jsp">Sign out</a></li>
