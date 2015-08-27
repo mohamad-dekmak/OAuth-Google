@@ -11,7 +11,18 @@
 
 <div class="page-container">
     <div class="panel panel-default">
-        <div class="panel-heading">Users List</div>
+        <div class="panel-heading">
+            Users List
+            <div class="btn-group pull-right">
+                <button class="btn btn-info">Actions</button>
+                <button class="btn btn-info dropdown-toggle dropdown-actions-list" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="user-add.jsp">Add user</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Export to Excel</a></li>
+                </ul>
+            </div>
+        </div>
         <table class="table">
             <thead>
             <th style="width: 400px;">Username "Local Account"</th>
@@ -42,7 +53,7 @@
                                 text = text.substring(0, text.length() - 1);
                             }
                             if (j == 5) { // "*action*"
-                    %>
+%>
                     <td style="width: 400px;">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" data-whatever="@mdo" title="Edit User" onclick="editUserDialog('<%= userName%>', '<%= userRoles%>');">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
@@ -178,7 +189,7 @@
                 msg = "Username is required.";
             } else if (!roles) {
                 msg = "User Groups is required.";
-            }else {
+            } else {
                 submitEditForm(username, roles);
             }
             document.getElementById("validationEditMsg").innerHTML = msg;
