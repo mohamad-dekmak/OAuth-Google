@@ -115,7 +115,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="drop3">
                                 <li><a href="user-profile-change-pwd.jsp">Change Password</a></li>
-                                <li><a href="oauth.jsp">Authenticate with Google for next login</a></li>
+                                <li><a href="social-networks.jsp">Social Networks</a></li>
                                 <li><a href="admin-setup.jsp">Administration & Setup</a></li>
                                 <li class="divider"></li>
                                 <li><a href="https://github.com/pascalfares/smb215-15" target="_blank">Help</a></li>
