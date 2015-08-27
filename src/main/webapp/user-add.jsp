@@ -45,6 +45,7 @@
                             <input class="required form-control" name="confirmNewPassword" id="confirmNewPassword" placeholder="Confirm new password" type="password">
                         </div>
                         <input class="btn btn-default" type="button" value="Submit" name="btnSubmit" onclick="addUserBtn();">
+                        <a href="users-list.jsp" class="pull-right btn btn-link">Back to list</a>
                         <div id="helpMsgContainer">
                             <p class="help-block text-green hide" id="successMsg">User added successfully</p>
                             <p class="help-block text-red" id="errorMsg"></p>
