@@ -144,13 +144,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Use Groups:</label>
-                        <select class="selectpicker" multiple id="roles">
-                            <option>admin</option>
-                            <option>manager</option>
-                            <option>manager-gui</option>
-                            <option>manager-script</option>
-                            <option>user</option>
-                        </select>
+                        <%@include file="user-groups-dropdown.jsp" %>
                     </div>
                     <p class="help-block text-red" id="validationEditMsg"></p>
                 </form>

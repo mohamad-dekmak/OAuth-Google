@@ -24,13 +24,7 @@
                             <label class="required control-label">
                                 <abbr title="required">*</abbr> User Groups
                             </label>
-                            <select class="selectpicker" multiple id="roles">
-                                <option>admin</option>
-                                <option>manager</option>
-                                <option>manager-gui</option>
-                                <option>manager-script</option>
-                                <option>user</option>
-                            </select>
+                            <%@include file="user-groups-dropdown.jsp" %>
                         </div>
                         <div class="form-group required">
                             <label class="required control-label">
