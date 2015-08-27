@@ -54,6 +54,19 @@
             roles = new JSONObject(request.getParameter("roles"));
             String responseMsg = db.addUser(username, roles, password);
             strResponse = responseMsg;
+        }else if (request.getParameter("userAction").equals("addUserGroup")) {
+            String name = request.getParameter("name");
+            String responseMsg = db.addUserGroup(name);
+            strResponse = responseMsg;
+        }else if (request.getParameter("userAction").equals("editUserGroup")) {
+            String oldName = request.getParameter("oldName");
+            String newName = request.getParameter("newName");
+            String responseMsg = db.editUserGroup(oldName, newName);
+            if (responseMsg.equals("success")) {
+                strResponse = "Updates changed successfully for user group \"" + newName + "\"";
+            } else {
+                strResponse = responseMsg;
+            }
         }
     } else {
         strResponse = "user action not defined";

@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -309,6 +310,170 @@ public class Database {
                 }
             }
 
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
+
+    public List<String> getUserGroupsList() {
+        List<String> users = new ArrayList<String>();
+        try {
+            Class.forName(jdbcDriverStr);
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select tomcat_roles.role_name, \"*action*\" AS action from tomcat_roles");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                List<String> row = new ArrayList<String>();
+                row.add(rs.getString("role_name"));
+                row.add(rs.getString("action"));
+                users.add(row.toString());
+            }
+        } catch (Exception e) {
+            users.add("Exception message" + e.getMessage());
+        }
+        return users;
+    }
+
+    public String addUserGroup(String name) {
+        String msg = "";
+        int completeScript = 1;
+        try {
+            Class.forName(jdbcDriverStr);
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select role_name from tomcat_roles where role_name = ?");
+            preparedStatement.setString(1, name);
+            ResultSet rs = preparedStatement.executeQuery();
+            String dbGroupName = "";
+            while (rs.next()) {
+                dbGroupName = rs.getString("role_name");
+            }
+            if (dbGroupName != "") { // username already exists in DB
+                msg = "Group name already taken. Please choose another";
+                completeScript = 0;
+            } else {
+                preparedStatement = connection.prepareStatement("INSERT INTO tomcat_roles"
+                        + "(role_name) VALUES"
+                        + "(?)");
+                preparedStatement.setString(1, name);
+                if (preparedStatement.executeUpdate() == 0) {
+                    msg = "Failed to add user group (db problem)";
+                } else {
+                    msg = "success";
+                }
+            }
+
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
+
+    public String editUserGroup(String oldName, String newName) {
+        String msg = "";
+        try {
+            int completeScript = 1;
+            Class.forName(jdbcDriverStr);
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            // check if name has changed and the new value is already taken and exists in db. else, update name in db  
+            if (!oldName.equals(newName)) {
+                preparedStatement = connection.prepareStatement("select role_name from tomcat_roles where role_name = ?");
+                preparedStatement.setString(1, newName);
+                ResultSet rs = preparedStatement.executeQuery();
+                String dbName = "";
+                while (rs.next()) {
+                    dbName = rs.getString("role_name");
+                }
+                if (dbName != "") { // new name already exists in DB
+                    completeScript = 0;
+                }
+            }
+            if (completeScript == 1) {
+                // check if new name is equal the static roles (list of static roles not editable)
+                ConfigProperties confProp = new ConfigProperties();
+                String userGroupsNotEditable = confProp.getPropValue("userGroupsNotEditable");
+                String[] params = userGroupsNotEditable.split(",");
+                outerloop:
+                for (int j = 0; j < params.length; j++) {
+                    String text = params[j];
+
+                    if (text.startsWith("[")) {
+                        text = text.substring(1);
+                    }
+                    if (text.endsWith("]")) {
+                        text = text.substring(0, text.length() - 1);
+                    }
+                    text = text.substring(1);
+                    text = text.substring(0, text.length() - 1);
+                    if (text.equals(newName)) {
+                        completeScript = 0;
+                        break outerloop;
+                    } else if (text.equals(oldName)) {
+                        completeScript = 0;
+                        break outerloop;
+                    }
+                }
+                if (completeScript == 1) {
+                    // select related users to be stored, then remove the relation of old role
+                    // and insert the new relations of users with the new role
+                    statement = connection.createStatement();
+                    preparedStatement = connection.prepareStatement("select user_name from tomcat_users_roles where role_name = ?");
+                    preparedStatement.setString(1, oldName);
+                    ResultSet rs = preparedStatement.executeQuery();
+                    String dbUserName = "";
+                    ArrayList<String> dbUsers = new ArrayList<String>();
+                    while (rs.next()) {
+                        dbUserName = rs.getString("user_name");
+                        dbUsers.add(dbUserName);
+                    }
+                    if (dbUsers.isEmpty()) { // old group did not have relations with users
+                        // update new name in roles table
+                        statement = connection.createStatement();
+                        preparedStatement = connection.prepareStatement("update tomcat_roles set tomcat_roles.role_name = ? where tomcat_roles.role_name = ?");
+                        preparedStatement.setString(1, newName);
+                        preparedStatement.setString(2, oldName);
+                        if (preparedStatement.executeUpdate() == 0) {
+                            msg = "Failed to change name (db problem)";
+                        } else {
+                            msg = "success";
+                        }
+                    } else { // old group has relations with users
+                        statement = connection.createStatement();
+                        preparedStatement = connection.prepareStatement("delete from tomcat_users_roles where tomcat_users_roles.role_name = ?");
+                        preparedStatement.setString(1, oldName);
+                        if (preparedStatement.executeUpdate() == 0) {
+                            msg = "Failed to remove old relations (db problem)";
+                        } else {
+                            // update new name in roles table
+                            statement = connection.createStatement();
+                            preparedStatement = connection.prepareStatement("update tomcat_roles set tomcat_roles.role_name = ? where tomcat_roles.role_name = ?");
+                            preparedStatement.setString(1, newName);
+                            preparedStatement.setString(2, oldName);
+                            if (preparedStatement.executeUpdate() == 0) {
+                                msg = "Failed to change name (db problem)";
+                            } else {
+                                for (String user : dbUsers) {
+                                    statement = connection.createStatement();
+                                    preparedStatement = connection.prepareStatement("INSERT INTO tomcat_users_roles"
+                                            + "(user_name, role_name) VALUES"
+                                            + "(?,?)");
+                                    preparedStatement.setString(1, user);
+                                    preparedStatement.setString(2, newName);
+                                    preparedStatement.executeUpdate();
+                                }
+                                msg = "success";
+                            }
+                        }
+                    }
+                } else {
+                    msg = "Please choose another group name, this group is related to system groups";
+                }
+            } else {
+                msg = "The new name already taken. Please choose another";
+            }
         } catch (Exception e) {
             msg = "Exception message: " + e.getMessage();
         }

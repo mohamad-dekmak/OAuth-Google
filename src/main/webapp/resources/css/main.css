@@ -3,44 +3,6 @@ body {
     margin: 1em;
     background-color: #ced6e0;
 }
-
-.page-container a {
-    display: block;
-    border-style: solid;
-    border-color: #bbb #888 #666 #aaa;
-    border-width: 1px 2px 2px 1px;
-    background: #ccc;
-    color: #333;
-    line-height: 2;
-    text-align: center;
-    text-decoration: none;
-    font-weight: 900;
-    width: 25em;
-    float: right;
-}
-
-.page-container pre {
-    background: #ccc;
-}
-
-.page-container a:active {
-    border-color: #666 #aaa #bbb #888;
-    border-width: 2px 1px 1px 2px;
-    color: #000;
-}
-
-.page-container a{
-    border-style: solid;
-    border-color: #bbb #888 #666 #aaa;
-    border-width: 1px 2px 2px 1px;
-    background: #ccc;
-    color: #333;
-    line-height: 2;
-    text-align: center;
-    text-decoration: none;
-    font-weight: 900;
-    width: 25em;
-}
 .panel-heading{
     font-size: 19px;
 }
@@ -61,4 +23,7 @@ body {
 }
 .admin-links{
     font-size: 17px;
+}
+.dropdown-actions-list{
+    height: 34px;
 }

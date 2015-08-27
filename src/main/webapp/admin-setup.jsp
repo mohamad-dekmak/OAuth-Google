@@ -31,16 +31,16 @@
             <div class="panel-heading">Manage User Groups</div>
             <div class="panel-body">
                 <div class="col-md-4 no-padding">
-                    <a href="#">
+                    <a href="user-groups-list.jsp">
                         <img class="img-rounded" src="resources/images/user_groups_list.png" width="128" height="128" />
                     </a>
                 </div>
                 <div class="col-md-8">
                     <div class="clearfix">&nbsp;</div>
-                    <a href="#" class="btn btn-link pull-right admin-links">List Groups</a>
+                    <a href="user-groups-list.jsp" class="btn btn-link pull-right admin-links">List Groups</a>
                     <div class="clearfix">&nbsp;</div>
                     <div class="clearfix">&nbsp;</div>
-                    <a href="#" class="btn btn-link pull-right admin-links">Add Group</a>
+                    <a href="user-group-add.jsp" class="btn btn-link pull-right admin-links">Add Group</a>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-function aboutApp(appName, appVersion){
+function aboutApp(appName, appVersion) {
     alert(appName + "." + appVersion + "\nLicensed to: Client X\n\nCredits:\n\u2022 Bootstrap 3.3.5\n\u2022 jQuery 1.11.3\n\u2022 Bootstrap-select 1.7.2");
 }
 function getCurrentURLWithoutGetParams()
@@ -138,5 +138,37 @@ function submitEditForm(username, roles) {
             alert("Sorry, there was a problem!");
         }
     });
+
+}
+function editGroupDialog(name) {
+    $("#name", '#editGroupModal').val(name);
+    $("#oldName", '#editGroupModal').val(name);
+    $('#editGroupModal').on('show.bs.modal', function (event) {
+        var modal = $(this);
+        modal.find('.modal-title').text("Edit user group \"" + name + "\"");
+    });
+}
+function submitEditGroupForm(name) {
+    var oldName = $("#oldName", '#editGroupModal').val();
+    if (oldName == name) {
+        alert("no changes!!!");
+        $(".modalEditGroupCloseBtn").click();
+    } else {
+        $.ajax({
+            url: "user-actions.jsp",
+            dataType: 'JSON',
+            type: 'POST',
+            data: {userAction: "editUserGroup", oldName: oldName, newName: name},
+            success: function (response) {
+                alert(response.data);
+                $(".modalEditGroupCloseBtn").click();
+                location.reload();
+            },
+            error: function (xhr, status) {
+                alert("Sorry, there was a problem!");
+            }
+        });
+    }
+
 
 }
