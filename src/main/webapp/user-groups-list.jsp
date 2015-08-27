@@ -19,7 +19,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="user-group-add.jsp">Add user group</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">Export to Excel</a></li>
+                    <li><a href="export-excel/user-groups.jsp?exportToExcel=YES">Export to Excel</a></li>
                 </ul>
             </div>
         </div>
