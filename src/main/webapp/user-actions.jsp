@@ -67,6 +67,10 @@
             } else {
                 strResponse = responseMsg;
             }
+        }else if (request.getParameter("userAction").equals("disconnectGoogleAccount")) {
+            String username = request.getParameter("username");
+            String responseMsg = db.disconnectGoogleAccount(username);
+            strResponse = responseMsg;
         }
     } else {
         strResponse = "user action not defined";

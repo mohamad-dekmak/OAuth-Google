@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import static org.json.JSONObject.NULL;
 
 /**
  *
@@ -56,9 +57,9 @@ public class Database {
             preparedStatement.setString(4, user_name);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
-            return "Exception message" + e.getMessage();
+            return "error";
         }
-        return "Updates saved successfully. <br /> <br /> Now you can login with your google account instead of your local username account.";
+        return "success";
     }
 
     public String[] getUserCredentials(String user_email, String user_google_id) {
@@ -478,5 +479,44 @@ public class Database {
             msg = "Exception message: " + e.getMessage();
         }
         return msg;
+    }
+
+    public String[] getUserDetails(String user_email) {
+        try {
+            Class.forName(jdbcDriverStr);
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select user_name, isGoogleAuth, email from tomcat_users where user_name = ?");
+            preparedStatement.setString(1, user_email);
+            ResultSet rs = preparedStatement.executeQuery();
+            String userName = "";
+            String isGoogleAuth = "";
+            String email = "";
+            while (rs.next()) {
+                userName = rs.getString("user_name");
+                isGoogleAuth = rs.getString("isGoogleAuth");
+                email = rs.getString("email");
+            }
+            return new String[]{userName, isGoogleAuth, email};
+        } catch (Exception e) {
+            return new String[]{"Exception message" + e.getMessage()};
+        }
+    }
+
+    public String disconnectGoogleAccount(String user_name) {
+        try {
+            Class.forName(jdbcDriverStr);
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("update tomcat_users set tomcat_users.isGoogleAuth = ?, tomcat_users.email = ?, tomcat_users.userGoogleId = ? where tomcat_users.user_name = ?");
+            preparedStatement.setString(1, "no");
+            preparedStatement.setString(2, "");
+            preparedStatement.setString(3, "");
+            preparedStatement.setString(4, user_name);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            return "Exception message" + e.getMessage();
+        }
+        return "success";
     }
 }

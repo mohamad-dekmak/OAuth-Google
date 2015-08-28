@@ -5,52 +5,45 @@
 --%>
 
 <%@include file="header.jsp" %>
-
+<%!
+    String userInfo, userEmail, userId, googleRespone;
+%>
+<%    Database db = new Database();
+    final GoogleAuth helper = new GoogleAuth();
+    googleRespone = "";
+    /*
+     * The GoogleAuth handles all the heavy lifting, and contains all "secrets"
+     * required for constructing a google login url.
+     */
+    /*
+     * initial visit to the page
+     */
+    if (request.getParameter("code") != null && request.getParameter("state") != null && session.getAttribute("isRedirectedFormLoginForm") == null) {
+        /*
+         * Executes after google redirects to the callback url.
+         * Please note that the state request parameter is for convenience to differentiate
+         * between authentication methods (ex. facebook oauth, google oauth, twitter, in-house).
+         * 
+         * GoogleAuth()#getUserInfoJson(String) method returns a String containing
+         * the json representation of the authenticated user's information. 
+         * At this point you should parse and persist the info.
+         */
+        userInfo = helper.getUserInfoJson(request.getParameter("code"));
+        userEmail = helper.getParameterFromUserInfo(userInfo, "email");
+        userId = helper.getParameterFromUserInfo(userInfo, "id");
+        googleRespone = db.updateUserInfo(request.getUserPrincipal().getName(), userEmail, userId);
+    }
+    if (session.getAttribute("isRedirectedFormLoginForm") != null) {
+        session.setAttribute("isRedirectedFormLoginForm", null);
+    }
+%>
 <script type="text/javascript">
     $(function () {
         // to remove the conflict in the Google GET Params between the "login action in login form" and "authenticate action in home page" 
-        clearGoogleParamsFromURL();
+        clearGoogleParamsFromURL('<%= googleRespone %>');
     });
 </script>
-<div class="page-container">
-    <%!
-        String userInfo, userEmail, userId;
-    %>
-    <%        
-              final GoogleAuth helper = new GoogleAuth();
-        /*
-         * The GoogleAuth handles all the heavy lifting, and contains all "secrets"
-         * required for constructing a google login url.
-         */
-        /*
-         * initial visit to the page
-         */
-        if (request.getParameter("code") != null && request.getParameter("state") != null && session.getAttribute("isRedirectedFormLoginForm") == null) {
-            /*
-             * Executes after google redirects to the callback url.
-             * Please note that the state request parameter is for convenience to differentiate
-             * between authentication methods (ex. facebook oauth, google oauth, twitter, in-house).
-             * 
-             * GoogleAuth()#getUserInfoJson(String) method returns a String containing
-             * the json representation of the authenticated user's information. 
-             * At this point you should parse and persist the info.
-             */
-            userInfo = helper.getUserInfoJson(request.getParameter("code"));
-            userEmail = helper.getParameterFromUserInfo(userInfo, "email");
-            userId = helper.getParameterFromUserInfo(userInfo, "id");
-            Database db = new Database();
-            out.println("<div class='panel panel-success'>");
-            out.println("<div class='panel-heading'>Authentication Response</div>");
-            out.println("<div class='panel-body'>");
-            out.println(db.updateUserInfo(request.getUserPrincipal().getName(), userEmail, userId));
-            out.println("</div>");
-            out.println("</div>");
-        }
-        if (session.getAttribute("isRedirectedFormLoginForm") != null) {
-            session.setAttribute("isRedirectedFormLoginForm", null);
-        }
-    %>
-</div>
+
 <div class="col-md-12">
     <div class="col-md-4">
         <div class="panel panel-primary">

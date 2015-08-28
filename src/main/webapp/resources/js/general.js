@@ -32,11 +32,11 @@ function nth_occurrence(string, char, nth) {
     }
 }
 
-function clearGoogleParamsFromURL() {
+function clearGoogleParamsFromURL(googleRespone) {
     var currentURL = getCurrentURLWithoutGetParams();
     if (currentURL) {
-        var indexOfProjectName = nth_occurrence(currentURL, '/', 3);
-        window.history.pushState("object or string", "Title", "/" + currentURL.substring(indexOfProjectName + 1));
+        var indexOfProjectName = nth_occurrence(currentURL, '/', 4);
+        window.location = currentURL.substring(0, indexOfProjectName + 1) + "social-networks.jsp?googleRespone=" + googleRespone;
     }
 
 }
@@ -171,4 +171,23 @@ function submitEditGroupForm(name) {
     }
 
 
+}
+function disconnectGoogleAccount(username, gooleUrl, appName) {
+    $.ajax({
+        url: "user-actions.jsp",
+        dataType: 'JSON',
+        type: 'POST',
+        data: {userAction: "disconnectGoogleAccount", username: username},
+        success: function (response) {
+            if (response.data == "success") {
+                $(".btn-google-connect").removeClass("btn-default").addClass("btn-info").html("Connect").attr("onclick", "").attr("href", gooleUrl);
+                $(".googleText").html("Your " + appName + " account is not connected to Google");
+            } else {
+                alert("Sorry, there was a problem when updating data in DB!");
+            }
+        },
+        error: function (xhr, status) {
+            alert("Sorry, there was a problem!");
+        }
+    });
 }
