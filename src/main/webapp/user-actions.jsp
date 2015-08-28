@@ -54,11 +54,11 @@
             roles = new JSONObject(request.getParameter("roles"));
             String responseMsg = db.addUser(username, roles, password);
             strResponse = responseMsg;
-        }else if (request.getParameter("userAction").equals("addUserGroup")) {
+        } else if (request.getParameter("userAction").equals("addUserGroup")) {
             String name = request.getParameter("name");
             String responseMsg = db.addUserGroup(name);
             strResponse = responseMsg;
-        }else if (request.getParameter("userAction").equals("editUserGroup")) {
+        } else if (request.getParameter("userAction").equals("editUserGroup")) {
             String oldName = request.getParameter("oldName");
             String newName = request.getParameter("newName");
             String responseMsg = db.editUserGroup(oldName, newName);
@@ -67,10 +67,21 @@
             } else {
                 strResponse = responseMsg;
             }
-        }else if (request.getParameter("userAction").equals("disconnectGoogleAccount")) {
+        } else if (request.getParameter("userAction").equals("disconnectGoogleAccount")) {
             String username = request.getParameter("username");
             String responseMsg = db.disconnectGoogleAccount(username);
             strResponse = responseMsg;
+        } else if (request.getParameter("userAction").equals("killBannedUser")) {
+            String username = request.getParameter("username");
+            String responseMsg = db.userIsBanned(username);
+            strResponse = responseMsg;
+            if (strResponse.equals("yes")) {
+                session = request.getSession();
+                session.invalidate();
+                strResponse = "isBanned";
+            }else{
+                strResponse = "notBanned";
+            }
         }
     } else {
         strResponse = "user action not defined";

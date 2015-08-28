@@ -191,3 +191,20 @@ function disconnectGoogleAccount(username, gooleUrl, appName) {
         }
     });
 }
+function killBannedUser(username) {
+    $.ajax({
+        url: "user-actions.jsp",
+        dataType: 'JSON',
+        type: 'POST',
+        data: {userAction: "killBannedUser", username: username},
+        success: function (response) {
+            if (response.data == "isBanned") {
+                alert("Your account has been banned. Sorry you cannot access the application again. Please check your Administrator.");
+                window.location = window.location.href;
+            }
+        },
+        error: function (xhr, status) {
+            alert("Sorry, there was a problem!");
+        }
+    });
+}

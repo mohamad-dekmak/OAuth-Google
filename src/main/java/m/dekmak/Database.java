@@ -519,4 +519,22 @@ public class Database {
         }
         return "success";
     }
+    
+    public String userIsBanned(String user_email) {
+        try {
+            Class.forName(jdbcDriverStr);
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select isBanned from tomcat_users where user_name = ?");
+            preparedStatement.setString(1, user_email);
+            ResultSet rs = preparedStatement.executeQuery();
+            String isBanned = "";
+            while (rs.next()) {
+                isBanned = rs.getString("isBanned");
+            }
+            return isBanned;
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }
