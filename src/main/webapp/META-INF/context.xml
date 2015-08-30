@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/SMB215-OAuth-Google">
-    <!-- works! -->
-    <Resource name="jdbc/foo4"
+    <Resource name="jdbc/smb215"
               type="javax.sql.DataSource"
               factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
               driverClassName="com.mysql.jdbc.Driver"
@@ -13,10 +12,9 @@
               maxWait="10000"
               auth="Container"
     />
-    <!-- Does not seem to work?! -->
     <Realm className="org.apache.catalina.realm.DataSourceRealm"
-           dataSourceName="jdbc/foo4"
-           userTable="users" 
+           dataSourceName="jdbc/smb215"
+           userTable="users"
            userNameCol="user_name" 
            userCredCol="password"
            userRoleTable="users_roles" 
