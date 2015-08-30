@@ -120,6 +120,7 @@
                                         } else {
                                         %>
                                         <p class="help-block text-red">You are trying to login with Google account not exits in our local database.</p>
+                                        <p class="help-block text-red">This is a Web based Application and not a Website. So, there is no Sign Up process for outsource users.</p>
                                         <p class="help-block text-red">Please contact the Administrator of <%= appName %> for more information.</p>
                                         <%
                                                 }

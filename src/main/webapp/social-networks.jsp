@@ -11,14 +11,17 @@
 <%    Database db = new Database();
     final GoogleAuth helper = new GoogleAuth();
     String googleRespone = "";
-    if (request.getParameter("googleRespone") != null) {
-        googleRespone = request.getParameter("googleRespone");
-        if(googleRespone.equals("success")){
-            googleRespone = "Updates saved successfully. <br /> <br /> Now you can login with your google account instead of your local username account.";
-        }else{
-            googleRespone = "Exception error when trying to update data in database. Please try again.";
+    if (session.getAttribute("isRedirectedFormLoginForm") == null) {
+        if (request.getParameter("googleRespone") != null && request.getParameter("googleRespone") != "") {
+            googleRespone = request.getParameter("googleRespone");
+            if (googleRespone.equals("success")) {
+                googleRespone = "Updates saved successfully. <br /> <br /> Now you can login with your google account instead of your local username account.";
+            } else if (googleRespone.equals("error")) {
+                googleRespone = "Exception error when trying to update data in database. Please try again.";
+            }
         }
     }
+
 %>
 
 <div class="container master-container">
@@ -88,7 +91,7 @@
                                     String googleUrl = helper.buildLoginUrl();
                                     if (btnStatus.equals("connected")) {
                                 %>
-                                <a href="javascript:;" onclick="disconnectGoogleAccount('<%= db_username%>', '<%= googleUrl%>', '<%= appName %>');" class="btn btn-default pull-right btn-google-connect">Disconnect</a>
+                                <a href="javascript:;" onclick="disconnectGoogleAccount('<%= db_username%>', '<%= googleUrl%>', '<%= appName%>');" class="btn btn-default pull-right btn-google-connect">Disconnect</a>
                                 <%
                                 } else {
                                 %>

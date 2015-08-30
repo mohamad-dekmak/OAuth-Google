@@ -25,7 +25,7 @@ import static org.json.JSONObject.NULL;
 public class Database {
 
     public static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
-    public static final String MYSQL_URL = "jdbc:mysql://localhost/tomcat_realm?user=root&password=123";
+    public static final String MYSQL_URL = "jdbc:mysql://localhost/SMB215?user=SMB215_user&password=b7yAm4JZKpK2NALX";
 
     enum UserTableColumns {
 
@@ -50,7 +50,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("update tomcat_users set tomcat_users.isGoogleAuth = ?, tomcat_users.email = ?, tomcat_users.userGoogleId = ? where tomcat_users.user_name = ?");
+            preparedStatement = connection.prepareStatement("update users set users.isGoogleAuth = ?, users.email = ?, users.userGoogleId = ? where users.user_name = ?");
             preparedStatement.setString(1, "yes");
             preparedStatement.setString(2, user_email);
             preparedStatement.setString(3, user_google_id);
@@ -67,7 +67,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select user_name, password from tomcat_users where isGoogleAuth = ? AND email = ? AND userGoogleId = ?");
+            preparedStatement = connection.prepareStatement("select user_name, password from users where isGoogleAuth = ? AND email = ? AND userGoogleId = ?");
             preparedStatement.setString(1, "yes");
             preparedStatement.setString(2, user_email);
             preparedStatement.setString(3, user_google_id);
@@ -90,7 +90,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select tomcat_users.user_name, GROUP_CONCAT(tomcat_users_roles.role_name SEPARATOR '; ') AS role_name, tomcat_users.email, tomcat_users.isGoogleAuth, \"*action*\" AS action, tomcat_users.isBanned from tomcat_users left join tomcat_users_roles on tomcat_users_roles.user_name = tomcat_users.user_name group by tomcat_users.user_name");
+            preparedStatement = connection.prepareStatement("select users.user_name, GROUP_CONCAT(users_roles.role_name SEPARATOR '; ') AS role_name, users.email, users.isGoogleAuth, \"*action*\" AS action, users.isBanned from users left join users_roles on users_roles.user_name = users.user_name group by users.user_name");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 List<String> row = new ArrayList<String>();
@@ -114,7 +114,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select user_name, password from tomcat_users where user_name = ?");
+            preparedStatement = connection.prepareStatement("select user_name, password from users where user_name = ?");
             preparedStatement.setString(1, profileName);
             ResultSet rs = preparedStatement.executeQuery();
             String userName = "";
@@ -133,7 +133,7 @@ public class Database {
                     // update user password in DB
                     hashPwd = md5.generate(newPassword);
                     statement = connection.createStatement();
-                    preparedStatement = connection.prepareStatement("update tomcat_users set tomcat_users.password = ? where tomcat_users.user_name = ?");
+                    preparedStatement = connection.prepareStatement("update users set users.password = ? where users.user_name = ?");
                     preparedStatement.setString(1, hashPwd);
                     preparedStatement.setString(2, profileName);
                     if (preparedStatement.executeUpdate() == 0) {
@@ -157,7 +157,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("update tomcat_users set tomcat_users.isBanned = ? where tomcat_users.user_name = ?");
+            preparedStatement = connection.prepareStatement("update users set users.isBanned = ? where users.user_name = ?");
             preparedStatement.setString(1, isBanned);
             preparedStatement.setString(2, user_name);
             if (preparedStatement.executeUpdate() == 0) {
@@ -179,7 +179,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("update tomcat_users set tomcat_users.password = ? where tomcat_users.user_name = ?");
+            preparedStatement = connection.prepareStatement("update users set users.password = ? where users.user_name = ?");
             preparedStatement.setString(1, hashPwd);
             preparedStatement.setString(2, user_name);
             if (preparedStatement.executeUpdate() == 0) {
@@ -204,7 +204,7 @@ public class Database {
 
             // check if username has changed and the new value is already taken and exists in db. else, update username in db  
             if (!oldUsername.equals(newUsername)) {
-                preparedStatement = connection.prepareStatement("select user_name from tomcat_users where user_name = ?");
+                preparedStatement = connection.prepareStatement("select user_name from users where user_name = ?");
                 preparedStatement.setString(1, newUsername);
                 ResultSet rs = preparedStatement.executeQuery();
                 String dbUserName = "";
@@ -221,7 +221,7 @@ public class Database {
             if (completeScript == 1) {
                 // remove old roles
                 statement = connection.createStatement();
-                preparedStatement = connection.prepareStatement("delete from tomcat_users_roles where tomcat_users_roles.user_name = ?");
+                preparedStatement = connection.prepareStatement("delete from users_roles where users_roles.user_name = ?");
                 preparedStatement.setString(1, oldUsername);
                 if (preparedStatement.executeUpdate() == 0) {
                     msg = "Failed to change roles (db problem)";
@@ -234,7 +234,7 @@ public class Database {
                     if (updateUsername == 1) {
                         // update username in DB
                         statement = connection.createStatement();
-                        preparedStatement = connection.prepareStatement("update tomcat_users set tomcat_users.user_name = ? where tomcat_users.user_name = ?");
+                        preparedStatement = connection.prepareStatement("update users set users.user_name = ? where users.user_name = ?");
                         preparedStatement.setString(1, newUsername);
                         preparedStatement.setString(2, oldUsername);
                         if (preparedStatement.executeUpdate() == 0) {
@@ -251,7 +251,7 @@ public class Database {
                         while (roles.hasNext()) {
                             String role = (String) roles.next();
                             statement = connection.createStatement();
-                            preparedStatement = connection.prepareStatement("INSERT INTO tomcat_users_roles"
+                            preparedStatement = connection.prepareStatement("INSERT INTO users_roles"
                                     + "(user_name, role_name) VALUES"
                                     + "(?,?)");
                             preparedStatement.setString(1, newUsername);
@@ -276,7 +276,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select user_name from tomcat_users where user_name = ?");
+            preparedStatement = connection.prepareStatement("select user_name from users where user_name = ?");
             preparedStatement.setString(1, user_name);
             ResultSet rs = preparedStatement.executeQuery();
             String dbUserName = "";
@@ -287,7 +287,7 @@ public class Database {
                 msg = "Username already taken. Please choose another";
                 completeScript = 0;
             } else {
-                preparedStatement = connection.prepareStatement("INSERT INTO tomcat_users"
+                preparedStatement = connection.prepareStatement("INSERT INTO users"
                         + "(user_name, password) VALUES"
                         + "(?,?)");
                 preparedStatement.setString(1, user_name);
@@ -301,7 +301,7 @@ public class Database {
                     while (roles.hasNext()) {
                         String role = (String) roles.next();
                         statement = connection.createStatement();
-                        preparedStatement = connection.prepareStatement("INSERT INTO tomcat_users_roles"
+                        preparedStatement = connection.prepareStatement("INSERT INTO users_roles"
                                 + "(user_name, role_name) VALUES"
                                 + "(?,?)");
                         preparedStatement.setString(1, user_name);
@@ -323,7 +323,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select tomcat_roles.role_name, \"*action*\" AS action from tomcat_roles");
+            preparedStatement = connection.prepareStatement("select roles.role_name, \"*action*\" AS action from roles");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 List<String> row = new ArrayList<String>();
@@ -344,7 +344,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select role_name from tomcat_roles where role_name = ?");
+            preparedStatement = connection.prepareStatement("select role_name from roles where role_name = ?");
             preparedStatement.setString(1, name);
             ResultSet rs = preparedStatement.executeQuery();
             String dbGroupName = "";
@@ -355,7 +355,7 @@ public class Database {
                 msg = "Group name already taken. Please choose another";
                 completeScript = 0;
             } else {
-                preparedStatement = connection.prepareStatement("INSERT INTO tomcat_roles"
+                preparedStatement = connection.prepareStatement("INSERT INTO roles"
                         + "(role_name) VALUES"
                         + "(?)");
                 preparedStatement.setString(1, name);
@@ -381,7 +381,7 @@ public class Database {
             statement = connection.createStatement();
             // check if name has changed and the new value is already taken and exists in db. else, update name in db  
             if (!oldName.equals(newName)) {
-                preparedStatement = connection.prepareStatement("select role_name from tomcat_roles where role_name = ?");
+                preparedStatement = connection.prepareStatement("select role_name from roles where role_name = ?");
                 preparedStatement.setString(1, newName);
                 ResultSet rs = preparedStatement.executeQuery();
                 String dbName = "";
@@ -421,7 +421,7 @@ public class Database {
                     // select related users to be stored, then remove the relation of old role
                     // and insert the new relations of users with the new role
                     statement = connection.createStatement();
-                    preparedStatement = connection.prepareStatement("select user_name from tomcat_users_roles where role_name = ?");
+                    preparedStatement = connection.prepareStatement("select user_name from users_roles where role_name = ?");
                     preparedStatement.setString(1, oldName);
                     ResultSet rs = preparedStatement.executeQuery();
                     String dbUserName = "";
@@ -433,7 +433,7 @@ public class Database {
                     if (dbUsers.isEmpty()) { // old group did not have relations with users
                         // update new name in roles table
                         statement = connection.createStatement();
-                        preparedStatement = connection.prepareStatement("update tomcat_roles set tomcat_roles.role_name = ? where tomcat_roles.role_name = ?");
+                        preparedStatement = connection.prepareStatement("update roles set roles.role_name = ? where roles.role_name = ?");
                         preparedStatement.setString(1, newName);
                         preparedStatement.setString(2, oldName);
                         if (preparedStatement.executeUpdate() == 0) {
@@ -443,14 +443,14 @@ public class Database {
                         }
                     } else { // old group has relations with users
                         statement = connection.createStatement();
-                        preparedStatement = connection.prepareStatement("delete from tomcat_users_roles where tomcat_users_roles.role_name = ?");
+                        preparedStatement = connection.prepareStatement("delete from users_roles where users_roles.role_name = ?");
                         preparedStatement.setString(1, oldName);
                         if (preparedStatement.executeUpdate() == 0) {
                             msg = "Failed to remove old relations (db problem)";
                         } else {
                             // update new name in roles table
                             statement = connection.createStatement();
-                            preparedStatement = connection.prepareStatement("update tomcat_roles set tomcat_roles.role_name = ? where tomcat_roles.role_name = ?");
+                            preparedStatement = connection.prepareStatement("update roles set roles.role_name = ? where roles.role_name = ?");
                             preparedStatement.setString(1, newName);
                             preparedStatement.setString(2, oldName);
                             if (preparedStatement.executeUpdate() == 0) {
@@ -458,7 +458,7 @@ public class Database {
                             } else {
                                 for (String user : dbUsers) {
                                     statement = connection.createStatement();
-                                    preparedStatement = connection.prepareStatement("INSERT INTO tomcat_users_roles"
+                                    preparedStatement = connection.prepareStatement("INSERT INTO users_roles"
                                             + "(user_name, role_name) VALUES"
                                             + "(?,?)");
                                     preparedStatement.setString(1, user);
@@ -486,7 +486,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select user_name, isGoogleAuth, email from tomcat_users where user_name = ?");
+            preparedStatement = connection.prepareStatement("select user_name, isGoogleAuth, email from users where user_name = ?");
             preparedStatement.setString(1, user_email);
             ResultSet rs = preparedStatement.executeQuery();
             String userName = "";
@@ -508,7 +508,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("update tomcat_users set tomcat_users.isGoogleAuth = ?, tomcat_users.email = ?, tomcat_users.userGoogleId = ? where tomcat_users.user_name = ?");
+            preparedStatement = connection.prepareStatement("update users set users.isGoogleAuth = ?, users.email = ?, users.userGoogleId = ? where users.user_name = ?");
             preparedStatement.setString(1, "no");
             preparedStatement.setString(2, "");
             preparedStatement.setString(3, "");
@@ -525,7 +525,7 @@ public class Database {
             Class.forName(jdbcDriverStr);
             connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select isBanned from tomcat_users where user_name = ?");
+            preparedStatement = connection.prepareStatement("select isBanned from users where user_name = ?");
             preparedStatement.setString(1, user_email);
             ResultSet rs = preparedStatement.executeQuery();
             String isBanned = "";

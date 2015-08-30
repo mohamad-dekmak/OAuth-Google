@@ -19,8 +19,8 @@
             <http-method>POST</http-method>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>user</role-name>
-            <role-name>admin</role-name>
+            <role-name>System Administrator</role-name>
+            <role-name>User</role-name>
         </auth-constraint>
         <user-data-constraint>
             <!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->

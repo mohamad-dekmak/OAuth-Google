@@ -8,7 +8,8 @@
 <%!
     String userInfo, userEmail, userId, googleRespone;
 %>
-<%    Database db = new Database();
+<% // check Google response
+    Database db = new Database();
     final GoogleAuth helper = new GoogleAuth();
     googleRespone = "";
     /*
@@ -42,9 +43,9 @@
         // Disallow banned users to access the application: send Ajax on every access to home page
         // this request protect the application after the form based Auth
         // and in case the logged use has banned during the session
-        killBannedUser('<%= request.getUserPrincipal().getName() %>');
+        killBannedUser('<%= request.getUserPrincipal().getName()%>');
         // to remove the conflict in the Google GET Params between the "login action in login form" and "authenticate action in home page" 
-        clearGoogleParamsFromURL('<%= googleRespone %>');
+        clearGoogleParamsFromURL('<%= googleRespone%>');
     });
 </script>
 
