@@ -9,6 +9,7 @@ package m.dekmak;
  *
  * @author mdekmak
  */
+import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -25,10 +26,12 @@ public class Email {
 
     }
 
-    public String send(String toEmail, String content) {
+    public String send(String toEmail, String content) throws ClassNotFoundException, SQLException {
         String response = "";
-        final String username = "mohamad.dekmak0912@gmail.com";
-        final String password = "is9wiwis";
+        Database db = new Database();
+        final String username = db.getSystemPreferencesValue("smtpUsername");
+        final String password = db.getSystemPreferencesValue("smtpPassword");
+        String smtpFromAddress = username;
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -46,7 +49,7 @@ public class Email {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("mohamad.dekmak0912@gmail.com"));
+            message.setFrom(new InternetAddress(smtpFromAddress));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(toEmail));
             ConfigProperties confProp = new ConfigProperties();

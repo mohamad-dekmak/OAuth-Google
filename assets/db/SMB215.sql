@@ -86,3 +86,21 @@ INSERT INTO `users_roles` (`user_name`, `role_name`) VALUES
 ALTER TABLE `users_roles`
   ADD CONSTRAINT `users_roles_foreign_key_1` FOREIGN KEY (`user_name`) REFERENCES `users` (`user_name`),
   ADD CONSTRAINT `users_roles_foreign_key_2` FOREIGN KEY (`role_name`) REFERENCES `roles` (`role_name`);
+
+
+--
+-- Table structure for table `system_preferences`
+--
+
+CREATE TABLE IF NOT EXISTS `system_preferences` (
+  `sysKey` text NOT NULL,
+  `sysValue` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `system_preferences`
+--
+
+INSERT INTO `system_preferences` (`sysKey`, `sysValue`) VALUES
+('smtpUsername', 'mohamad.dekmak0912@gmail.com'),
+('smtpPassword', 'e625339adbead56af24ef793abc735ee3071fbba7a6296ed5589db84e7cfb7dd');

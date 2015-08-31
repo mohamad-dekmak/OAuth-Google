@@ -50,14 +50,14 @@
             <div class="panel-heading">System Preferences</div>
             <div class="panel-body">
                 <div class="col-md-4 no-padding">
-                    <a href="#">
+                    <a href="system-preferences.jsp">
                         <img class="img-rounded" src="resources/images/system_preferences.png" width="128" height="128" />
                     </a>
                 </div>
                 <div class="col-md-8">
                     <div class="clearfix">&nbsp;</div>
                     <div class="clearfix">&nbsp;</div>
-                    <a href="#" class="btn btn-link pull-right admin-links">Default Values</a>
+                    <a href="system-preferences.jsp" class="btn btn-link pull-right admin-links">Default Values</a>
                 </div>
             </div>
         </div>

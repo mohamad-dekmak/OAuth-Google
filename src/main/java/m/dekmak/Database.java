@@ -630,4 +630,40 @@ public class Database {
         }
         return nb;
     }
+
+    public String updateSystemPreferencesKey(String sysKey, String sysValue) {
+        try {
+            if (sysKey.equals("smtpPassword")) {
+                Encryptor encr = new Encryptor();
+                sysValue = encr.encrypt(sysValue);
+            }
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("update system_preferences set sysValue = ? where sysKey = ?");
+            preparedStatement.setString(1, sysValue);
+            preparedStatement.setString(2, sysKey);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            return "Exception message" + e.getMessage();
+        }
+        return "success";
+    }
+
+    public String getSystemPreferencesValue(String sysKey) {
+        String resp = "";
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select sysValue from system_preferences where sysKey = ?");
+            preparedStatement.setString(1, sysKey);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                resp = rs.getString("sysValue");
+                if (sysKey.equals("smtpPassword")) {
+                    Encryptor encr = new Encryptor();
+                    resp = encr.decrypt(resp);
+                }
+            }
+        } catch (Exception e) {
+        }
+        return resp;
+    }
 }
