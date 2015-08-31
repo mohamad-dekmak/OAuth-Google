@@ -541,6 +541,22 @@ public class Database {
                 preparedStatement.setString(3, "unseen");
                 preparedStatement.setDate(4, getCurrentDate());
                 preparedStatement.executeUpdate();
+                if (sendByEmail.equals("yes")) {
+                    statement = connection.createStatement();
+                    preparedStatement = connection.prepareStatement("select email from users where user_name = ?");
+                    preparedStatement.setString(1, user);
+                    ResultSet rs = preparedStatement.executeQuery();
+                    while (rs.next()) {
+                        String userEmail = rs.getString("email");
+                        if (userEmail != null && !userEmail.isEmpty()) {
+                            Email email = new Email();
+                            msg = email.send(userEmail, message);
+                            if (msg.equals("Done")) {
+                                msg = "success";
+                            }
+                        }
+                    }
+                }
             }
 
         } catch (Exception e) {

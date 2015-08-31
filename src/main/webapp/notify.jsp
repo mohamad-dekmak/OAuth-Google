@@ -75,7 +75,13 @@
                 dataType: 'JSON',
                 type: 'POST',
                 data: {userAction: "notifyUser", message: message, users: usersObj, sendByEmail: sendByEmail},
+                beforeSend: function (xhr) {
+                    $("#errorMsg").addClass("hide");
+                    $("#successMsg").addClass("hide");
+                    $("#helpMsgContainer").append("<div class='notificationLoader'><img class='loading-image' src='resources/images/icons/loading.png' /></div>");
+                },
                 success: function (response) {
+                    $('.notificationLoader').addClass("hide");
                     if (response.data == "success") {
                         $("#errorMsg").addClass("hide");
                         $("#successMsg").removeClass("hide");
