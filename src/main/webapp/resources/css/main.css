@@ -39,3 +39,9 @@ body {
 .dropdown-menu > li > a.header-change-pwd{
     font-weight: bold;
 }
+.popover-title{
+    background-color: #C8E5F3;
+}
+.notificationRow, .notificationMessageCell{
+    padding: 0;
+}

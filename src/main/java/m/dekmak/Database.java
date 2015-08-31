@@ -6,14 +6,23 @@
 package m.dekmak;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import static java.time.Instant.now;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import javax.activation.DataSource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.json.JSONObject.NULL;
@@ -27,28 +36,31 @@ public class Database {
     public static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
     public static final String MYSQL_URL = "jdbc:mysql://localhost/SMB215?user=SMB215_user&password=b7yAm4JZKpK2NALX";
 
-    enum UserTableColumns {
-
-        USERNAME, USERCODE;
-    }
-
-    private final String jdbcDriverStr;
-    private final String jdbcURL;
-
     private Connection connection;
     private Statement statement;
     private ResultSet resultSet;
     private PreparedStatement preparedStatement;
 
-    public Database() {
-        this.jdbcDriverStr = MYSQL_DRIVER;
-        this.jdbcURL = MYSQL_URL;
+    public Database() throws ClassNotFoundException, SQLException {
+        Class.forName(MYSQL_DRIVER);
+        connection = DriverManager.getConnection(MYSQL_URL);
+    }
+
+    public Connection getConneciton() throws NamingException {
+        Connection conn = null;
+        String DATASOURCE_CONTEXT = "java:comp/env/jdbc/smb215";
+        Context initialContext = new InitialContext();
+        if (initialContext != null) {
+            DataSource datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+            if (datasource != null) {
+//                conn = datasource.getConnection();
+            }
+        }
+        return conn;
     }
 
     public String updateUserInfo(String user_name, String user_email, String user_google_id) {
         try {
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("update users set users.isGoogleAuth = ?, users.email = ?, users.userGoogleId = ? where users.user_name = ?");
             preparedStatement.setString(1, "yes");
@@ -64,8 +76,6 @@ public class Database {
 
     public String[] getUserCredentials(String user_email, String user_google_id) {
         try {
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("select user_name, password from users where isGoogleAuth = ? AND email = ? AND userGoogleId = ?");
             preparedStatement.setString(1, "yes");
@@ -87,8 +97,6 @@ public class Database {
     public List<String> getUsersList() {
         List<String> users = new ArrayList<String>();
         try {
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("select users.user_name, GROUP_CONCAT(users_roles.role_name SEPARATOR '; ') AS role_name, users.email, users.isGoogleAuth, \"*action*\" AS action, users.isBanned from users left join users_roles on users_roles.user_name = users.user_name group by users.user_name");
             ResultSet rs = preparedStatement.executeQuery();
@@ -111,8 +119,6 @@ public class Database {
     public String updateProfilePassword(String profileName, String oldPaswword, String newPassword) {
         String msg = "";
         try {
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("select user_name, password from users where user_name = ?");
             preparedStatement.setString(1, profileName);
@@ -154,8 +160,6 @@ public class Database {
     public String updateUserBannedStatus(String user_name, String isBanned) {
         String msg = "";
         try {
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("update users set users.isBanned = ? where users.user_name = ?");
             preparedStatement.setString(1, isBanned);
@@ -176,8 +180,6 @@ public class Database {
         try {
             MD5Digest md5 = new MD5Digest();
             String hashPwd = md5.generate(password);
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("update users set users.password = ? where users.user_name = ?");
             preparedStatement.setString(1, hashPwd);
@@ -198,8 +200,6 @@ public class Database {
         try {
             int completeScript = 1;
             int updateUsername = 0;
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
 
             // check if username has changed and the new value is already taken and exists in db. else, update username in db  
@@ -273,8 +273,6 @@ public class Database {
         try {
             MD5Digest md5 = new MD5Digest();
             String hashPwd = md5.generate(password);
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("select user_name from users where user_name = ?");
             preparedStatement.setString(1, user_name);
@@ -320,8 +318,6 @@ public class Database {
     public List<String> getUserGroupsList() {
         List<String> users = new ArrayList<String>();
         try {
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("select roles.role_name, \"*action*\" AS action from roles");
             ResultSet rs = preparedStatement.executeQuery();
@@ -341,8 +337,6 @@ public class Database {
         String msg = "";
         int completeScript = 1;
         try {
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("select role_name from roles where role_name = ?");
             preparedStatement.setString(1, name);
@@ -376,8 +370,6 @@ public class Database {
         String msg = "";
         try {
             int completeScript = 1;
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             // check if name has changed and the new value is already taken and exists in db. else, update name in db  
             if (!oldName.equals(newName)) {
@@ -483,8 +475,6 @@ public class Database {
 
     public String[] getUserDetails(String user_email) {
         try {
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("select user_name, isGoogleAuth, email from users where user_name = ?");
             preparedStatement.setString(1, user_email);
@@ -505,8 +495,6 @@ public class Database {
 
     public String disconnectGoogleAccount(String user_name) {
         try {
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("update users set users.isGoogleAuth = ?, users.email = ?, users.userGoogleId = ? where users.user_name = ?");
             preparedStatement.setString(1, "no");
@@ -519,11 +507,9 @@ public class Database {
         }
         return "success";
     }
-    
+
     public String userIsBanned(String user_email) {
         try {
-            Class.forName(jdbcDriverStr);
-            connection = DriverManager.getConnection(jdbcURL);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("select isBanned from users where user_name = ?");
             preparedStatement.setString(1, user_email);
@@ -536,5 +522,96 @@ public class Database {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public String notifyUser(String message, JSONObject users_list, String sendByEmail) {
+        String msg = "";
+        try {
+            msg = "success";
+            Iterator<?> users = users_list.keys();
+            while (users.hasNext()) {
+                String user = (String) users.next();
+                statement = connection.createStatement();
+                preparedStatement = connection.prepareStatement("INSERT INTO notifications"
+                        + "(message, user_name, status, sentDate) VALUES"
+                        + "(?,?,?,?)");
+                message = message.replaceAll(",", "&comma&");
+                preparedStatement.setString(1, message);
+                preparedStatement.setString(2, user);
+                preparedStatement.setString(3, "unseen");
+                preparedStatement.setDate(4, getCurrentDate());
+                preparedStatement.executeUpdate();
+            }
+
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
+
+    private static java.sql.Date getCurrentDate() {
+        java.util.Date today = new java.util.Date();
+        return new java.sql.Date(today.getTime());
+    }
+
+    public List<String> getNotificationsList(String user_name) {
+        List<String> notifications = new ArrayList<String>();
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select message, sentDate, status from notifications where user_name = ? order by sentDate desc");
+            preparedStatement.setString(1, user_name);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                List<String> row = new ArrayList<String>();
+                row.add(rs.getString("message"));
+                row.add(rs.getString("sentDate"));
+                row.add(rs.getString("status"));
+                notifications.add(row.toString());
+            }
+        } catch (Exception e) {
+            notifications.add("Exception message" + e.getMessage());
+        }
+        return notifications;
+    }
+
+    public List<String> getPendingNotifications(String user_name) {
+        List<String> notifications = new ArrayList<String>();
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select id, message, sentDate from notifications where user_name = ? and status = ? order by sentDate desc limit 5");
+            preparedStatement.setString(1, user_name);
+            preparedStatement.setString(2, "unseen");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                List<String> row = new ArrayList<String>();
+                row.add(rs.getString("message"));
+                row.add(rs.getString("sentDate"));
+                notifications.add(row.toString());
+                statement = connection.createStatement();
+                preparedStatement = connection.prepareStatement("update notifications set status = ? where id = ?");
+                preparedStatement.setString(1, "seen");
+                preparedStatement.setString(2, rs.getString("id"));
+                preparedStatement.executeUpdate();
+            }
+        } catch (Exception e) {
+            notifications.add("Exception message" + e.getMessage());
+        }
+        return notifications;
+    }
+
+    public String getCounterNotifications(String user_name) {
+        String nb = "";
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select count(*) from notifications where user_name = ? and status = ?");
+            preparedStatement.setString(1, user_name);
+            preparedStatement.setString(2, "unseen");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                nb = rs.getString(1);
+            }
+        } catch (Exception e) {
+        }
+        return nb;
     }
 }

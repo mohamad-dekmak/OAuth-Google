@@ -3,6 +3,7 @@
     Created on : Aug 23, 2015, 3:13:53 PM
     Author     : mdekmak
 --%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html; charset=UTF-8"%>
 <%@page import="org.json.JSONObject"%>
@@ -79,9 +80,26 @@
                 session = request.getSession();
                 session.invalidate();
                 strResponse = "isBanned";
-            }else{
+            } else {
                 strResponse = "notBanned";
             }
+        } else if (request.getParameter("userAction").equals("notifyUser")) {
+            String message = request.getParameter("message");
+            String sendByEmail = request.getParameter("sendByEmail");
+            JSONObject users = new JSONObject();
+            users = new JSONObject(request.getParameter("users"));
+            String responseMsg = db.notifyUser(message, users, sendByEmail);
+            strResponse = responseMsg;
+        } else if (request.getParameter("userAction").equals("getPendingNotifications")) {
+            String username = request.getParameter("username");
+            List<String> notifications = new ArrayList<String>();
+            notifications = db.getPendingNotifications(username);
+            for (String s : notifications) {
+                strResponse += s + "%row-separator%";
+            }
+        }else if (request.getParameter("userAction").equals("getCounterNotifications")) {
+            String username = request.getParameter("username");
+            strResponse = db.getCounterNotifications(username);
         }
     } else {
         strResponse = "user action not defined";

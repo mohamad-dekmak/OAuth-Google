@@ -204,7 +204,72 @@ function killBannedUser(username) {
             }
         },
         error: function (xhr, status) {
-            alert("Sorry, there was a problem!");
+        }
+    });
+}
+function getPendingNotifications(username, containerList) {
+    $.ajax({
+        url: "user-actions.jsp",
+        dataType: 'JSON',
+        type: 'POST',
+        data: {userAction: "getPendingNotifications", username: username},
+        beforeSend: function (xhr) {
+            containerList.html($('#notification-content-template').html());
+        },
+        success: function (response) {
+            if (response.data != "") {
+                var data = response.data;
+                var row = data.split('%row-separator%');
+                containerList.html('');
+                var counter = -1;
+                for (i in row) {
+                    counter = counter + 1;
+                    var line = row[i];
+                    line = line.substr(1);
+                    line = line.substr(0, line.length - 1);
+                    var col = line.split(',');
+                    var message = col[0];
+                    message = message.replace("&comma&", ",");
+                    message = message.substr(0, 13);
+                    if (message != "") {
+                        containerList.append('<div class="col-md-12 notificationRow"><div class="col-md-6 notificationMessageCell"><p>' + message + '</p></div><div class="col-md-3"><p>' + col[1] + '</p></div></div>');
+                    }
+                }
+                if(counter > 0){
+                    var oldCounter = $('#notificationCounterNb', '#notificationBtn').html();
+                    oldCounter = oldCounter * 1;
+                    var newCounter = oldCounter - counter;
+                    if(newCounter > 0){
+                        $('#notificationCounterNb', '#notificationBtn').html(newCounter);
+                    }else{
+                        $('#notificationSpan', '#notificationBtn').html('');
+                    }
+                }
+            } else {
+                containerList.html('<div class="col-md-12 notificationRow"><p>There is no pending notifications</p></div>');
+                $('#notificationSpan', '#notificationBtn').html('');
+            }
+            containerList.append('<a href="notify.jsp" class="btn btn-link">Notify</a><a href="show-my-notifications.jsp" class="btn btn-link pull-right">Show all</a>');
+        },
+        error: function (xhr, status) {
+        }
+    });
+}
+function getCounterNotifications(username) {
+    $.ajax({
+        url: "user-actions.jsp",
+        dataType: 'JSON',
+        type: 'POST',
+        data: {userAction: "getCounterNotifications", username: username},
+        beforeSend: function (xhr) {
+        },
+        success: function (response) {
+            var counter = response.data * 1;
+            if(counter > 0){
+                $('#notificationSpan', '#notificationBtn').html('&nbsp;<span class="text-red" id="notificationCounterNb">' + response.data + '</span>');
+            }
+        },
+        error: function (xhr, status) {
         }
     });
 }

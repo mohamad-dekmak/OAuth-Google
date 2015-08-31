@@ -29,6 +29,33 @@
         <script src="resources/js/general.js" type="text/javascript"></script>
     </head>
     <body>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // get counter nb of pending notifications
+                setTimeout(function(){
+                    getCounterNotifications('<%= request.getUserPrincipal().getName()%>'); 
+                }, 1000); // Display the counter nb after 1 second (1000 millisecond):
+                $('[data-toggle="popover"]').popover({
+                    placement: 'bottom'
+                }).click(function (e) {
+                    if ($('.popover').hasClass('in')) {
+                        // popover is visible
+                        getPendingNotifications('<%= request.getUserPrincipal().getName()%>', $('.popover-content'));
+                    }
+                });
+            });
+        </script>
+        <div class="hide" id="notification-content-template">
+            <div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <img class="loading-image" src="resources/images/icons/loading.png" />
+                </div>
+                <div class="col-md-4"></div>
+                <a href="notify.jsp" class="btn btn-link">Notify</a>
+                <a href="show-my-notifications.jsp" class="btn btn-link pull-right">Show all</a>
+            </div>
+        </div>
         <%
             String userProfileName = request.getUserPrincipal().getName();
         %>
@@ -134,6 +161,9 @@
                             </ul>
                         </li>
                     </ul>
+                    <button type="button" class="btn btn-default pull-right" style="margin-top: 10px;" data-toggle="popover" title="Notifications" data-content="" id="notificationBtn">
+                        <span class="glyphicon glyphicon-flag" aria-hidden="true" id="notificationSpan"></span>
+                    </button>
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
