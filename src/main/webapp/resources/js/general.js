@@ -235,13 +235,13 @@ function getPendingNotifications(username, containerList) {
                         containerList.append('<div class="col-md-12 notificationRow"><div class="col-md-6 notificationMessageCell"><p>' + message + '</p></div><div class="col-md-3"><p>' + col[1] + '</p></div></div>');
                     }
                 }
-                if(counter > 0){
+                if (counter > 0) {
                     var oldCounter = $('#notificationCounterNb', '#notificationBtn').html();
                     oldCounter = oldCounter * 1;
                     var newCounter = oldCounter - counter;
-                    if(newCounter > 0){
+                    if (newCounter > 0) {
                         $('#notificationCounterNb', '#notificationBtn').html(newCounter);
-                    }else{
+                    } else {
                         $('#notificationSpan', '#notificationBtn').html('');
                     }
                 }
@@ -265,7 +265,7 @@ function getCounterNotifications(username) {
         },
         success: function (response) {
             var counter = response.data * 1;
-            if(counter > 0){
+            if (counter > 0) {
                 $('#notificationSpan', '#notificationBtn').html('&nbsp;<span class="text-red" id="notificationCounterNb">' + response.data + '</span>');
             }
         },
@@ -273,3 +273,30 @@ function getCounterNotifications(username) {
         }
     });
 }
+function collapse(d, c) {
+    jQuery("#" + c).toggleClass("hide");
+    if (jQuery("#" + c).hasClass("hide")) {
+        old_class = "glyphicon glyphicon-chevron-down";
+        new_class = "glyphicon glyphicon-chevron-right"
+    } else {
+        old_class = "glyphicon glyphicon-chevron-right";
+        new_class = "glyphicon glyphicon-chevron-down";
+    }
+    jQuery("#" + d).find("i").removeClass(old_class).addClass(new_class);
+}
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};

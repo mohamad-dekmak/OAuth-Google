@@ -97,7 +97,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropContact">
                                 <li><a href="#">Contact</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">Add Contact</a></li>
+                                <li><a href="contact-add.jsp">Add Contact</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

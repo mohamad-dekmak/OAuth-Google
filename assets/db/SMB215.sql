@@ -104,3 +104,44 @@ CREATE TABLE IF NOT EXISTS `system_preferences` (
 INSERT INTO `system_preferences` (`sysKey`, `sysValue`) VALUES
 ('smtpUsername', 'mohamad.dekmak0912@gmail.com'),
 ('smtpPassword', 'e625339adbead56af24ef793abc735ee3071fbba7a6296ed5589db84e7cfb7dd');
+
+
+-
+-- Table structure for table `contacts`
+--
+
+DROP TABLE IF EXISTS `contacts`;
+CREATE TABLE IF NOT EXISTS `contacts` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `firstName` varchar(255) NOT NULL,
+  `lastName` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
+  `jobTitle` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `dateOfBirth` varchar(255) DEFAULT NULL,
+  `mobile` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `fax` varchar(255) DEFAULT NULL,
+  `address1` varchar(255) DEFAULT NULL,
+  `address2` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `zip` varchar(255) DEFAULT NULL,
+  `comments` text,
+  `createdBy` varchar(255) NOT NULL,
+  `createdOn` date NOT NULL,
+  `modifiedOn` date DEFAULT NULL,
+  `modifiedBy` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `createdBy` (`createdBy`),
+  KEY `modifiedBy` (`modifiedBy`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+--
+-- Constraints for table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD CONSTRAINT `contacts_ibfk_2` FOREIGN KEY (`modifiedBy`) REFERENCES `users` (`user_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `contacts_ibfk_1` FOREIGN KEY (`createdBy`) REFERENCES `users` (`user_name`) ON DELETE NO ACTION ON UPDATE NO ACTION;

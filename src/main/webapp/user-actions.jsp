@@ -100,6 +100,11 @@
         }else if (request.getParameter("userAction").equals("getCounterNotifications")) {
             String username = request.getParameter("username");
             strResponse = db.getCounterNotifications(username);
+        }else if (request.getParameter("userAction").equals("addContact")) {
+            String loggedUser = request.getParameter("loggedUser");
+            JSONObject postData = new JSONObject();
+            postData = new JSONObject(request.getParameter("data"));
+            strResponse = db.addContact(postData, loggedUser);
         }
     } else {
         strResponse = "user action not defined";

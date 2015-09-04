@@ -45,3 +45,9 @@ body {
 .notificationRow, .notificationMessageCell{
     padding: 0;
 }
+#contactForm .glyphicon-chevron-right, #contactForm .glyphicon-chevron-down{
+    padding-top: 10px;
+}
+#contactForm .glyphicon-chevron-right:hover, #contactForm .glyphicon-chevron-down:hover{
+    cursor: pointer;
+}

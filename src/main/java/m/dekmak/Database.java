@@ -666,4 +666,44 @@ public class Database {
         }
         return resp;
     }
+
+    public String addContact(JSONObject postData, String loggedUser) {
+        String msg = "";
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("INSERT INTO contacts"
+                    + "(firstName,lastName,title,gender,jobTitle,email,dateOfBirth,"
+                    + "mobile,phone,fax,address1,address2,city,state,country,zip,"
+                    + "comments,createdBy,createdOn) VALUES"
+                    + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            preparedStatement.setString(1, postData.getString("firstName"));
+            preparedStatement.setString(2, postData.getString("lastName"));
+            preparedStatement.setString(3, postData.getString("title"));
+            preparedStatement.setString(4, postData.getString("gender"));
+            preparedStatement.setString(5, postData.getString("jobTitle"));
+            preparedStatement.setString(6, postData.getString("email"));
+            preparedStatement.setString(7, postData.getString("dateOfBirth"));
+            preparedStatement.setString(8, postData.getString("mobile"));
+            preparedStatement.setString(9, postData.getString("phone"));
+            preparedStatement.setString(10, postData.getString("fax"));
+            preparedStatement.setString(11, postData.getString("address1"));
+            preparedStatement.setString(12, postData.getString("address2"));
+            preparedStatement.setString(13, postData.getString("city"));
+            preparedStatement.setString(14, postData.getString("state"));
+            preparedStatement.setString(15, postData.getString("country"));
+            preparedStatement.setString(16, postData.getString("zip"));
+            preparedStatement.setString(17, postData.getString("comments"));
+            preparedStatement.setString(18, loggedUser);
+            preparedStatement.setDate(19, getCurrentDate());
+            if (preparedStatement.executeUpdate() == 0) {
+                msg = "Failed to add contact (db problem)";
+            } else {
+                msg = "success";
+            }
+
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
 }
