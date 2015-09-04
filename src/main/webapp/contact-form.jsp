@@ -159,27 +159,6 @@
             </div>
         </div>
     </div>
-    <div onclick="collapse('comments_toggle', 'comments_div');" id="comments_toggle" class="col-md-12 f_head">
-        <div class="col-md-3">
-            <div class="col-md-2">
-                <i class="glyphicon glyphicon-chevron-right">&nbsp;</i>
-            </div>
-            <div class="col-md-6">
-                <h4>Comments</h4>
-            </div>
-        </div>
-    </div>
-    <div class="clearfix">&nbsp;</div>	
-    <div id="comments_div" class="col-md-12 comments-container no-padding hide">
-        <div class="col-md-9 col-xs-12">
-            <div class="form-group">
-                <label class="control-label no-padding-right col-lg-2 col-md-1 col-sm-2 col-xs-12">Comments</label>
-                <div class="col-md-9 col-sm-7 col-xs-12">
-                    <textarea rows="5" class="form-control" id="comments" name="comments"></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="col-md-12">
         <div class="col-md-1"></div>
         <div class="col-md-2">

@@ -105,6 +105,12 @@
             JSONObject postData = new JSONObject();
             postData = new JSONObject(request.getParameter("data"));
             strResponse = db.addContact(postData, loggedUser);
+        }else if (request.getParameter("userAction").equals("editContact")) {
+            String id = request.getParameter("id");
+            String loggedUser = request.getParameter("loggedUser");
+            JSONObject postData = new JSONObject();
+            postData = new JSONObject(request.getParameter("data"));
+            strResponse = db.editContact(id, postData, loggedUser);
         }
     } else {
         strResponse = "user action not defined";

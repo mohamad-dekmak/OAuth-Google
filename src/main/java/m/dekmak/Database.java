@@ -674,29 +674,102 @@ public class Database {
             preparedStatement = connection.prepareStatement("INSERT INTO contacts"
                     + "(firstName,lastName,title,gender,jobTitle,email,dateOfBirth,"
                     + "mobile,phone,fax,address1,address2,city,state,country,zip,"
-                    + "comments,createdBy,createdOn) VALUES"
+                    + "createdBy,createdOn) VALUES"
                     + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            preparedStatement.setString(1, postData.getString("firstName"));
-            preparedStatement.setString(2, postData.getString("lastName"));
-            preparedStatement.setString(3, postData.getString("title"));
-            preparedStatement.setString(4, postData.getString("gender"));
-            preparedStatement.setString(5, postData.getString("jobTitle"));
-            preparedStatement.setString(6, postData.getString("email"));
-            preparedStatement.setString(7, postData.getString("dateOfBirth"));
-            preparedStatement.setString(8, postData.getString("mobile"));
-            preparedStatement.setString(9, postData.getString("phone"));
-            preparedStatement.setString(10, postData.getString("fax"));
-            preparedStatement.setString(11, postData.getString("address1"));
-            preparedStatement.setString(12, postData.getString("address2"));
-            preparedStatement.setString(13, postData.getString("city"));
-            preparedStatement.setString(14, postData.getString("state"));
-            preparedStatement.setString(15, postData.getString("country"));
-            preparedStatement.setString(16, postData.getString("zip"));
-            preparedStatement.setString(17, postData.getString("comments"));
-            preparedStatement.setString(18, loggedUser);
-            preparedStatement.setDate(19, getCurrentDate());
+            preparedStatement.setString(1, postData.getString("firstName").replaceAll(",", "&comma&"));
+            preparedStatement.setString(2, postData.getString("lastName").replaceAll(",", "&comma&"));
+            preparedStatement.setString(3, postData.getString("title").replaceAll(",", "&comma&"));
+            preparedStatement.setString(4, postData.getString("gender").replaceAll(",", "&comma&"));
+            preparedStatement.setString(5, postData.getString("jobTitle").replaceAll(",", "&comma&"));
+            preparedStatement.setString(6, postData.getString("email").replaceAll(",", "&comma&"));
+            preparedStatement.setString(7, postData.getString("dateOfBirth").replaceAll(",", "&comma&"));
+            preparedStatement.setString(8, postData.getString("mobile").replaceAll(",", "&comma&"));
+            preparedStatement.setString(9, postData.getString("phone").replaceAll(",", "&comma&"));
+            preparedStatement.setString(10, postData.getString("fax").replaceAll(",", "&comma&"));
+            preparedStatement.setString(11, postData.getString("address1").replaceAll(",", "&comma&"));
+            preparedStatement.setString(12, postData.getString("address2").replaceAll(",", "&comma&"));
+            preparedStatement.setString(13, postData.getString("city").replaceAll(",", "&comma&"));
+            preparedStatement.setString(14, postData.getString("state").replaceAll(",", "&comma&"));
+            preparedStatement.setString(15, postData.getString("country").replaceAll(",", "&comma&"));
+            preparedStatement.setString(16, postData.getString("zip").replaceAll(",", "&comma&"));
+            preparedStatement.setString(17, loggedUser);
+            preparedStatement.setDate(18, getCurrentDate());
             if (preparedStatement.executeUpdate() == 0) {
                 msg = "Failed to add contact (db problem)";
+            } else {
+                msg = "success";
+            }
+
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
+    
+    public List<String> loadContact(String id) {
+        List<String> data = new ArrayList<String>();
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select contacts.* from contacts where id = ?");
+            preparedStatement.setString(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                List<String> row = new ArrayList<String>();
+                row.add(rs.getString("firstName"));
+                row.add(rs.getString("lastName"));
+                row.add(rs.getString("title"));
+                row.add(rs.getString("gender"));
+                row.add(rs.getString("jobTitle"));
+                row.add(rs.getString("email"));
+                row.add(rs.getString("dateOfBirth"));
+                row.add(rs.getString("mobile"));
+                row.add(rs.getString("phone"));
+                row.add(rs.getString("fax"));
+                row.add(rs.getString("address1"));
+                row.add(rs.getString("address2"));
+                row.add(rs.getString("city"));
+                row.add(rs.getString("state"));
+                row.add(rs.getString("country"));
+                row.add(rs.getString("zip"));
+                data.add(row.toString());
+            }
+        } catch (Exception e) {
+            data.add("Exception message" + e.getMessage());
+        }
+        return data;
+    }
+    
+    public String editContact(String id, JSONObject postData, String loggedUser) {
+        String msg = "";
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("update contacts set "
+                    + "firstName = ?, lastName = ?, title = ?, gender = ?, jobTitle = ?, "
+                    + "email = ?, dateOfBirth = ?, mobile = ?, phone = ?, fax = ?, "
+                    + "address1 = ?, address2 = ?, city = ?, state = ?, country = ?,"
+                    + "zip = ?, modifiedBy = ?, modifiedOn = ? "
+                    + "Where id = ?");
+            preparedStatement.setString(1, postData.getString("firstName").replaceAll(",", "&comma&"));
+            preparedStatement.setString(2, postData.getString("lastName").replaceAll(",", "&comma&"));
+            preparedStatement.setString(3, postData.getString("title").replaceAll(",", "&comma&"));
+            preparedStatement.setString(4, postData.getString("gender").replaceAll(",", "&comma&"));
+            preparedStatement.setString(5, postData.getString("jobTitle").replaceAll(",", "&comma&"));
+            preparedStatement.setString(6, postData.getString("email").replaceAll(",", "&comma&"));
+            preparedStatement.setString(7, postData.getString("dateOfBirth").replaceAll(",", "&comma&"));
+            preparedStatement.setString(8, postData.getString("mobile").replaceAll(",", "&comma&"));
+            preparedStatement.setString(9, postData.getString("phone").replaceAll(",", "&comma&"));
+            preparedStatement.setString(10, postData.getString("fax").replaceAll(",", "&comma&"));
+            preparedStatement.setString(11, postData.getString("address1").replaceAll(",", "&comma&"));
+            preparedStatement.setString(12, postData.getString("address2").replaceAll(",", "&comma&"));
+            preparedStatement.setString(13, postData.getString("city").replaceAll(",", "&comma&"));
+            preparedStatement.setString(14, postData.getString("state").replaceAll(",", "&comma&"));
+            preparedStatement.setString(15, postData.getString("country").replaceAll(",", "&comma&"));
+            preparedStatement.setString(16, postData.getString("zip").replaceAll(",", "&comma&"));
+            preparedStatement.setString(17, loggedUser);
+            preparedStatement.setDate(18, getCurrentDate());
+            preparedStatement.setString(19, id);
+            if (preparedStatement.executeUpdate() == 0) {
+                msg = "Failed to edit contact (db problem)";
             } else {
                 msg = "success";
             }

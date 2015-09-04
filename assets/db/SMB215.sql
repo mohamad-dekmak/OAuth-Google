@@ -129,7 +129,6 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   `state` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
   `zip` varchar(255) DEFAULT NULL,
-  `comments` text,
   `createdBy` varchar(255) NOT NULL,
   `createdOn` date NOT NULL,
   `modifiedOn` date DEFAULT NULL,
