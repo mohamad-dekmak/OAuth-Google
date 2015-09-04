@@ -165,7 +165,7 @@
             <input class="btn btn-info" onclick="contactBtn();" value="Save" type="button" />
         </div>
         <div class="col-md-1">
-            <a href="#" class="pull-right btn btn-link">Back to list</a>
+            <a href="contacts-list.jsp" class="pull-right btn btn-link">Back to list</a>
         </div>
     </div>
     <div class="clearfix">&nbsp;</div>

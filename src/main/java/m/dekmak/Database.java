@@ -779,4 +779,27 @@ public class Database {
         }
         return msg;
     }
+    
+    public List<String> getContactsList() {
+        List<String> contacts = new ArrayList<String>();
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select id, firstName, lastName, email, mobile, phone, \"*action*\" AS action from contacts");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                List<String> row = new ArrayList<String>();
+                row.add(rs.getString("id"));
+                row.add(rs.getString("firstName"));
+                row.add(rs.getString("lastName"));
+                row.add(rs.getString("email"));
+                row.add(rs.getString("mobile"));
+                row.add(rs.getString("phone"));
+                row.add(rs.getString("action"));
+                contacts.add(row.toString());
+            }
+        } catch (Exception e) {
+            contacts.add("Exception message" + e.getMessage());
+        }
+        return contacts;
+    }
 }
