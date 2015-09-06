@@ -77,18 +77,22 @@ public class Database {
     public String[] getUserCredentials(String user_email, String user_google_id) {
         try {
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select user_name, password from users where isGoogleAuth = ? AND email = ? AND userGoogleId = ?");
+            preparedStatement = connection.prepareStatement("select user_name, password, pass2 from users where isGoogleAuth = ? AND email = ? AND userGoogleId = ?");
             preparedStatement.setString(1, "yes");
             preparedStatement.setString(2, user_email);
             preparedStatement.setString(3, user_google_id);
             ResultSet rs = preparedStatement.executeQuery();
             String userName = "";
             String pass = "";
+            String pass2 = "";
             while (rs.next()) {
                 userName = rs.getString("user_name");
                 pass = rs.getString("password");
+                pass2 = rs.getString("pass2");
             }
-            return new String[]{userName, pass};
+            Encryptor encr = new Encryptor(pass);
+            String pass2Clear = encr.decrypt(pass2);
+            return new String[]{userName, pass2Clear};
         } catch (Exception e) {
             return new String[]{"Exception message" + e.getMessage()};
         }
@@ -138,10 +142,13 @@ public class Database {
                 if (pass.equals(hashPwd)) {
                     // update user password in DB
                     hashPwd = md5.generate(newPassword);
+                    Encryptor encr = new Encryptor(hashPwd);
+                    String pass2 = encr.encrypt(newPassword);
                     statement = connection.createStatement();
-                    preparedStatement = connection.prepareStatement("update users set users.password = ? where users.user_name = ?");
+                    preparedStatement = connection.prepareStatement("update users set users.password = ?, pass2 = ? where users.user_name = ?");
                     preparedStatement.setString(1, hashPwd);
-                    preparedStatement.setString(2, profileName);
+                    preparedStatement.setString(2, pass2);
+                    preparedStatement.setString(3, profileName);
                     if (preparedStatement.executeUpdate() == 0) {
                         msg = "Failed to change user password (db problem)";
                     } else {
@@ -180,10 +187,13 @@ public class Database {
         try {
             MD5Digest md5 = new MD5Digest();
             String hashPwd = md5.generate(password);
+            Encryptor encr = new Encryptor(hashPwd);
+            String pass2 = encr.encrypt(password);
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("update users set users.password = ? where users.user_name = ?");
+            preparedStatement = connection.prepareStatement("update users set users.password = ?, pass2 = ? where users.user_name = ?");
             preparedStatement.setString(1, hashPwd);
-            preparedStatement.setString(2, user_name);
+            preparedStatement.setString(2, pass2);
+            preparedStatement.setString(3, user_name);
             if (preparedStatement.executeUpdate() == 0) {
                 msg = "Failed to change user password (db problem)";
             } else {
@@ -273,6 +283,8 @@ public class Database {
         try {
             MD5Digest md5 = new MD5Digest();
             String hashPwd = md5.generate(password);
+            Encryptor encr = new Encryptor(hashPwd);
+            String pass2 = encr.encrypt(password);
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("select user_name from users where user_name = ?");
             preparedStatement.setString(1, user_name);
@@ -286,10 +298,11 @@ public class Database {
                 completeScript = 0;
             } else {
                 preparedStatement = connection.prepareStatement("INSERT INTO users"
-                        + "(user_name, password) VALUES"
-                        + "(?,?)");
+                        + "(user_name, password, pass2) VALUES"
+                        + "(?,?,?)");
                 preparedStatement.setString(1, user_name);
                 preparedStatement.setString(2, hashPwd);
+                preparedStatement.setString(3, pass2);
                 if (preparedStatement.executeUpdate() == 0) {
                     msg = "Failed to add user (db problem)";
                 } else {
@@ -705,7 +718,7 @@ public class Database {
         }
         return msg;
     }
-    
+
     public List<String> loadContact(String id) {
         List<String> data = new ArrayList<String>();
         try {
@@ -738,7 +751,7 @@ public class Database {
         }
         return data;
     }
-    
+
     public String editContact(String id, JSONObject postData, String loggedUser) {
         String msg = "";
         try {
@@ -779,7 +792,7 @@ public class Database {
         }
         return msg;
     }
-    
+
     public List<String> getContactsList() {
         List<String> contacts = new ArrayList<String>();
         try {
@@ -802,7 +815,7 @@ public class Database {
         }
         return contacts;
     }
-    
+
     public int getTotalBannedUsers() {
         int nb = 0;
         try {
@@ -817,7 +830,7 @@ public class Database {
         }
         return nb;
     }
-    
+
     public int getTotalUsers() {
         int nb = 0;
         try {
@@ -831,7 +844,7 @@ public class Database {
         }
         return nb;
     }
-    
+
     public List<String> getUsersListPerGroups() {
         List<String> groups = new ArrayList<String>();
         try {

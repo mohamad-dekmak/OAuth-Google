@@ -4,7 +4,6 @@
     Author     : mdekmak
 --%>
 
-<%@page import="m.dekmak.MD5Digest"%>
 <%@include file="header.jsp" %>
 
 <div class="container master-container">

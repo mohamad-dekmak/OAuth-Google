@@ -13,6 +13,7 @@
               auth="Container"
     />
     <Realm className="org.apache.catalina.realm.DataSourceRealm"
+           digest="MD5"
            dataSourceName="jdbc/smb215"
            userTable="users"
            userNameCol="user_name" 
