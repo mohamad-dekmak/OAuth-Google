@@ -62,6 +62,23 @@
             </div>
         </div>
     </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Audit Reports</div>
+            <div class="panel-body">
+                <div class="col-md-4 no-padding">
+                    <a href="#">
+                        <img class="img-rounded" src="resources/images/lists.png" width="128" height="128" />
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <div class="clearfix">&nbsp;</div>
+                    <div class="clearfix">&nbsp;</div>
+                    <a href="#" class="btn btn-link pull-right admin-links">Login Report</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <%@include file="footer.jsp" %>

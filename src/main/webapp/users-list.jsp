@@ -53,8 +53,8 @@
                                 text = text.substring(0, text.length() - 1);
                             }
                             if (j == 5) { // "*action*"
-%>
-                    <td style="width: 400px;">
+                    %>
+                    <td style="width: 550px;">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" data-whatever="@mdo" title="Edit User" onclick="editUserDialog('<%= userName%>', '<%= userRoles%>');">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </button>
@@ -79,6 +79,9 @@
                         <%
                             }
                         %>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-whatever="@mdo" title="Flag user to change password at next login">
+                            <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
+                        </button>
                     </td>
                     <%
                     } else {
