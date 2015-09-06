@@ -27,6 +27,8 @@
         <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="resources/js/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="resources/js/general.js" type="text/javascript"></script>
+        <script src="resources/js/highcharts.js" type="text/javascript"></script>
+        <script src="resources/js/exporting.js" type="text/javascript"></script>
     </head>
     <body>
         <script type="text/javascript">
@@ -85,7 +87,7 @@
                 <div class="collapse navbar-collapse bs-example-js-navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a id="dropDashboard" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <a id="dropDashboard" href="dashboard.jsp" role="button">
                                 Dashboard
                             </a>
                         </li>

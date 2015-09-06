@@ -802,4 +802,50 @@ public class Database {
         }
         return contacts;
     }
+    
+    public int getTotalBannedUsers() {
+        int nb = 0;
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select count(*) from users where isBanned = ?");
+            preparedStatement.setString(1, "yes");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                nb = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return nb;
+    }
+    
+    public int getTotalUsers() {
+        int nb = 0;
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select count(*) from users");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                nb = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return nb;
+    }
+    
+    public List<String> getUsersListPerGroups() {
+        List<String> groups = new ArrayList<String>();
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select users_roles.role_name as role, count(users.user_name) as countUsers from users left join users_roles on users_roles.user_name = users.user_name group by users_roles.role_name");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                List<String> row = new ArrayList<String>();
+                row.add(rs.getString("role"));
+                row.add(rs.getString("countUsers"));
+                groups.add(row.toString());
+            }
+        } catch (Exception e) {
+        }
+        return groups;
+    }
 }
