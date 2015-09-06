@@ -3,14 +3,6 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
-    <servlet>
-        <servlet-name>TestServlet1</servlet-name>
-        <servlet-class>test.TestServlet1</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TestServlet1</servlet-name>
-        <url-pattern>/test</url-pattern>
-    </servlet-mapping>
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
