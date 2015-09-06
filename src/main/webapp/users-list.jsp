@@ -79,7 +79,7 @@
                         <%
                             }
                         %>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-whatever="@mdo" title="Flag user to change password at next login">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-whatever="@mdo" title="Flag user to change password at next login" onclick="flagChangePass('<%= userName%>');">
                             <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
                         </button>
                     </td>

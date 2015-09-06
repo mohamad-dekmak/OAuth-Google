@@ -145,10 +145,11 @@ public class Database {
                     Encryptor encr = new Encryptor(hashPwd);
                     String pass2 = encr.encrypt(newPassword);
                     statement = connection.createStatement();
-                    preparedStatement = connection.prepareStatement("update users set users.password = ?, pass2 = ? where users.user_name = ?");
+                    preparedStatement = connection.prepareStatement("update users set users.password = ?, pass2 = ?, flagChangePass = ? where users.user_name = ?");
                     preparedStatement.setString(1, hashPwd);
                     preparedStatement.setString(2, pass2);
-                    preparedStatement.setString(3, profileName);
+                    preparedStatement.setString(3, "no");
+                    preparedStatement.setString(4, profileName);
                     if (preparedStatement.executeUpdate() == 0) {
                         msg = "Failed to change user password (db problem)";
                     } else {
@@ -860,5 +861,39 @@ public class Database {
         } catch (Exception e) {
         }
         return groups;
+    }
+    
+     public String flagChangeUserPass(String user_name) {
+        String msg = "";
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("update users set users.flagChangePass = ? where users.user_name = ?");
+            preparedStatement.setString(1, "yes");
+            preparedStatement.setString(2, user_name);
+            if (preparedStatement.executeUpdate() == 0) {
+                msg = "Failed to flag user (db problem)";
+            } else {
+                msg = "success";
+            }
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
+     
+     public String checkUserFlagChangePwd(String user_name) {
+        String flag = "";
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select flagChangePass from users where user_name = ?");
+            preparedStatement.setString(1, user_name);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                flag = rs.getString("flagChangePass");
+            }
+        } catch (Exception e) {
+            flag = e.getMessage();
+        }
+        return flag;
     }
 }

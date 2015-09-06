@@ -111,6 +111,12 @@
             JSONObject postData = new JSONObject();
             postData = new JSONObject(request.getParameter("data"));
             strResponse = db.editContact(id, postData, loggedUser);
+        }else if (request.getParameter("userAction").equals("flagChangeUserPass")) {
+            String username = request.getParameter("username");
+            strResponse = db.flagChangeUserPass(username);
+        }else if (request.getParameter("userAction").equals("checkUserFlagChangePwd")) {
+            String username = request.getParameter("username");
+            strResponse = db.checkUserFlagChangePwd(username);
         }
     } else {
         strResponse = "user action not defined";

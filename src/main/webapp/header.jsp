@@ -34,8 +34,8 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 // get counter nb of pending notifications
-                setTimeout(function(){
-                    getCounterNotifications('<%= request.getUserPrincipal().getName()%>'); 
+                setTimeout(function () {
+                    getCounterNotifications('<%= request.getUserPrincipal().getName()%>');
                 }, 1000); // Display the counter nb after 1 second (1000 millisecond):
                 $('[data-toggle="popover"]').popover({
                     placement: 'bottom'
@@ -45,6 +45,8 @@
                         getPendingNotifications('<%= request.getUserPrincipal().getName()%>', $('.popover-content'));
                     }
                 });
+                // check user if flagged to change his password after login
+                checkUserFlagChangePwd('<%= request.getUserPrincipal().getName()%>');
             });
         </script>
         <div class="hide" id="notification-content-template">
@@ -103,6 +105,11 @@
                             </ul>
                         </li>
                         <li class="dropdown">
+                            <a id="dropCal" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Calendar
+                            </a>
+                        </li>
+                        <li class="dropdown">
                             <a id="dropTask" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                 Task
                                 <span class="caret"></span>
@@ -112,11 +119,6 @@
                                 <li class="divider"></li>
                                 <li><a href="#">All Tasks</a></li>
                             </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a id="dropCal" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                Calendar
-                            </a>
                         </li>
                         <li class="dropdown">
                             <a id="dropStock" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">

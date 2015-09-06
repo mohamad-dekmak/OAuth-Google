@@ -284,11 +284,11 @@ function collapse(d, c) {
     }
     jQuery("#" + d).find("i").removeClass(old_class).addClass(new_class);
 }
-$.fn.serializeObject = function()
+$.fn.serializeObject = function ()
 {
     var o = {};
     var a = this.serializeArray();
-    $.each(a, function() {
+    $.each(a, function () {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];
@@ -300,3 +300,40 @@ $.fn.serializeObject = function()
     });
     return o;
 };
+function flagChangePass(username) {
+    if (confirm("The user \"" + username + "\" will be enforced to change his password on his next login?")) {
+        $.ajax({
+            url: "user-actions.jsp",
+            dataType: 'JSON',
+            type: 'POST',
+            data: {userAction: "flagChangeUserPass", username: username},
+            success: function (response) {
+                location.reload();
+            },
+            error: function (xhr, status) {
+                alert("Sorry, there was a problem!");
+            }
+        });
+    }
+
+}
+function checkUserFlagChangePwd(username) {
+    $.ajax({
+        url: "user-actions.jsp",
+        dataType: 'JSON',
+        type: 'POST',
+        data: {userAction: "checkUserFlagChangePwd", username: username},
+        success: function (response) {
+            if (response.data == "yes") {
+                var currentURL = window.location.href;
+                if (currentURL.substring(currentURL.lastIndexOf("/") + 1) != "user-profile-change-pwd.jsp") {
+                    alert("Your account has been flagged to change your password. Sorry you cannot access the application again. Please check your Administrator, or change your password.");
+                    var indexOfProjectName = nth_occurrence(currentURL, '/', 4);
+                    window.location = currentURL.substring(0, indexOfProjectName + 1) + "user-profile-change-pwd.jsp";
+                }
+            }
+        },
+        error: function (xhr, status) {
+        }
+    });
+}
