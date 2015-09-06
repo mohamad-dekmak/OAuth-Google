@@ -55,14 +55,14 @@
             <div class="panel-heading">Dashboard</div>
             <div class="panel-body">
                 <div class="col-md-4 no-padding">
-                    <a href="#">
+                    <a href="dashboard.jsp">
                         <img class="img-rounded" src="resources/images/dashboard.png" width="115" height="115" />
                     </a>
                 </div>
                 <div class="col-md-8">
                     <div class="clearfix">&nbsp;</div>
                     <p class="text">Visualize your main data for a better monitoring and fast access to the information.</p>
-                    <a href="#" class="btn btn-link no-padding">360° Dashboard</a>
+                    <a href="dashboard.jsp" class="btn btn-link no-padding">360° Dashboard</a>
                 </div>
             </div>
         </div>
@@ -72,15 +72,15 @@
             <div class="panel-heading">Contact</div>
             <div class="panel-body">
                 <div class="col-md-4 no-padding">
-                    <a href="#">
+                    <a href="contacts-list.jsp">
                         <img class="img-rounded" src="resources/images/contact.png" width="115" height="115" />
                     </a>
                 </div>
                 <div class="col-md-8">
                     <div class="clearfix">&nbsp;</div>
                     <p class="text">Manage your contacts and related information.</p>
-                    <a href="#" class="btn btn-link no-padding">Add</a>&nbsp;&nbsp; - &nbsp;&nbsp;
-                    <a href="#" class="btn btn-link no-padding">Search</a>
+                    <a href="contact-add.jsp" class="btn btn-link no-padding">Add</a>&nbsp;&nbsp; - &nbsp;&nbsp;
+                    <a href="contacts-list.jsp" class="btn btn-link no-padding">Search</a>
                 </div>
             </div>
         </div>
