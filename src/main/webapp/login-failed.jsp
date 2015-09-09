@@ -17,11 +17,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><%= appName %></title>
-        <link type="text/css" rel="stylesheet" href="resources/css/bootstrap.min.css">
-        <link type="text/css" rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
+        <link type="text/css" rel="stylesheet" href="resources/bootstrap/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="resources/bootstrap/bootstrap-theme.min.css">
         <link type="text/css" rel="stylesheet" href="resources/css/main.css">
-        <script src="resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
-        <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="resources/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
+        <script src="resources/bootstrap/bootstrap.min.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="container master-container">

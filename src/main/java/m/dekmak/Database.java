@@ -896,4 +896,28 @@ public class Database {
         }
         return flag;
     }
+     
+     public String addEvent(String title, String start, String end, String location, String createdBy) {
+        String msg = "";
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("INSERT INTO calendar"
+                    + "(title, start, end, location, createdBy) VALUES"
+                    + "(?,?,?,?,?)");
+            preparedStatement.setString(1, title.replaceAll(",", "&comma&"));
+            preparedStatement.setString(2, start);
+            preparedStatement.setString(3, end);
+            preparedStatement.setString(4, location.replaceAll(",", "&comma&"));
+            preparedStatement.setString(5, createdBy);
+            if (preparedStatement.executeUpdate() == 0) {
+                msg = "Failed to add event (db problem)";
+            } else {
+                msg = "success";
+            }
+
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
 }

@@ -117,14 +117,14 @@
         }else if (request.getParameter("userAction").equals("checkUserFlagChangePwd")) {
             String username = request.getParameter("username");
             strResponse = db.checkUserFlagChangePwd(username);
+        }else if (request.getParameter("userAction").equals("addEvent")) {
+            String title = request.getParameter("title");
+            String start = request.getParameter("start");
+            String end = request.getParameter("end");
+            String location = request.getParameter("location");
+            String createdBy = request.getParameter("createdBy");
+            strResponse = db.addEvent(title, start, end, location, createdBy);
         }
-//        else if (request.getParameter("userAction").equals("addEvent")) {
-//            String title = request.getParameter("title");
-//            String start = request.getParameter("start");
-//            String end = request.getParameter("end");
-//            String createdBy = request.getParameter("createdBy");
-//            strResponse = db.addEvent(title, start, end, createdBy);
-//        }
     } else {
         strResponse = "user action not defined";
     }

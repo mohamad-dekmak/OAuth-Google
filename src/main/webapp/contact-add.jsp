@@ -35,7 +35,7 @@
         } else {
             // submit contact form
             $("#errorMsg").addClass("hide");
-            var loggedUser = '<%= request.getUserPrincipal().getName()%>'
+            var loggedUser = '<%= request.getUserPrincipal().getName()%>';
             var formData = JSON.stringify($("#contactForm").serializeObject());
             $.ajax({
                 url: "user-actions.jsp",

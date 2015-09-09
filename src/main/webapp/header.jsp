@@ -19,22 +19,25 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><%= appName%></title>
-        <link type="text/css" rel="stylesheet" href="resources/css/bootstrap.min.css">
-        <link type="text/css" rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
-        <link type="text/css" rel="stylesheet" href="resources/css/bootstrap-select.min.css">
+        <link type="text/css" rel="stylesheet" href="resources/bootstrap/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="resources/bootstrap/bootstrap-theme.min.css">
+        <link type="text/css" rel="stylesheet" href="resources/bootstrap/bootstrap-select.min.css">
         <link type="text/css" rel="stylesheet" href="resources/css/main.css">
-        <link type="text/css" rel="stylesheet" href="resources/fullcalendar/jquery-ui.min.css" media="all" />
+        <link type="text/css" rel="stylesheet" href="resources/jquery/jquery-ui.min.css" media="all" />
         <link type="text/css" rel="stylesheet" href="resources/fullcalendar/fullcalendar.css" />
+        <link type="text/css" rel="stylesheet" href="resources/jquery/jquery.datetimepicker.css" />
         
-        <script src="resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
-        <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="resources/js/bootstrap-select.min.js" type="text/javascript"></script>
+        <script src="resources/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
+        <script src="resources/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+        <script src="resources/bootstrap/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="resources/js/general.js" type="text/javascript"></script>
         <script src="resources/js/highcharts.js" type="text/javascript"></script>
         <script src="resources/js/exporting.js" type="text/javascript"></script>
-        <script type="text/javascript" src="resources/fullcalendar/jquery-ui.custom.min.js"></script>
+        <script type="text/javascript" src="resources/jquery/jquery-ui.custom.min.js"></script>
         <script type="text/javascript" src="resources/fullcalendar/moment.min.js"></script>
         <script type="text/javascript" src="resources/fullcalendar/fullcalendar.js"></script>
+        <script type="text/javascript" src="resources/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="resources/jquery/jquery.datetimepicker.js"></script>
     </head>
     <body>
         <script type="text/javascript">
