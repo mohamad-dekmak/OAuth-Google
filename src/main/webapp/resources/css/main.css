@@ -51,3 +51,9 @@ body {
 #contactForm .glyphicon-chevron-right:hover, #contactForm .glyphicon-chevron-down:hover{
     cursor: pointer;
 }
+#calendar {
+    background-color: #fff;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}

@@ -23,12 +23,18 @@
         <link type="text/css" rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
         <link type="text/css" rel="stylesheet" href="resources/css/bootstrap-select.min.css">
         <link type="text/css" rel="stylesheet" href="resources/css/main.css">
+        <link type="text/css" rel="stylesheet" href="resources/fullcalendar/jquery-ui.min.css" media="all" />
+        <link type="text/css" rel="stylesheet" href="resources/fullcalendar/fullcalendar.css" />
+        
         <script src="resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
         <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="resources/js/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="resources/js/general.js" type="text/javascript"></script>
         <script src="resources/js/highcharts.js" type="text/javascript"></script>
         <script src="resources/js/exporting.js" type="text/javascript"></script>
+        <script type="text/javascript" src="resources/fullcalendar/jquery-ui.custom.min.js"></script>
+        <script type="text/javascript" src="resources/fullcalendar/moment.min.js"></script>
+        <script type="text/javascript" src="resources/fullcalendar/fullcalendar.js"></script>
     </head>
     <body>
         <script type="text/javascript">
@@ -105,7 +111,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a id="dropCal" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <a id="dropCal" href="calendar.jsp" role="button">
                                 Calendar
                             </a>
                         </li>
