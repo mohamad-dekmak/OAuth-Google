@@ -6,6 +6,49 @@
 
 <%@include file="header.jsp" %>
 
+<div class="col-md-12">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">Calendars:</label>
+            <select class="selectpicker" multiple id="usersList">
+                <%        List<String> usersList = new ArrayList<String>();
+                    Database dbClassIns = new Database();
+                    usersList = dbClassIns.getUsersList();
+                    for (int i = 0; i < usersList.size(); i++) {
+                        String cell = (String) usersList.get(i);
+                        String[] params = cell.split(",");
+                %>
+
+                <%
+                    for (int j = 0; j < params.length; j++) {
+                        String name = params[0].substring(1);
+                        String text = params[j];
+                        if (text.startsWith("[")) {
+                            text = text.substring(1);
+                        }
+                        if (text.endsWith("]")) {
+                            text = text.substring(0, text.length() - 1);
+                        }
+                        if (j == 0) {
+                %>
+                <option><%= text%></option>
+                <%
+                        }
+                    }
+                %>
+                <%
+                    }%>
+
+            </select>
+            <p class="text-red">This feature is not supported in the current version</p>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+                    
+<div class="clearfix">&nbsp;</div>
+
 <div id="calendar"></div>
 
 <div id="eventModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="eventModal">
@@ -37,6 +80,7 @@
                     <div class="form-group">
                         <label class="control-label">Invities:</label>
                         <%@include file="users-dropdown.jsp" %>
+                        <p class="text-red">This feature is not supported in the current version</p>
                     </div>
                     <div id="helpMsgContainer">
                         <p class="help-block text-red" id="errorMsg"></p>
@@ -65,6 +109,7 @@
                     events.push(data[key]);
                 }
                 $('#calendar').fullCalendar({
+                    events: events,
                     header: {
                         left: 'prev,next today',
                         center: 'title',
@@ -90,7 +135,24 @@
                             $('.datepicker').datetimepicker({format: 'Y-m-d H:i'});
                         });
                     },
-                    events: events
+                    eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+                        var start = moment(event.start).format('YYYY-MM-DD HH:mm');
+                        var end = moment(event.end).format('YYYY-MM-DD HH:mm');
+                        $.ajax({
+                            url: "user-actions.jsp",
+                            dataType: 'JSON',
+                            type: 'POST',
+                            data: {userAction: "editEvent", id: event.id, start: start, end: end},
+                            success: function (response) {
+                            },
+                            error: function (xhr, status) {
+                                alert("Sorry, there was a problem!");
+                            }
+                        });
+                    },
+                    eventResize: function (event, delta, revertFunc) {
+                        revertFunc();
+                    }
                 });
             },
             error: function (xhr, status) {

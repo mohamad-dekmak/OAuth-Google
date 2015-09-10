@@ -942,4 +942,23 @@ public class Database {
 
         return jsO;
     }
+    
+    public String editEvent(String id, String start, String end) {
+        String msg = "";
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("update calendar set start = ?, end = ? where id = ?");
+            preparedStatement.setString(1, start);
+            preparedStatement.setString(2, end);
+            preparedStatement.setString(3, id);
+            if (preparedStatement.executeUpdate() == 0) {
+                msg = "Failed to edit event (db problem)";
+            } else {
+                msg = "success";
+            }
+        } catch (Exception e) {
+            msg = "Exception message: " + e.getMessage();
+        }
+        return msg;
+    }
 }

@@ -129,6 +129,11 @@
         }else if (request.getParameter("userAction").equals("readEvents")) {
             returnObj = db.readEvents();
             returnString = 0;
+        }else if (request.getParameter("userAction").equals("editEvent")) {
+            String id = request.getParameter("id");
+            String start = request.getParameter("start");
+            String end = request.getParameter("end");
+            strResponse = db.editEvent(id, start, end);
         }
     } else {
         strResponse = "user action not defined";
