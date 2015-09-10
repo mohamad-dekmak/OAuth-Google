@@ -1,7 +1,7 @@
 SMB215-OAuth-Google
 ========
 
-A demo and helper class for providing a java web application with the following features:
+<p>A demo and helper class for providing a java web application with the following features:</p>
 1. Login module with local database
 2. Manage Users & User Groups
 3. Social Networks (Login with Google): Google OAuth
