@@ -1,23 +1,11 @@
 SMB215-OAuth-Google
 ========
 
-A demo and helper class for providing Google OAuth2 v1 authentication in java.
-
-Assumptions
-
-- familiarity with OOP, java, maven, and jee
-- java application server listening on localhost:8080
-
-Prerequisites
-
-- Google API access credentials (Client ID, Client Secret). Set it up here https://code.google.com/apis/console/
-- Set up allowed Redirect URIs at Google API -> API Access. Input: https://localhost:8443/SMB215-OAuth-Google/index.jsp
-- a positive outlook on life
-
-Usage
-
-1. Add Client ID, and Client Secret parameters to GoogleAuthHelper.java
-2. Compile the project ($ mvn clean install)
-3. Deploy war to application server
-4. Browse to: https://localhost:8443/SMB215-OAuth-Google/
-5. Click "log in with google" on top of this page
+A demo and helper class for providing a java web application with the following features:
+1. Login module with local database
+2. Manage Users & User Groups
+3. Social Networks (Login with Google): Google OAuth
+4. Notification module: system notifications & notifications by email
+5. Contact module (add, edit and list): we can use it as customers, clients, providers or persons / contacts
+6. Dashboard page: widgets for reporting
+7. Calendar module (add, edit and list events)
