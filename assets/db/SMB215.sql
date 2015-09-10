@@ -166,3 +166,30 @@ CREATE TABLE IF NOT EXISTS `system_preferences` (
 ALTER TABLE `contacts`
   ADD CONSTRAINT `contacts_ibfk_1` FOREIGN KEY (`createdBy`) REFERENCES `users` (`user_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `contacts_ibfk_2` FOREIGN KEY (`modifiedBy`) REFERENCES `users` (`user_name`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+--
+-- Table structure for table `calendar`
+--
+
+DROP TABLE IF EXISTS `calendar`;
+CREATE TABLE IF NOT EXISTS `calendar` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `start` varchar(255) NOT NULL,
+  `end` varchar(255) DEFAULT NULL,
+  `createdBy` varchar(255) NOT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `createdBy` (`createdBy`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `calendar`
+--
+ALTER TABLE `calendar`
+  ADD CONSTRAINT `calendar_ibfk_1` FOREIGN KEY (`createdBy`) REFERENCES `users` (`user_name`) ON DELETE NO ACTION ON UPDATE NO ACTION;
