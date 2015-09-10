@@ -11,6 +11,8 @@
 <%
     Database db = new Database();
     String strResponse = "";
+    int returnString = 1;
+    JSONObject returnObj = new JSONObject();
     if (request.getParameter("userAction") != null) {
         if (request.getParameter("userAction").equals("banUser")) {
             String username = request.getParameter("username");
@@ -124,6 +126,9 @@
             String location = request.getParameter("location");
             String createdBy = request.getParameter("createdBy");
             strResponse = db.addEvent(title, start, end, location, createdBy);
+        }else if (request.getParameter("userAction").equals("readEvents")) {
+            returnObj = db.readEvents();
+            returnString = 0;
         }
     } else {
         strResponse = "user action not defined";
@@ -131,7 +136,11 @@
 %>
 <%
     JSONObject obj = new JSONObject();
-    obj.put("data", strResponse);
+    if(returnString == 1){
+     obj.put("data", strResponse);   
+    }else{
+        obj.put("data", returnObj);
+    }
     out.print(obj);
     out.flush();
 %>

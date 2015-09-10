@@ -862,8 +862,8 @@ public class Database {
         }
         return groups;
     }
-    
-     public String flagChangeUserPass(String user_name) {
+
+    public String flagChangeUserPass(String user_name) {
         String msg = "";
         try {
             statement = connection.createStatement();
@@ -880,8 +880,8 @@ public class Database {
         }
         return msg;
     }
-     
-     public String checkUserFlagChangePwd(String user_name) {
+
+    public String checkUserFlagChangePwd(String user_name) {
         String flag = "";
         try {
             statement = connection.createStatement();
@@ -896,8 +896,8 @@ public class Database {
         }
         return flag;
     }
-     
-     public String addEvent(String title, String start, String end, String location, String createdBy) {
+
+    public String addEvent(String title, String start, String end, String location, String createdBy) {
         String msg = "";
         try {
             statement = connection.createStatement();
@@ -919,5 +919,27 @@ public class Database {
             msg = "Exception message: " + e.getMessage();
         }
         return msg;
+    }
+
+    public JSONObject readEvents() {
+        JSONObject jsO = new JSONObject();
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select * from calendar where id >= ?");
+            preparedStatement.setInt(1, 1);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                JSONObject jsO2 = new JSONObject();
+                jsO2.put("id", rs.getString("id"));
+                jsO2.put("title", rs.getString("title"));
+                jsO2.put("start", rs.getString("start"));
+                jsO2.put("end", rs.getString("end"));
+                jsO2.put("location", rs.getString("location"));
+                jsO.put(rs.getString("id"), jsO2);
+            }
+        } catch (Exception e) {
+        }
+
+        return jsO;
     }
 }

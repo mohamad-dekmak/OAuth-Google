@@ -53,61 +53,49 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#calendar').fullCalendar({
-//            dateFormat: 'Y-M-D',
-//            timeFormat: 'H:mm',
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
-            },
-            editable: true,
-            selectable: true,
-            selectHelper: true,
-            select: function (start, end) {
-                $("#errorMsg").addClass("hide");
-                $("#title", "#eventModal").val('');
-                $("#location", "#eventModal").val('');
-                $("#start", "#eventModal").val(moment(start).format('YYYY-MM-DD HH:mm'));
-                $("#end", "#eventModal").val(moment(end).format('YYYY-MM-DD HH:mm'));
-                $('.selectpicker').selectpicker();
-                $("#eventModal").submit(function () {
-                    eventBtn();
-                });
-                $('#eventModal').modal();
-                $("#title", "#eventModal").focus();
-                $('#eventModal').on('shown.bs.modal', function () {
-                    $('#title').focus();
-                    $('.datepicker').datetimepicker({format:'Y-m-d H:i'});
-                });
-            },
-            events: [
-                {
-                    title: 'All Day Event',
-                    start: '2015-09-01'
-                },
-                {
-                    title: 'Long Event',
-                    start: '2015-09-07',
-                    end: '2015-09-10'
-                },
-                {
-                    id: 999,
-                    title: 'sadsaas aasd asd',
-                    start: '2015-09-09T09:00:00',
-                    end: '2015-09-09T13:00:00'
-                },
-                {
-                    id: 999,
-                    title: 'Repeating Event',
-                    start: '2015-09-16T16:00:00'
-                },
-                {
-                    title: 'Conference',
-                    start: '2015-09-11',
-                    end: '2015-09-13'
+        $.ajax({
+            url: "user-actions.jsp",
+            dataType: 'JSON',
+            type: 'POST',
+            data: {userAction: "readEvents"},
+            success: function (response) {
+                var data = response.data;
+                var events = [];
+                for (var key in data) {
+                    events.push(data[key]);
                 }
-            ]
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    editable: true,
+                    selectable: true,
+                    selectHelper: true,
+                    select: function (start, end) {
+                        $("#errorMsg").addClass("hide");
+                        $("#title", "#eventModal").val('');
+                        $("#location", "#eventModal").val('');
+                        $("#start", "#eventModal").val(moment(start).format('YYYY-MM-DD HH:mm'));
+                        $("#end", "#eventModal").val(moment(end).format('YYYY-MM-DD HH:mm'));
+                        $('.selectpicker').selectpicker();
+                        $("#eventModal").submit(function () {
+                            eventBtn();
+                        });
+                        $('#eventModal').modal();
+                        $("#title", "#eventModal").focus();
+                        $('#eventModal').on('shown.bs.modal', function () {
+                            $('#title').focus();
+                            $('.datepicker').datetimepicker({format: 'Y-m-d H:i'});
+                        });
+                    },
+                    events: events
+                });
+            },
+            error: function (xhr, status) {
+                alert("Sorry, there was a problem!");
+            }
         });
     });
     function eventBtn() {
@@ -140,7 +128,7 @@
                         var eventData;
                         eventData = {
                             title: title,
-                            start: moment(start).format('YYYY-MM-DDTHH:mm:ssZ'),//YYYY-MM-DDTHH:mm:ssZ
+                            start: moment(start).format('YYYY-MM-DDTHH:mm:ssZ'), //YYYY-MM-DDTHH:mm:ssZ
                             end: moment(end).format('YYYY-MM-DDTHH:mm:ssZ')
                         };
                         $('#calendar').fullCalendar('renderEvent', eventData, true);
