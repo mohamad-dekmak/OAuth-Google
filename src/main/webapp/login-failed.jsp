@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-danger">
                         <div class="panel-heading">User credentials are incorrect</div>
                         <div class="panel-body">
                             <a class="btn btn-default" href="javascript:;" onclick="window.history.back();">Retry again</a>
