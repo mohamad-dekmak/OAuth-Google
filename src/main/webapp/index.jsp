@@ -109,14 +109,14 @@
             <div class="panel-heading">Calendar</div>
             <div class="panel-body">
                 <div class="col-md-4 no-padding">
-                    <a href="#">
+                    <a href="calendar.jsp">
                         <img class="img-rounded" src="resources/images/calendar.png" width="115" height="115" />
                     </a>
                 </div>
                 <div class="col-md-8">
                     <div class="clearfix">&nbsp;</div>
                     <p class="text">Share your Calendar with your colleagues for a better Visibility & Collaboration. Schedule Events & more.</p>
-                    <a href="#" class="btn btn-link no-padding">Open Calendar</a>
+                    <a href="calendar.jsp" class="btn btn-link no-padding">Open Calendar</a>
                 </div>
             </div>
         </div>

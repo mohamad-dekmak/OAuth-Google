@@ -192,7 +192,13 @@
                 dataType: 'JSON',
                 type: 'POST',
                 data: {userAction: "addEvent", title: title, start: start, end: end, location: location, users: usersObj, createdBy: loggedUser},
+                beforeSend: function (xhr) {
+                    $("#errorMsg").addClass("hide");
+                    $("#successMsg").addClass("hide");
+                    $("#helpMsgContainer").append("<div class='notificationLoader'><img class='loading-image' src='resources/images/icons/loading.png' /></div>");
+                },
                 success: function (response) {
+                    $('.notificationLoader').addClass("hide");
                     var id = response.data;
                     if (id > 0) {
                         $("#errorMsg").addClass("hide");

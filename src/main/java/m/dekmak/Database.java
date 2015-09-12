@@ -924,7 +924,25 @@ public class Database {
                                 + "(?,?)");
                         preparedStatement.setInt(1, id);
                         preparedStatement.setString(2, user);
-                        preparedStatement.executeUpdate();
+                        if (preparedStatement.executeUpdate() != 0) {
+                            statement = connection.createStatement();
+                            preparedStatement = connection.prepareStatement("select email from users where user_name = ?");
+                            preparedStatement.setString(1, user);
+                            ResultSet rs = preparedStatement.executeQuery();
+                            while (rs.next()) {
+                                String userEmail = rs.getString("email");
+                                if (userEmail != null && !userEmail.isEmpty()) {
+                                    Email email = new Email();
+                                    String message = "Hi " + user + ",\n\n"
+                                            + "You have invited to the below event: \n\n"
+                                            + "Title: " + title.replaceAll("&comma&", ",") + "\n"
+                                            + "Start date: " + start + "\n"
+                                            + "End date: " + end + "\n"
+                                            + "Location: " + location;
+                                    String msg = email.send(userEmail, message);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -967,6 +985,27 @@ public class Database {
                 msg = "Failed to edit event (db problem)";
             } else {
                 msg = "success";
+                statement = connection.createStatement();
+                preparedStatement = connection.prepareStatement("select users.email, users.user_name, calendar.title, calendar.location from users left join calendar_users on calendar_users.user_name = users.user_name AND calendar_users.event_id = ? left join calendar on calendar.id = calendar_users.event_id");
+                preparedStatement.setString(1, id);
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    String userEmail = rs.getString("email");
+                    String user = rs.getString("user_name");
+                    String title = rs.getString("title");
+                    String location = rs.getString("location");
+                    if (userEmail != null && !userEmail.isEmpty()) {
+                        Email email = new Email();
+                        String message = "Hi " + user + ",\n\n"
+                                + "There are new changes on the below event: \n\n"
+                                + "Title: " + title.replaceAll("&comma&", ",") + "\n"
+                                + "Start date: " + start + "\n"
+                                + "End date: " + end + "\n"
+                                + "Location: " + location;
+                        String emailMsg = email.send(userEmail, message);
+                    }
+                }
+
             }
         } catch (Exception e) {
             msg = "Exception message: " + e.getMessage();
