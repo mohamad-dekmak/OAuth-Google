@@ -124,8 +124,10 @@
             String start = request.getParameter("start");
             String end = request.getParameter("end");
             String location = request.getParameter("location");
+            JSONObject users = new JSONObject();
+            users = new JSONObject(request.getParameter("users"));
             String createdBy = request.getParameter("createdBy");
-            strResponse = db.addEvent(title, start, end, location, createdBy) + "";
+            strResponse = db.addEvent(title, start, end, location, users, createdBy) + "";
         }else if (request.getParameter("userAction").equals("readEvents")) {
             returnObj = db.readEvents();
             returnString = 0;

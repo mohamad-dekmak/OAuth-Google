@@ -898,7 +898,7 @@ public class Database {
         return flag;
     }
 
-    public int addEvent(String title, String start, String end, String location, String createdBy) {
+    public int addEvent(String title, String start, String end, String location, JSONObject users, String createdBy) {
         int id = 0;
         try {
             statement = connection.createStatement();
@@ -915,6 +915,17 @@ public class Database {
                 ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     id = (int) generatedKeys.getLong(1);
+                    Iterator<?> invities = users.keys();
+                    while (invities.hasNext()) {
+                        String user = (String) invities.next();
+                        statement = connection.createStatement();
+                        preparedStatement = connection.prepareStatement("INSERT INTO calendar_users"
+                                + "(event_id, user_name) VALUES"
+                                + "(?,?)");
+                        preparedStatement.setInt(1, id);
+                        preparedStatement.setString(2, user);
+                        preparedStatement.executeUpdate();
+                    }
                 }
             }
         } catch (Exception e) {

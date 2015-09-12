@@ -77,10 +77,9 @@
                         <label class="control-label">Location:</label>
                         <input type="text" class="form-control" id="location">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="invitiesContainer">
                         <label class="control-label">Invities:</label>
                         <%@include file="users-dropdown.jsp" %>
-                        <p class="text-red">This feature is not supported in the current version</p>
                     </div>
                     <div id="helpMsgContainer">
                         <p class="help-block text-red" id="errorMsg"></p>
@@ -165,6 +164,7 @@
         var location = $("#location", "#eventModal").val();
         var start = $("#start", "#eventModal").val();
         var end = $("#end", "#eventModal").val();
+        var users = $("#users", "#invitiesContainer").val();
         var msg = "";
         if (!title) {
             msg = "Title is required.";
@@ -174,15 +174,24 @@
             msg = "Start is required.";
             document.getElementById("errorMsg").innerHTML = msg;
             $("#errorMsg").removeClass("hide");
+        } else if (!users) {
+            msg = "Invities users is required.";
+            document.getElementById("errorMsg").innerHTML = msg;
+            $("#errorMsg").removeClass("hide");
         } else {
             // submit event form
             $("#errorMsg").addClass("hide");
             var loggedUser = '<%= request.getUserPrincipal().getName()%>';
+            var usersObj = {};
+            for (i in users){
+                usersObj[users[i]] = users[i];
+            }
+            usersObj = JSON.stringify(usersObj);
             $.ajax({
                 url: "user-actions.jsp",
                 dataType: 'JSON',
                 type: 'POST',
-                data: {userAction: "addEvent", title: title, start: start, end: end, location: location, createdBy: loggedUser},
+                data: {userAction: "addEvent", title: title, start: start, end: end, location: location, users: usersObj, createdBy: loggedUser},
                 success: function (response) {
                     var id = response.data;
                     if (id > 0) {

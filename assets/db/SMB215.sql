@@ -193,3 +193,26 @@ CREATE TABLE IF NOT EXISTS `calendar` (
 --
 ALTER TABLE `calendar`
   ADD CONSTRAINT `calendar_ibfk_1` FOREIGN KEY (`createdBy`) REFERENCES `users` (`user_name`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Table structure for table `calendar_users`
+--
+
+DROP TABLE IF EXISTS `calendar_users`;
+CREATE TABLE IF NOT EXISTS `calendar_users` (
+  `event_id` int(10) NOT NULL,
+  `user_name` varchar(255) NOT NULL,
+  KEY `event_id` (`event_id`),
+  KEY `user_name` (`user_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `calendar_users`
+--
+ALTER TABLE `calendar_users`
+  ADD CONSTRAINT `calendar_users_ibfk_2` FOREIGN KEY (`user_name`) REFERENCES `users` (`user_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `calendar_users_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `calendar` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
