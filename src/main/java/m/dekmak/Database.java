@@ -564,6 +564,7 @@ public class Database {
                         String userEmail = rs.getString("email");
                         if (userEmail != null && !userEmail.isEmpty()) {
                             Email email = new Email();
+                            message = message.replaceAll("&comma&", ",");
                             msg = email.send(userEmail, message);
                             if (msg.equals("Done")) {
                                 msg = "success";
@@ -897,8 +898,8 @@ public class Database {
         return flag;
     }
 
-    public String addEvent(String title, String start, String end, String location, String createdBy) {
-        String msg = "";
+    public int addEvent(String title, String start, String end, String location, String createdBy) {
+        int id = 0;
         try {
             statement = connection.createStatement();
             preparedStatement = connection.prepareStatement("INSERT INTO calendar"
@@ -909,16 +910,16 @@ public class Database {
             preparedStatement.setString(3, end);
             preparedStatement.setString(4, location.replaceAll(",", "&comma&"));
             preparedStatement.setString(5, createdBy);
-            if (preparedStatement.executeUpdate() == 0) {
-                msg = "Failed to add event (db problem)";
-            } else {
-                msg = "success";
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows != 0) {
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    id = (int) generatedKeys.getLong(1);
+                }
             }
-
         } catch (Exception e) {
-            msg = "Exception message: " + e.getMessage();
         }
-        return msg;
+        return id;
     }
 
     public JSONObject readEvents() {
@@ -942,7 +943,7 @@ public class Database {
 
         return jsO;
     }
-    
+
     public String editEvent(String id, String start, String end) {
         String msg = "";
         try {

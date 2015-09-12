@@ -125,7 +125,7 @@
             String end = request.getParameter("end");
             String location = request.getParameter("location");
             String createdBy = request.getParameter("createdBy");
-            strResponse = db.addEvent(title, start, end, location, createdBy);
+            strResponse = db.addEvent(title, start, end, location, createdBy) + "";
         }else if (request.getParameter("userAction").equals("readEvents")) {
             returnObj = db.readEvents();
             returnString = 0;

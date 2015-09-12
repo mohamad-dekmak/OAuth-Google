@@ -184,11 +184,13 @@
                 type: 'POST',
                 data: {userAction: "addEvent", title: title, start: start, end: end, location: location, createdBy: loggedUser},
                 success: function (response) {
-                    if (response.data == "success") {
+                    var id = response.data;
+                    if (id > 0) {
                         $("#errorMsg").addClass("hide");
                         $(".modalEventCloseBtn").click();
                         var eventData;
                         eventData = {
+                            id: id,
                             title: title,
                             start: moment(start).format('YYYY-MM-DDTHH:mm:ssZ'), //YYYY-MM-DDTHH:mm:ssZ
                             end: moment(end).format('YYYY-MM-DDTHH:mm:ssZ')
@@ -196,7 +198,7 @@
                         $('#calendar').fullCalendar('renderEvent', eventData, true);
                         $('#calendar').fullCalendar('unselect');
                     } else {
-                        $("#errorMsg").removeClass("hide").html(response.data);
+                        $("#errorMsg").removeClass("hide").html("Failed to add event, please refresh the page and try again");
                     }
                 },
                 error: function (xhr, status) {
