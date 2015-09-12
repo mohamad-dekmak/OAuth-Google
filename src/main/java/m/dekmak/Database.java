@@ -689,7 +689,7 @@ public class Database {
                     + "(firstName,lastName,title,gender,jobTitle,email,dateOfBirth,"
                     + "mobile,phone,fax,address1,address2,city,state,country,zip,"
                     + "createdBy,createdOn) VALUES"
-                    + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             preparedStatement.setString(1, postData.getString("firstName").replaceAll(",", "&comma&"));
             preparedStatement.setString(2, postData.getString("lastName").replaceAll(",", "&comma&"));
             preparedStatement.setString(3, postData.getString("title").replaceAll(",", "&comma&"));

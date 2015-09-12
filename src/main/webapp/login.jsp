@@ -18,7 +18,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><%= appName %></title>
+        <title><%= appName%></title>
         <link type="text/css" rel="stylesheet" href="resources/bootstrap/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="resources/bootstrap/bootstrap-theme.min.css">
         <link type="text/css" rel="stylesheet" href="resources/css/main.css">
@@ -40,7 +40,7 @@
                 <div class="col-md-8 alert alert-info fade in text-center" data-alert="alert">
                     <h4>
                         <strong>
-                            Login to access <%= appName %> Web Application
+                            Login to access <%= appName%> Web Application
                         </strong>
                     </h4>
                     <p>Here you'll see the usage of Simple Form or Login with your Google account</p>
@@ -105,9 +105,9 @@
                                                         out.println("<p class='help-block text-red'>" + key + "</p>");
                                                     }
                                                 }
+                                                // to avoid the conflict between the request from login form and the request from inside the application
+                                                session.setAttribute("isRedirectedFormLoginForm", "1");
                                                 if (username != "" && pass != "") {
-                                                    // to avoid the conflict between the request from login form and the request from inside the application
-                                                    session.setAttribute("isRedirectedFormLoginForm", "1");
                                         %>
                                         <script language="javascript">
                                             var userName = "<%= username%>";
@@ -119,9 +119,9 @@
                                         <%
                                         } else {
                                         %>
-                                        <p class="help-block text-red">You are trying to login with Google account not exits in our local database.</p>
+                                        <p class="help-block text-red">You are trying to login with Google account not exists in our local database.</p>
                                         <p class="help-block text-red">This is a Web based Application and not a Website. So, there is no Sign Up process for outsource users.</p>
-                                        <p class="help-block text-red">Please contact the Administrator of <%= appName %> for more information.</p>
+                                        <p class="help-block text-red">Please contact the Administrator of <%= appName%> for more information.</p>
                                         <%
                                                 }
                                             }

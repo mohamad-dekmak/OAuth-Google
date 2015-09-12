@@ -1,5 +1,5 @@
 function aboutApp(appName, appVersion) {
-    alert(appName + "." + appVersion + "\nLicensed to: Department of Information\n\nCredits:\n\u2022 Bootstrap 3.3.5\n\u2022 jQuery 1.11.3\n\u2022 jQuery UI - v1.11.2\n\u2022 Bootstrap-select 1.7.2\n\u2022 FullCalendar v2.4.0\n\u2022 Moment JS 2.9.0\n\u2022 jQuery DateTimePicker v2.4.5\n\u2022 Highcharts JS v4.1.8");
+    alert(appName + "." + appVersion + "\nLicensed to: Department of Information\n\nCredits:\n\u2022 jQuery v1.11.3\n\u2022 jQuery UI v1.11.2\n\u2022 Bootstrap v3.3.5\n\u2022 Bootstrap-select v1.7.2\n\u2022 FullCalendar v2.4.0\n\u2022 Moment JS v2.9.0\n\u2022 jQuery DateTimePicker v2.4.5\n\u2022 Highcharts JS v4.1.8");
 }
 function getCurrentURLWithoutGetParams()
 {
