@@ -12,7 +12,6 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>System Administrator</role-name>
-            <role-name>User</role-name>
         </auth-constraint>
         <user-data-constraint>
             <!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
@@ -32,6 +31,35 @@
         <user-data-constraint>
             <description/>
             <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Common Users Constraints</display-name>
+        <web-resource-collection>
+            <web-resource-name>commnon resources</web-resource-name>
+            <url-pattern>/index.jsp</url-pattern>
+            <url-pattern>/dashboard.jsp</url-pattern>
+            <url-pattern>/contacts-list.jsp</url-pattern>
+            <url-pattern>/contact-add.jsp</url-pattern>
+            <url-pattern>/contact-edit.jsp</url-pattern>
+            <url-pattern>/export-excel/*</url-pattern>
+            <url-pattern>/calendar.jsp</url-pattern>
+            <url-pattern>/user-actions.jsp</url-pattern>
+            <url-pattern>/notify.jsp</url-pattern>
+            <url-pattern>/show-my-notifications.jsp</url-pattern>
+            <url-pattern>/user-profile-change-pwd.jsp</url-pattern>
+            <url-pattern>/social-networks.jsp</url-pattern>
+            <url-pattern>/logout.jsp</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>User</role-name>
+            <role-name>System Administrator</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
     <login-config>
