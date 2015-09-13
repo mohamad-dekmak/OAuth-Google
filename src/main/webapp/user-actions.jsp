@@ -129,7 +129,9 @@
             String createdBy = request.getParameter("createdBy");
             strResponse = db.addEvent(title, start, end, location, users, createdBy) + "";
         }else if (request.getParameter("userAction").equals("readEvents")) {
-            returnObj = db.readEvents();
+            JSONObject users = new JSONObject();
+            users = new JSONObject(request.getParameter("users"));
+            returnObj = db.readEvents(users);
             returnString = 0;
         }else if (request.getParameter("userAction").equals("editEvent")) {
             String id = request.getParameter("id");

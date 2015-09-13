@@ -951,12 +951,29 @@ public class Database {
         return id;
     }
 
-    public JSONObject readEvents() {
+    public JSONObject readEvents(JSONObject users) {
         JSONObject jsO = new JSONObject();
         try {
+            StringBuilder inClause = new StringBuilder();
+            Iterator<?> invities = users.keys();
+            while (invities.hasNext()) {
+                String user = (String) invities.next();
+                inClause.append('?');
+                inClause.append(',');
+            }
+            if (inClause.length() > 0) {
+                inClause.setLength(inClause.length() - 1);
+            }
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("select * from calendar where id >= ?");
+            preparedStatement = connection.prepareStatement("select * from calendar left join calendar_users on calendar_users.event_id = calendar.id where id >= ? AND calendar_users.user_name in (" + inClause.toString() + ") group by calendar_users.event_id");
             preparedStatement.setInt(1, 1);
+            Iterator<?> invitiesList = users.keys();
+            int i = 2;
+            while (invitiesList.hasNext()) {
+                String user = (String) invitiesList.next();
+                preparedStatement.setString(i, user);
+                i++;
+            }
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 JSONObject jsO2 = new JSONObject();
@@ -969,7 +986,6 @@ public class Database {
             }
         } catch (Exception e) {
         }
-
         return jsO;
     }
 

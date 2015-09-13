@@ -9,7 +9,7 @@
 <div class="col-md-12">
     <div class="col-md-4"></div>
     <div class="col-md-4">
-        <div class="form-group">
+        <div class="form-group" id="selectedUsers">
             <label class="control-label">Calendars:</label>
             <select class="selectpicker" multiple id="usersList">
                 <%        List<String> usersList = new ArrayList<String>();
@@ -41,12 +41,11 @@
                     }%>
 
             </select>
-            <p class="text-red">This feature is not supported in the current version</p>
         </div>
     </div>
     <div class="col-md-4"></div>
 </div>
-                    
+
 <div class="clearfix">&nbsp;</div>
 
 <div id="calendar"></div>
@@ -96,11 +95,45 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        var selectedUsers = $('#usersList', '#selectedUsers');
+        selectedUsers.change(function () {
+            var changedValues = selectedUsers.val();
+            var newObjUsers = {};
+            for (i in changedValues) {
+                newObjUsers[changedValues[i]] = changedValues[i];
+            }
+            newObjUsers = JSON.stringify(newObjUsers);
+            $.ajax({
+                url: "user-actions.jsp",
+                dataType: 'JSON',
+                type: 'POST',
+                data: {userAction: "readEvents", users: newObjUsers},
+                success: function (response) {
+                    var newData = response.data;
+                    var newEvents = [];
+                    for (var key in newData) {
+                        newEvents.push(newData[key]);
+                    }
+                   $('#calendar').fullCalendar('removeEvents');
+                   $('#calendar').fullCalendar('addEventSource', newEvents);
+                },
+                error: function (xhr, status) {
+                    alert("Sorry, there was a problem!");
+                }
+            });
+        });
+        selectedUsers.val('<%= request.getUserPrincipal().getName()%>');
+        var listUsers = selectedUsers.val();
+        var objUsers = {};
+        for (i in listUsers) {
+            objUsers[listUsers[i]] = listUsers[i];
+        }
+        objUsers = JSON.stringify(objUsers);
         $.ajax({
             url: "user-actions.jsp",
             dataType: 'JSON',
             type: 'POST',
-            data: {userAction: "readEvents"},
+            data: {userAction: "readEvents", users: objUsers},
             success: function (response) {
                 var data = response.data;
                 var events = [];
@@ -183,7 +216,7 @@
             $("#errorMsg").addClass("hide");
             var loggedUser = '<%= request.getUserPrincipal().getName()%>';
             var usersObj = {};
-            for (i in users){
+            for (i in users) {
                 usersObj[users[i]] = users[i];
             }
             usersObj = JSON.stringify(usersObj);
