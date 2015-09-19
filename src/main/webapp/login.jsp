@@ -54,6 +54,9 @@
         <div class="container master-container">
             <%
                 session.setAttribute("licenseNbOfUsers", lc.getNbOfUsers());
+                session.setAttribute("licenseProduct", lc.getProduct());
+                session.setAttribute("licenseClient", lc.getClient());
+                session.setAttribute("licenseExpiresOn", lc.getExpiresOn());
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 java.util.Date today = new java.util.Date();
                 String currentDate = new java.sql.Date(today.getTime()).toString();

@@ -60,7 +60,7 @@ function banUnbanUser(username, isBanned, activeUsers, allowedUsers) {
                 banUser = "no";
             }
         } else {
-            alert("License users exceeded. You cannot add more users.");
+            alert("License users exceeded. You cannot unban users.");
         }
     }
     if (confirmed == 1) {

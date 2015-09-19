@@ -20,9 +20,25 @@ import org.json.simple.parser.JSONParser;
  */
 public class License {
 
+    private String product = null;
+    private String clientName = null;
     private String nbOfUsers = null;
     private String expiresOn = null;
 
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public String getProduct() {
+        return this.product;
+    }
+    public void setClient(String client) {
+        this.clientName = client;
+    }
+
+    public String getClient() {
+        return this.clientName;
+    }
     public void setExpiresOn(String expiresOn) {
         this.expiresOn = expiresOn;
     }
@@ -79,6 +95,8 @@ public class License {
                                     if (license.equals(client)) {
                                         setExpiresOn(expiresOn);
                                         setNbOfUsers(nbOfUsers);
+                                        setClient(client);
+                                        setProduct(product);
                                         msg = "success";
                                     }else{
                                         msg = "Invalid license";
