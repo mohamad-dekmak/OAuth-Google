@@ -278,6 +278,21 @@ public class Database {
         return msg;
     }
 
+    public int getActiveUsers() {
+        int nb = 0;
+        try {
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("select count(*) from users where isBanned = ?");
+            preparedStatement.setString(1, "no");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                nb = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return nb;
+    }
+
     public String addUser(String user_name, JSONObject user_groups, String password) {
         String msg = "";
         int completeScript = 1;
@@ -322,7 +337,6 @@ public class Database {
                     }
                 }
             }
-
         } catch (Exception e) {
             msg = "Exception message: " + e.getMessage();
         }

@@ -13,6 +13,9 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Add User</div>
                 <div class="panel-body">
+                    <p>
+                        <span class="text-red">Allowed active users: <%= session.getAttribute("licenseNbOfUsers").toString()%></span>
+                    </p>
                     <form accept-charset="UTF-8" method="POST" action="" novalidate="novalidate" id="addUserForm">
                         <div class="form-group required">
                             <label class="required control-label">
@@ -51,6 +54,11 @@
         <div class="col-md-4"></div>
     </div>
 </div>
+<%
+    Database db = new Database();
+    int activeUsers = db.getActiveUsers();
+    String allowedUsers = session.getAttribute("licenseNbOfUsers").toString();
+%>
 <script type="text/javascript">
     $(function () {
         $('.selectpicker').selectpicker();
@@ -59,6 +67,9 @@
         });
     });
     function addUserBtn() {
+        var activeUsers = '<%= activeUsers%>';
+        var allowedUsers = '<%= allowedUsers%>';
+        allowedUsers = allowedUsers * 1;
         var username = $("#username", "#addUserForm").val();
         var roles = $("#roles", '#addUserForm').val();
         var newPassword = document.getElementById("password").value;
@@ -80,31 +91,36 @@
             msg = "Password field does not match the confirm password. Please try again.";
             document.getElementById("errorMsg").innerHTML = msg;
         } else {
-            // submit user form
-            $("#errorMsg").addClass("hide");
-            var rolesObj = {};
-            for (i in roles) {
-                rolesObj[roles[i]] = roles[i];
-            }
-            var rolesObj = JSON.stringify(rolesObj);
-            $.ajax({
-                url: "user-actions.jsp",
-                dataType: 'JSON',
-                type: 'POST',
-                data: {userAction: "addUser", username: username, roles: rolesObj, password: newPassword},
-                success: function (response) {
-                    if (response.data == "success") {
-                        $("#errorMsg").addClass("hide");
-                        $("#successMsg").removeClass("hide");
-                    } else {
-                        $("#successMsg").addClass("hide");
-                        $("#errorMsg").removeClass("hide").html(response.data);
-                    }
-                },
-                error: function (xhr, status) {
-                    alert("Sorry, there was a problem!");
+            if (allowedUsers > activeUsers) {
+                // submit user form
+                $("#errorMsg").addClass("hide");
+                var rolesObj = {};
+                for (i in roles) {
+                    rolesObj[roles[i]] = roles[i];
                 }
-            });
+                var rolesObj = JSON.stringify(rolesObj);
+                $.ajax({
+                    url: "user-actions.jsp",
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: {userAction: "addUser", username: username, roles: rolesObj, password: newPassword},
+                    success: function (response) {
+                        if (response.data == "success") {
+                            $("#errorMsg").addClass("hide");
+                            $("#successMsg").removeClass("hide");
+                        } else {
+                            $("#successMsg").addClass("hide");
+                            $("#errorMsg").removeClass("hide").html(response.data);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        alert("Sorry, there was a problem!");
+                    }
+                });
+            } else {
+                msg = "License users exceeded. You cannot add more users.";
+                document.getElementById("errorMsg").innerHTML = msg;
+            }
         }
     }
 </script>

@@ -12,7 +12,7 @@
 <div class="page-container">
     <div class="panel panel-default">
         <div class="panel-heading">
-            Users List
+            Users List &nbsp;&nbsp;&nbsp;<span class="text-red">(Allowed active users: <%= session.getAttribute("licenseNbOfUsers").toString()%>)</span>
             <div class="btn-group pull-right">
                 <button class="btn btn-info">Actions</button>
                 <button class="btn btn-info dropdown-toggle dropdown-actions-list" data-toggle="dropdown"><span class="caret"></span></button>
@@ -53,7 +53,7 @@
                                 text = text.substring(0, text.length() - 1);
                             }
                             if (j == 5) { // "*action*"
-                    %>
+%>
                     <td style="width: 550px;">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" data-whatever="@mdo" title="Edit User" onclick="editUserDialog('<%= userName%>', '<%= userRoles%>');">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
@@ -62,18 +62,20 @@
                             <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
                         </button>
                         <%
+                            int activeUsers = db.getActiveUsers();
+                            String allowedUsers = session.getAttribute("licenseNbOfUsers").toString();
                             String isBanned = params[j - 1].substring(1, 3); // banned come from db as " no"
                             if (isBanned.equals("no")) {
                                 isBanned = "no";
                         %>
-                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Ban" onclick="banUnbanUser('<%= userName%>', '<%= isBanned%>');">
+                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Ban" onclick="banUnbanUser('<%= userName%>', '<%= isBanned%>', '<%= activeUsers%>', '<%= allowedUsers%>');">
                             <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
                         </button>
                         <%
                         } else {
                             isBanned = "yes";
                         %>
-                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Un-Ban" onclick="banUnbanUser('<%= userName%>', '<%= isBanned%>');">
+                        <button type="button" class="btn btn-default" aria-label="Left Align" title="Un-Ban" onclick="banUnbanUser('<%= userName%>', '<%= isBanned%>', '<%= activeUsers%>', '<%= allowedUsers%>');">
                             <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
                         </button>
                         <%

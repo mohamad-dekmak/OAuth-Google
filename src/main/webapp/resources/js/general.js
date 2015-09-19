@@ -41,7 +41,7 @@ function clearGoogleParamsFromURL(googleRespone) {
 
 }
 
-function banUnbanUser(username, isBanned) {
+function banUnbanUser(username, isBanned, activeUsers, allowedUsers) {
     var userAction = "";
     var banUser = "";
     var confirmed = "";
@@ -52,10 +52,15 @@ function banUnbanUser(username, isBanned) {
             banUser = "yes";
         }
     } else { // unban user
-        if (confirm("Are you sure do you want to unban \"" + username + "\" user?")) {
-            confirmed = 1;
-            userAction = "unbanUser";
-            banUser = "no";
+        allowedUsers = allowedUsers * 1;
+        if (allowedUsers > activeUsers) { // check license users
+            if (confirm("Are you sure do you want to unban \"" + username + "\" user?")) {
+                confirmed = 1;
+                userAction = "unbanUser";
+                banUser = "no";
+            }
+        } else {
+            alert("License users exceeded. You cannot add more users.");
         }
     }
     if (confirmed == 1) {
@@ -73,7 +78,6 @@ function banUnbanUser(username, isBanned) {
             }
         });
     }
-
 }
 
 function changeUserPasswordDialog(username) {
