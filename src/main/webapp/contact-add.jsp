@@ -18,6 +18,8 @@
 </div>
 <script type="text/javascript">
     $(function () {
+        $('#dateOfBirth').datepicker();
+        $('#dateOfBirth').datepicker("option", "dateFormat", "yy-mm-dd");
         $("#contactForm").submit(function () {
             contactBtn();
         });

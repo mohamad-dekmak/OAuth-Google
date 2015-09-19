@@ -82,6 +82,8 @@
 <script type="text/javascript">
     id = null;
     $(function () {
+        $('#dateOfBirth').datepicker();
+        $('#dateOfBirth').datepicker("option", "dateFormat", "yy-mm-dd");
         id = '<%= id%>';
         if (!id || id == "null" || id <= 0) {
             var currentURL = getCurrentURLWithoutGetParams();
