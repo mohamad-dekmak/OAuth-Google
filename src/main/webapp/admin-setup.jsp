@@ -78,7 +78,9 @@
                     </button>
                     <div class="clearfix">&nbsp;</div>
                     <div class="clearfix">&nbsp;</div>
-                    <a href="#" class="btn btn-link pull-right admin-links">Update License</a>
+                    <button type="button" class="btn btn-link pull-right admin-links" data-toggle="modal" data-target="#updateLicenseModal" data-whatever="@mdo" title="Update License">
+                        <span>Update License</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -163,4 +165,28 @@
     </div>
 </div>
 
+<div id="updateLicenseModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateLicenseModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="updateLicenseModal">Update License</h4>
+            </div>
+            <div class="modal-body">
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <h4>To renew the license or upgrade nb of users, please contact the support team (support@smb215.com) for more details.</h4>
+                        <br />
+                        <h4>When you purchase and receive the license file, you can upload it in the root of the application or replace the content of the current file.</h4>
+                        <br />
+                        <h4 class='text-red'>Note that, you cannot change the content of license file without checking the provider.</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default updateLicenseModalCloseBtn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <%@include file="footer.jsp" %>
