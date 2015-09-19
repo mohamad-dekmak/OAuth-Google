@@ -42,7 +42,7 @@
                 <div class="col-md-8 alert alert-danger fade in text-center" data-alert="alert">
                     <h4>
                         <strong>
-                            License not valid
+                           <%= licenseValidation%>
                         </strong>
                     </h4>
                     <p>Please contact the Administrator to check the license validity.</p>
@@ -63,6 +63,7 @@
                 if (date1.compareTo(date2) > 0) {
                     licenseExpired = true;
                 }
+                session.setAttribute("licenseExpired", licenseExpired);
                 if (licenseExpired) {
             %>
             <div class="container">
@@ -74,7 +75,8 @@
                         </strong>
                     </h4>
                     <p>License expired. Please contact your Administrator to renew the license (Customer Support limited)</p>
-                </div><div class="col-md-2"></div>
+                </div>
+                <div class="col-md-2"></div>
             </div>
             <%
             } else {

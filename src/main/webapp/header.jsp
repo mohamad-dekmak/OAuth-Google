@@ -26,7 +26,7 @@
         <link type="text/css" rel="stylesheet" href="resources/jquery/jquery-ui.min.css" media="all" />
         <link type="text/css" rel="stylesheet" href="resources/fullcalendar/fullcalendar.css" />
         <link type="text/css" rel="stylesheet" href="resources/jquery/jquery.datetimepicker.css" />
-        
+
         <script src="resources/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
         <script src="resources/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="resources/bootstrap/bootstrap-select.min.js" type="text/javascript"></script>
@@ -74,6 +74,20 @@
         %>
         <div class="container">
             <div class="col-md-2"></div>
+            <%
+                if (session.getAttribute("licenseExpired").toString().equals("true")) {
+            %>
+            <div class="col-md-8 alert alert-warning fade in text-center" data-alert="alert">
+                <h4>
+                    <strong>
+                        Welcome "<%= userProfileName%>" to <%= appName%>
+                    </strong>
+                </h4>
+                <p>License expired. Please contact your Administrator to renew the license (Customer Support limited)</p>
+            </div>
+            <%
+            } else {
+            %>
             <div class="col-md-8 alert alert-info fade in text-center" data-alert="alert">
                 <h4>
                     <strong>
@@ -81,8 +95,11 @@
                     </strong>
                 </h4>
                 <p>Here you'll see the features and full pages of <%= appName%></p>
-            </div><div class="col-md-2"></div>
-
+            </div>
+            <%
+                }
+            %>
+            <div class="col-md-2"></div>
         </div>
         <nav id="navbar-example" class="navbar navbar-default navbar-static">
             <div class="container-fluid">

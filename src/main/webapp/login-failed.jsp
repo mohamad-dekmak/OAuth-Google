@@ -16,7 +16,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><%= appName %></title>
+        <title><%= appName%></title>
         <link type="text/css" rel="stylesheet" href="resources/bootstrap/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="resources/bootstrap/bootstrap-theme.min.css">
         <link type="text/css" rel="stylesheet" href="resources/css/main.css">
@@ -27,15 +27,32 @@
         <div class="container master-container">
             <div class="container">
                 <div class="col-md-2"></div>
+                <%
+                    if (session.getAttribute("licenseExpired").toString().equals("true")) {
+                %>
+                <div class="col-md-8 alert alert-warning fade in text-center" data-alert="alert">
+                    <h4>
+                        <strong>
+                            Login to access <%= appName%> Web Application
+                        </strong>
+                    </h4>
+                    <p>License expired. Please contact your Administrator to renew the license (Customer Support limited)</p>
+                </div>
+                <%
+                } else {
+                %>
                 <div class="col-md-8 alert alert-info fade in text-center" data-alert="alert">
                     <h4>
                         <strong>
-                            Login to access <%= appName %> Web Application
+                            Login to access <%= appName%> Web Application
                         </strong>
                     </h4>
                     <p>Here you'll see the usage of Simple Form or Login with your Google account</p>
-                </div><div class="col-md-2"></div>
-
+                </div>
+                <%
+                    }
+                %>
+                <div class="col-md-2"></div>
             </div>
             <div class="row">
                 <div class="col-md-4"></div>

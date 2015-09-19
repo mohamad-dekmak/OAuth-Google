@@ -89,10 +89,10 @@ public class License {
                     }
                 }
             } catch (Exception e) {
-                msg = e.getMessage();
+                msg = "Invalid license for given client";
             }
         } else {
-            msg = "License file not exists. <br />Please check the problem with the Administrator.";
+            msg = "License file not exists";
         }
 
         return msg;
