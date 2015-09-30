@@ -41,6 +41,70 @@
     </head>
     <body>
         <script type="text/javascript">
+            var Chat = {};
+
+            Chat.socket = null;
+
+            Chat.connect = (function (host) {
+                if ('WebSocket' in window) {
+                    Chat.socket = new WebSocket(host);
+                } else if ('MozWebSocket' in window) {
+                    Chat.socket = new MozWebSocket(host);
+                } else {
+                    Console.log('Error: WebSocket is not supported by this browser.');
+                    return;
+                }
+
+                Chat.socket.onopen = function () {
+                    Console.log('Info: WebSocket connection opened.');
+                    document.getElementById('chat').onkeydown = function (event) {
+                        if (event.keyCode == 13) {
+                            Chat.sendMessage();
+                        }
+                    };
+                };
+
+                Chat.socket.onclose = function () {
+                    document.getElementById('chat').onkeydown = null;
+                    Console.log('Info: WebSocket closed.');
+                };
+
+                Chat.socket.onmessage = function (message) {
+                    Console.log(message.data);
+                };
+            });
+
+            Chat.initialize = function () {
+                if (window.location.protocol == 'http:') {
+                    Chat.connect('ws://' + window.location.host + '/examples/websocket/tc7/chat');
+                } else {
+                    Chat.connect('wss://' + window.location.host + '/examples/websocket/tc7/chat');
+                }
+            };
+
+            Chat.sendMessage = (function () {
+                var message = document.getElementById('chat').value;
+                if (message != '') {
+                    Chat.socket.send(message);
+                    document.getElementById('chat').value = '';
+                }
+            });
+
+            var Console = {};
+
+            Console.log = (function (message) {
+                var console = document.getElementById('console');
+                var p = document.createElement('p');
+                p.style.wordWrap = 'break-word';
+                p.innerHTML = message;
+                console.appendChild(p);
+                while (console.childNodes.length > 25) {
+                    console.removeChild(console.firstChild);
+                }
+                console.scrollTop = console.scrollHeight;
+            });
+
+            Chat.initialize();
             $(document).ready(function () {
                 // get counter nb of pending notifications
                 setTimeout(function () {
@@ -191,9 +255,41 @@
                             </ul>
                         </li>
                     </ul>
-                    <button type="button" class="btn btn-default pull-right" style="margin-top: 10px;" data-toggle="popover" title="Notifications" data-content="" id="notificationBtn">
+                    <button type="button" class="btn btn-default pull-right" style="margin-top: 10px; margin-left: 15px;" data-toggle="popover" title="Notifications" data-content="" id="notificationBtn">
                         <span class="glyphicon glyphicon-flag" aria-hidden="true" id="notificationSpan"></span>
+                    </button>
+                    <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#chatModal" data-whatever="@mdo" style="margin-top: 10px;" title="Chat">
+                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
                     </button>
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
+        <div id="chatModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="chatModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="editUserModal">Chat Service (Guest Profiles)</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <p>This is a simple chat service. You must define your profile before chatting (by default Guest profiles is defined)</p>
+                                    <p>
+                                        <input type="text" placeholder="type and press enter to chat" id="chat">
+                                    </p>
+                                    <div id="console-container">
+                                        <div id="console"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default modalChatCloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
