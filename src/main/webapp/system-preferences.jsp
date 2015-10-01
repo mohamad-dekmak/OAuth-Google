@@ -13,7 +13,6 @@ String submitErrorResp = "";
 if (request.getParameter("username") != null) {
     String username = request.getParameter("username");
     String password = request.getParameter("password");
-    String fromAddress = request.getParameter("fromAddress");
     String responseMsg = "";
     responseMsg = db.updateSystemPreferencesKey("smtpUsername", username);
     if (responseMsg.equals("success")) {

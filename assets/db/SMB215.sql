@@ -167,6 +167,14 @@ ALTER TABLE `contacts`
   ADD CONSTRAINT `contacts_ibfk_1` FOREIGN KEY (`createdBy`) REFERENCES `users` (`user_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `contacts_ibfk_2` FOREIGN KEY (`modifiedBy`) REFERENCES `users` (`user_name`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Dumping data for table `system_preferences`
+--
+
+INSERT INTO `system_preferences` (`sysKey`, `sysValue`) VALUES
+('smtpUsername', 'example-user@gmail.com'),
+('smtpPassword', '3923ed40de807ab6840a563fe0a829a5');
+
 
 --
 -- Table structure for table `calendar`
