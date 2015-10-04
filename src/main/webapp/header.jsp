@@ -248,7 +248,7 @@
                                 <li><a href="admin-setup.jsp">Administration & Setup</a></li>
                                 <li class="divider"></li>
                                 <li><a href="https://github.com/pascalfares/smb215-15" target="_blank">Help</a></li>
-                                <li><a href="#" onclick="aboutApp('<%= appName%>', '<%= appVersion%>');">About</a></li>
+                                <li><a href="#" onclick="aboutApp('<%= appName%>', '<%= appVersion%>', '<%= session.getAttribute("licenseProduct").toString()%>', '<%= session.getAttribute("licenseClient").toString()%>');">About</a></li>
                                 <li><a href="https://github.com/pascalfares/smb215-15/issues" target="_blank">Report a bug</a></li>
                                 <li class="divider"></li>
                                 <li><a href="https://localhost:8443/SMB215-OAuth-Google/logout.jsp">Sign out</a></li>
