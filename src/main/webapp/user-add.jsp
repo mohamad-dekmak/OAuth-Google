@@ -75,6 +75,8 @@
         var newPassword = document.getElementById("password").value;
         var msg = "";
         var confirmNewPassword = document.getElementById("confirmNewPassword").value;
+        $("#errorMsg").removeClass("hide");
+        $("#successMsg").addClass("hide");
         if (!username) {
             msg = "Username is required.";
             document.getElementById("errorMsg").innerHTML = msg;
