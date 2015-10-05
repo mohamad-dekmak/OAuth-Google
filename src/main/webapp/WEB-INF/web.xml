@@ -73,4 +73,19 @@
         <error-code>403</error-code>
         <location>/403.jsp</location>
     </error-page>
+    <env-entry> 
+        <env-entry-name>jdbcDbName</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>SMB215</env-entry-value> 
+    </env-entry>
+    <env-entry> 
+        <env-entry-name>jdbcDbUser</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>SMB215_user</env-entry-value> 
+    </env-entry>
+    <env-entry> 
+        <env-entry-name>jdbcDbUserPass</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>b7yAm4JZKpK2NALX</env-entry-value> 
+    </env-entry>
 </web-app>

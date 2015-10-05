@@ -34,29 +34,27 @@ import static org.json.JSONObject.NULL;
 public class Database {
 
     public static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
-    public static final String MYSQL_URL = "jdbc:mysql://localhost/SMB215?user=SMB215_user&password=b7yAm4JZKpK2NALX";
 
     private Connection connection;
     private Statement statement;
     private ResultSet resultSet;
     private PreparedStatement preparedStatement;
 
-    public Database() throws ClassNotFoundException, SQLException {
+    public Database() throws ClassNotFoundException, SQLException, NamingException {
+        String dbName = getContextValue("jdbcDbName");
+        String dbUser = getContextValue("jdbcDbUser");
+        String dbUserPass = getContextValue("jdbcDbUserPass");
+        String MYSQL_URL = "jdbc:mysql://localhost/" + dbName + "?user=" + dbUser + "&password=" + dbUserPass;
         Class.forName(MYSQL_DRIVER);
         connection = DriverManager.getConnection(MYSQL_URL);
     }
 
-    public Connection getConneciton() throws NamingException {
-        Connection conn = null;
-        String DATASOURCE_CONTEXT = "java:comp/env/jdbc/smb215";
-        Context initialContext = new InitialContext();
-        if (initialContext != null) {
-            DataSource datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
-            if (datasource != null) {
-//                conn = datasource.getConnection();
-            }
-        }
-        return conn;
+    public String getContextValue(String param) throws NamingException {
+        // Get the base naming context
+        Context env = (Context) new InitialContext().lookup("java:comp/env");
+        // Get a single value
+        String dbhost = (String) env.lookup(param);
+        return dbhost;
     }
 
     public String updateUserInfo(String user_name, String user_email, String user_google_id) {

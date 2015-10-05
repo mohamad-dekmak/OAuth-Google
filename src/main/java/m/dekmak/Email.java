@@ -19,6 +19,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.naming.NamingException;
 
 public class Email {
 
@@ -26,7 +27,7 @@ public class Email {
 
     }
 
-    public String send(String toEmail, String content) throws ClassNotFoundException, SQLException {
+    public String send(String toEmail, String content) throws ClassNotFoundException, SQLException, NamingException {
         String response = "";
         Database db = new Database();
         final String username = db.getSystemPreferencesValue("smtpUsername");
